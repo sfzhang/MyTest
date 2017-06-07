@@ -1,0 +1,46 @@
+/**
+ * @file Image transfer protocol file
+ *
+ * @author sfzhang
+ * @date 2015-8-18
+ */
+
+syntax = "proto2";
+package imgxfer.proto;
+
+enum MsgType {
+    IMG_XFER_START = 1;
+    IMG_XFER_STOP = 2;
+    IMG_XFER_UI = 3;
+    IMG_XFER_ACK = 4;
+};
+
+// No matter which option selected in below, if UiControl.has_input return
+// true, it should enter the data. INPUT option won't have a position field
+enum UiOption {
+    MOUSE_CLICK = 1;
+    RIGHT_CLICK = 2;
+    DOUBLE_CLICK = 3;
+    INPUT = 4;
+};
+
+message Position {
+    required int32 x = 1;
+    required int32 y = 2;
+};
+
+message UiControl {
+    required UiOption option = 1;
+    required uint32 sequence = 2;
+    optional Position position = 3;
+    optional string input = 4;
+    optional uint32 sleep_time = 5;
+    optional string resource = 6;
+};
+
+message ImgXferMsg {
+    required MsgType type = 1;
+    optional uint32 ack_value = 2;
+    optional UiControl ui = 3;
+};
+

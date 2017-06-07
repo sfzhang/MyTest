@@ -1,0 +1,65 @@
+#
+# Ignore files for git
+#
+
+# ignore directory
+bin/
+log/
+lib/
+html/
+!utils/log/
+build-*/
+
+# ignore temp files when run
+*.log
+*.log.*
+
+# ignore temp files when make
+*.[ao]
+
+# ignore moc qrc ui temp files with Qt
+moc_*.cpp
+qrc_*.cpp
+ui_*
+
+# ignore temp files when use qmake
+Makefile
+Makefile.*
+*.user
+
+# ignore temp files when use editor
+*.swp
+*~
+*.bak
+*.dat
+# ignore all tags file for ctags
+tags
+
+# ignore .git_indent_clean.sh and .git_indent_smudge.sh
+.git_indent_clean.sh
+.git_indent_smudge.sh
+
+# ignore dicom
+dicom/
+
+# ignore dump file
+dump/PRF/*
+
+# ignore autosave file
+*.autosave
+
+# ignore core file
+core.*
+core
+
+# ignore phase.dat
+phase.dat
+
+# ignore python compile file
+*.pyc
+.idea/
+
+# ignore patch file
+*.patch
+*.orig
+*.rej
