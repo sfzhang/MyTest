@@ -1,0 +1,194 @@
+// This is a protocol definition file. It uses the open source project
+// provided by Google which called protocolbuf to define all messages
+// used between mrgfus and hardware. It must use protoc to
+// generate .h and .cpp from this file.
+// See https://developers.google.com/protocol-buffers/docs/overview
+// for more detail information.
+
+/*
+   Message protocol between FUS and MRI
+
+   +------------+-----------+--------+-------+
+   | msg_length | pb_length | pb_msg | DICOM |
+   +------------+-----------+--------+-------+
+
+   msg_length: The length of message exclude itself
+               uint32_t, network byte order
+   pb_length:  The length of pb_msg
+               uint32_t, network byte order
+   pb_msg:     The protocol buffer message defined below.
+   DICOM:      The DICOM image.
+*/
+
+// Protocol buffer message
+syntax = "proto2";
+
+// Message type
+enum MsgType {
+    REQ = 1;    /* Request */
+    RSP = 2;    /* Response */
+}
+
+// Execute result
+enum ExecResult {
+    SUCCESS = 1;
+    FAIL    = 2;
+}
+
+// Sequence type
+enum SeqType {
+    SE  = 1;
+    GRE = 2;
+}
+
+// Scan orientation
+enum ScanOrient {
+    AXIAL   = 1;
+    SAGITAL = 2;
+    CORONAL = 3;
+    OBLIQUE = 4;
+}
+
+// Frequence direction
+enum FreqDirection {
+    LR = 1;
+    AP = 2;
+	IS = 3;
+}
+
+// SE sequence
+message SESeq {
+    required ScanOrient    orientation     = 1;
+    required uint32        fov             = 2;
+    required double        slice_thickness = 3;
+    required double        slice_spacing   = 4;
+    required double        start_rl        = 5;
+    required double        start_ap        = 6;
+    required double        start_is        = 7;
+    required double        end_rl          = 8;
+    required double        end_ap          = 9;
+    required double        end_is          = 10;
+    required uint32        slices          = 11;
+    required uint32        image_height    = 12;
+    required uint32        image_width     = 13;
+    optional uint32        te              = 14; 
+    optional uint32        tr              = 15;
+    optional uint32        fa              = 16;
+    optional uint32        freq_encoding   = 17;
+    optional uint32        phase_encoding  = 18;
+    optional double        nex             = 19;
+    optional double        band_width      = 20;
+    optional FreqDirection freq_dir        = 21; 
+}
+
+// GRE sequence
+message GRESeq {
+    required bool          thm_calc        = 1;
+    required ScanOrient    orientation     = 2;
+    required uint32        fov             = 3;
+    required double        slice_thickness = 4;
+    required double        slice_spacing   = 5;
+    required double        start_rl        = 6;
+    required double        start_ap        = 7;
+    required double        start_is        = 8;
+    required double        end_rl          = 9;
+    required double        end_ap          = 10;
+    required double        end_is          = 11;
+    required uint32        slices          = 12;
+    required uint32        phases          = 13;
+    required double        delay           = 14;
+    required uint32        image_height    = 15;
+    required uint32        image_width     = 16;
+    optional uint32        thm_x           = 17;
+    optional uint32        thm_y           = 18;
+    optional uint32        thm_height      = 19;
+    optional uint32        thm_width       = 20;
+    optional uint32        thm_ref_x       = 21;
+    optional uint32        thm_ref_y       = 22;
+    optional uint32        thm_ref_height  = 23;
+    optional uint32        thm_ref_width   = 24;
+    optional uint32        te              = 25; 
+    optional uint32        tr              = 26;
+    optional uint32        fa              = 27;
+    optional uint32        freq_encoding   = 28;
+    optional uint32        phase_encoding  = 29;
+    optional double        nex             = 30;
+    optional double        band_width      = 31;
+    optional FreqDirection freq_dir        = 32; 
+}
+
+// MR status querey
+message MRStatusQueryPb {
+    enum MRStatus {
+        NORMAL   = 1;
+        ABNORMAL = 2;
+    }
+
+    required MsgType  msg_type  = 1;
+    required string   date_time = 2;
+    optional MRStatus status    = 3; /* Required if msg_type is RSP */
+}
+
+// MR status notify
+message MRStatusNotifyPb {
+    enum MRStatus {
+        ABNORMAL       = 1;
+        SCAN_INTERRUPT = 2;
+    }
+
+    required MsgType  msg_type = 1;
+    optional MRStatus status   = 2; /* Required if msg_type is REQ */
+}
+
+// Manual scan mode
+message ManuScanPb {
+    required MsgType    msg_type  = 1;
+    optional ExecResult result    = 2; /* Required if msg_type is RSP */
+    optional string     error_msg = 3;
+}
+
+// Automatic scan mode
+message AutoScanPb {
+    required MsgType    msg_type  = 1;
+    optional SeqType    seq_type  = 2; /* Required if msg_type is REQ */
+    optional ExecResult result    = 3; /* Required if msg_type is RSP */
+    optional string     error_msg = 4;
+
+    optional SESeq      se        = 5; /* Required if seq_type is SE */
+    optional GRESeq     gre       = 6; /* Required if seq_type is GRE */
+}
+
+// Image transfer
+message ImgXferPb {
+    enum ImageType {
+        NON_THERM = 1;
+        THERM     = 2;
+    }
+
+    required ImageType image_type = 1;
+    optional uint32    thm_x      = 2; /* Required if image_type is THERM */
+    optional uint32    thm_y      = 3; /* Required if image_type is THERM */
+    optional uint32    thm_height = 4; /* Required if image_type is THERM */
+    optional uint32    thm_width  = 5; /* Required if image_type is THERM */
+    repeated double    thm_map    = 6; /* Required if image_type is THERM */
+}
+
+// MRgFUS protocol buffer message
+message MRgFUSPb {
+    enum ProtoCateg {
+        MR_STATUS_QUERY  = 1;
+        MR_STATUS_NOTIFY = 2;
+        MANU_SCAN        = 3;
+        AUTO_SCAN        = 4;
+        IMG_XFER         = 5;
+    }
+
+    required uint32           msg_id           = 1;
+    required ProtoCateg       msg_categ        = 2;
+
+    optional MRStatusQueryPb  mr_status_query  = 3; /* Required if msg_categ is MR_STATUS_QUERY */
+    optional MRStatusNotifyPb mr_status_notify = 4; /* Required if msg_categ is MR_STATUS_NOTIFY */
+    optional ManuScanPb       manu_scan        = 5; /* Required if msg_categ is MANU_SCAN */
+    optional AutoScanPb       auto_scan        = 6; /* Required if msg_categ is AUTO_SCAN */
+    optional ImgXferPb        img_xfer         = 7; /* Required if msg_categ is IMG_XFER */
+}
