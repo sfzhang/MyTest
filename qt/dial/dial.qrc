@@ -1,0 +1,29 @@
+<RCC>
+    <qresource>
+        <file>res/dial_add_active.png</file>
+        <file>res/dial_add_disabled.png</file>
+        <file>res/dial_add_normal.png</file>
+        <file>res/dial_add_selected.png</file>
+
+        <file>res/dial_btn_diabled.png</file>
+        <file>res/dial_btn_normal.png</file>
+
+        <file>res/dial_cursor_disabled.png</file>
+        <file>res/dial_cursor_normal.png</file>
+        <file>res/dial_cursor_selected.png</file>
+
+        <file>res/dial_dft_active.png</file>
+        <file>res/dial_dft_disabled.png</file>
+        <file>res/dial_dft_normal.png</file>
+        <file>res/dial_dft_selected.png</file>
+
+        <file>res/dial_panel.png</file>
+
+        <file>res/dial_sub_active.png</file>
+        <file>res/dial_sub_disabled.png</file>
+        <file>res/dial_sub_normal.png</file>
+        <file>res/dial_sub_selected.png</file>
+
+        <file>res/dial_switch.png</file>
+    </qresource>
+</RCC>
