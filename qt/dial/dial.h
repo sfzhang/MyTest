@@ -1,13 +1,16 @@
 #ifndef DIAL_H
 #define DIAL_H
 
-#include <QDial>
+#include <QAbstractSlider>
 #include <QIcon>
 #include <QRegion>
 #include <pub/point3d.h>
 #include <pub/hifutype.h>
 
-class Dial: public QDial {
+#include "circulariconhelper.h"
+#include "ringediconhelper.h"
+
+class Dial: public QAbstractSlider {
 
     Q_OBJECT
 
@@ -17,11 +20,25 @@ public:
 
     ~Dial();
 
+    void setDefaultValue(int value);
+
+    void showNotchValue(bool enable);
+
+    void showDefaultValue(bool enable);
+
 protected:
+
+    void initialize();
+
+    double getFontSize(const QString &text, double scale) const;
+
+    double value2Angle(double value) const;
 
     void resetIconRegion(const QSize &size);
 
-    void setValue(const QPointF &point);
+    void updateIndicatorCenter();
+
+    void updateValue(const QPointF &point);
 
     virtual void paintEvent(QPaintEvent *event);
 
@@ -35,23 +52,29 @@ protected:
 
 private:
 
-    QIcon *m_panel;
-    QIcon *m_switch;
-    QIcon *m_cursor;
+    RingedIconHelper m_panel_icon;
+    RingedIconHelper m_switch_icon;
+    IconHelper m_indicator_icon;
 
-    int m_x;
-    int m_y;
-    int m_length;
+    RingedIconHelper m_btn_icon;
+    CircularIconHelper m_dft_icon;
+    CircularIconHelper m_add_icon;
+    CircularIconHelper m_sub_icon;
 
+    double m_indicator_radius;
+    double m_tracking_radius;
+    double m_notch_radius;
+    double m_notch_value_radius;
+    double m_dft_value_radius;
+
+    int m_dft_value;
+    bool m_has_dft_value;
+
+    bool m_show_notch_value;
+    bool m_show_dft_value;
+
+    bool m_hover_switch;
     bool m_adjust;
-    double m_value;
-    double m_min;
-    double m_max;
-    double m_prev_angle;
-    double m_prev_value;
-    double m_orig_angle;
-
-    Point3dDouble m_prev_point;
 
 };
 

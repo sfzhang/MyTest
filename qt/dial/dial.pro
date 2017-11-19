@@ -38,9 +38,9 @@ QMAKE_CLEAN +=
 
 # head files
 HEADERS = \
-    icon.h \
-    circularicon.h \
-    ringedicon.h \
+    iconhelper.h \
+    circulariconhelper.h \
+    ringediconhelper.h \
     dial.h
 
 # source files
