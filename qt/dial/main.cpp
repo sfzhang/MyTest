@@ -7,11 +7,13 @@
 
 #include <QApplication>
 #include "dial.h"
+#include <QDial>
 
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
     Dial dial;
+    //QDial dial;
     dial.show();
 
     return app.exec();

@@ -4,6 +4,8 @@
 #include <QDial>
 #include <QIcon>
 #include <QRegion>
+#include <pub/point3d.h>
+#include <pub/hifutype.h>
 
 class Dial: public QDial {
 
@@ -18,6 +20,8 @@ public:
 protected:
 
     void resetIconRegion(const QSize &size);
+
+    void setValue(const QPointF &point);
 
     virtual void paintEvent(QPaintEvent *event);
 
@@ -45,6 +49,9 @@ private:
     double m_max;
     double m_prev_angle;
     double m_prev_value;
+    double m_orig_angle;
+
+    Point3dDouble m_prev_point;
 
 };
 

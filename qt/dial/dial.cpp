@@ -5,6 +5,9 @@
 #include <QBrush>
 #include <QFont>
 #include <cmath>
+#include <pub/point3d.h>
+#include <QAbstractSlider>
+#include <private/qabstractslider_p.h>
 
 using namespace std;
 
@@ -44,6 +47,32 @@ void Dial::resetIconRegion(const QSize &size)
         m_length = size.width();
         m_x = 0;
         m_y = (size.height() - size.width()) / 2;
+    }
+}
+
+void Dial::setValue(const QPointF &point)
+{
+    QPointF center = QRectF(m_x, m_y, m_length, m_length).center();
+    auto p = point - center;
+
+    double angle = atan2(p.y(), p.x());
+    if (angle < M_PI / 2) {
+        angle += 2 * M_PI;
+    }
+
+    double value = m_min + (angle * 180 / M_PI - 150) / 240 * (m_max - m_min);
+
+    if (((m_max == m_value) || (m_min == m_value)) &&
+        ((value > m_max) || (value < m_min))) {
+        return;
+    }
+
+    m_value = value;
+    if (m_value > m_max) {
+        m_value = m_max;
+    }
+    else if (m_value < m_min) {
+        m_value = m_min;
     }
 }
 
@@ -152,18 +181,12 @@ void Dial::mousePressEvent(QMouseEvent *event)
 {
     QPointF center = QRectF(m_x, m_y, m_length, m_length).center();
     QPointF d = event->localPos() - center;
-
     double distance = sqrt(d.x() * d.x() + d.y() * d.y());
 
     if ((distance >= (60 * m_length / 542.0)) &&
         (distance <= (120 * m_length / 542.0))) {
         m_adjust = true;
-        d = event->localPos() - center;
-        m_prev_angle = atan2(d.y(), d.x());
-        if (m_prev_angle < 0) {
-            m_prev_angle += 2 * M_PI;
-        }
-        m_prev_value = m_value;
+        setValue(event->localPos());
     }
 
     QDial::mousePressEvent(event);
@@ -171,52 +194,18 @@ void Dial::mousePressEvent(QMouseEvent *event)
 
 void Dial::mouseReleaseEvent(QMouseEvent *event)
 {
-    m_adjust = false;
+    if (m_adjust) {
+        setValue(event->localPos());
+        m_adjust = false;
+    }
+
     QDial::mousePressEvent(event);
 }
 
 void Dial::mouseMoveEvent(QMouseEvent *event)
 {
     if (m_adjust) {
-        QPointF center = QRectF(m_x, m_y, m_length, m_length).center();
-        auto p = event->localPos() - center;
-        double angle = atan2(p.y(), p.x());
-        if (angle <= 0) {
-            angle += 2 * M_PI;
-        }
-
-
-        bool inc = m_value > m_prev_angle;
-        double delta = angle - m_prev_angle;
-
-        m_value = m_prev_value + delta / M_PI * 180 / 240 * (m_max - m_min);
-
-
-        if (m_value < m_min) {
-            if (inc) {
-                m_value = m_prev_value + (delta + 2 * M_PI) / M_PI * 180 / 240 * (m_max - m_min);
-
-                if (m_value > m_max) {
-                    m_value = m_max;
-                }
-            }
-            else {
-                m_value = m_min;
-            }
-        }
-        else if (m_value > m_max) {
-            if (!inc) {
-                m_value = m_prev_value + (delta - 2 * M_PI) / M_PI * 180 / 240 * (m_max - m_min);
-
-                if (m_value < m_min) {
-                    m_value = m_min;
-                }
-            }
-            else {
-                m_value = m_max;
-            }
-        }
-
+        setValue(event->localPos());
         update();
     }
 
