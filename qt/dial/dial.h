@@ -9,6 +9,7 @@
 
 #include "circulariconhelper.h"
 #include "ringediconhelper.h"
+#include "circularbutton.h"
 
 class Dial: public QAbstractSlider {
 
@@ -16,15 +17,19 @@ class Dial: public QAbstractSlider {
 
 public:
 
-    explicit Dial(QWidget *parent = 0);
+    explicit Dial(int min, int max, QWidget *parent = 0);
+
+    explicit Dial(int min, int max, int dft, QWidget *parent = 0);
 
     ~Dial();
+
+    QSize sizeHint() const;
+
+    int getDefaultValue() const;
 
     void setDefaultValue(int value);
 
     void showNotchValue(bool enable);
-
-    void showDefaultValue(bool enable);
 
 protected:
 
@@ -50,28 +55,35 @@ protected:
 
     virtual void mouseReleaseEvent(QMouseEvent *event);
 
+protected slots:
+
+    void increase();
+
+    void descrease();
+
+    void setDefault();
+
+    void updateButtonState(int value);
+
 private:
 
-    RingedIconHelper m_panel_icon;
+    CircularIconHelper m_panel_icon;
     RingedIconHelper m_switch_icon;
     IconHelper m_indicator_icon;
 
-    RingedIconHelper m_btn_icon;
-    CircularIconHelper m_dft_icon;
-    CircularIconHelper m_add_icon;
-    CircularIconHelper m_sub_icon;
+    CircularButton *m_add_btn;
+    CircularButton *m_sub_btn;
+    CircularButton *m_dft_btn;
 
     double m_indicator_radius;
     double m_tracking_radius;
     double m_notch_radius;
     double m_notch_value_radius;
-    double m_dft_value_radius;
 
     int m_dft_value;
-    bool m_has_dft_value;
 
-    bool m_show_notch_value;
     bool m_show_dft_value;
+    bool m_show_notch_value;
 
     bool m_hover_switch;
     bool m_adjust;

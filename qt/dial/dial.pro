@@ -41,12 +41,14 @@ HEADERS = \
     iconhelper.h \
     circulariconhelper.h \
     ringediconhelper.h \
-    dial.h
+    dial.h \
+    circularbutton.h
 
 # source files
 SOURCES = \
     dial.cpp \
-    main.cpp
+    main.cpp \
+    circularbutton.cpp
 
 # TARGET
 TARGET = dial

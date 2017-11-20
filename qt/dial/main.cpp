@@ -12,7 +12,7 @@
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
-    Dial dial;
+    Dial dial(200, 1000, 480);
     //QDial dial;
     dial.show();
 

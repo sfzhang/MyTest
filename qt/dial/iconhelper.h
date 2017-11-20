@@ -75,7 +75,6 @@ public:
 
     void setScale(double scale)
     {
-        assert(scale > 0);
         m_scale = scale;
     }
 
