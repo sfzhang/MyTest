@@ -28,6 +28,9 @@ public:
 
     void setIcon(QIcon *icon)
     {
+        if (m_icon) {
+            delete m_icon;
+        }
         m_icon = icon;
     }
 

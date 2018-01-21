@@ -14,8 +14,8 @@
 #include <QMouseEvent>
 
 CircularButton::CircularButton(double radius, double length, const QIcon &icon,
-                               const QString &text, QWidget *widget):
-    QPushButton(icon, text, widget),
+                               const QString &text, QWidget *parent):
+    QPushButton(icon, text, parent),
     m_radius(radius),
     m_length(length),
     m_hover(false)
@@ -26,6 +26,38 @@ CircularButton::CircularButton(double radius, double length, const QIcon &icon,
 
 CircularButton::~CircularButton()
 {
+}
+
+void CircularButton::getStatus(QIcon::Mode &mode, QIcon::State &state) const
+{
+    mode = isEnabled() ? QIcon::Normal : QIcon::Disabled;
+    if (QIcon::Normal == mode) {
+        if (isDown()) {
+            mode = QIcon::Selected;
+        }
+        else if (m_hover) {
+            mode = QIcon::Active;
+        }
+    }
+
+    state = isCheckable() && isChecked() ? QIcon::On : QIcon::Off;
+    if (isChecked()) {
+        mode = QIcon::Normal;
+    }
+}
+
+void CircularButton::getGeometry(double &x, double &y, double &length) const
+{
+    if (width() > height()) {
+        x = (width() - height()) / 2.0;
+        y = 0;
+        length = height();
+    }
+    else {
+        x = 0;
+        y = (height() - width()) / 2.0;
+        length = width();
+    }
 }
 
 QSize CircularButton::sizeHint() const
@@ -51,35 +83,14 @@ void CircularButton::paintEvent(QPaintEvent *event)
 {
     Q_UNUSED(event);
 
-    QIcon::Mode mode = isEnabled() ? QIcon::Normal : QIcon::Disabled;
-    if (QIcon::Normal == mode) {
-        if (isDown()) {
-            mode = QIcon::Selected;
-        }
-        else if (m_hover) {
-            mode = QIcon::Active;
-        }
-    }
-
-    QIcon::State state = isCheckable() && isChecked() ? QIcon::On : QIcon::Off;
-    if (isChecked()) {
-        mode = QIcon::Normal;
-    }
+    QIcon::Mode mode = QIcon::Normal;
+    QIcon::State state = QIcon::Off;
+    getStatus(mode, state);
 
     double x = 0;
     double y = 0;
     double length = 0;
-
-    if (width() > height()) {
-        x = (width() - height()) / 2.0;
-        y = 0;
-        length = height();
-    }
-    else {
-        x = 0;
-        y = (height() - width()) / 2.0;
-        length = width();
-    }
+    getGeometry(x, y, length);
 
     QPixmap pixmap = icon().pixmap(length, mode, state);
     QPainter painter(this);
@@ -103,6 +114,10 @@ void CircularButton::mouseMoveEvent(QMouseEvent *event)
 
 void CircularButton::leaveEvent(QEvent *event)
 {
-    m_hover = false;
+    if (m_hover) {
+        m_hover = false;
+        update();
+    }
+
     QPushButton::leaveEvent(event);
 }

@@ -13,6 +13,11 @@
         <file>res/dial_dft_normal.png</file>
         <file>res/dial_dft_selected.png</file>
 
+        <file>res/dial_rec_active.png</file>
+        <file>res/dial_rec_disabled.png</file>
+        <file>res/dial_rec_normal.png</file>
+        <file>res/dial_rec_selected.png</file>
+
         <file>res/dial_panel.png</file>
 
         <file>res/dial_sub_active.png</file>
@@ -21,5 +26,6 @@
         <file>res/dial_sub_selected.png</file>
 
         <file>res/dial_switch.png</file>
+        <file>res/dial_rec_switch.png</file>
     </qresource>
 </RCC>

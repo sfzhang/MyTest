@@ -12,8 +12,28 @@ struct t {
     int c;
 };
 
+class CRef
+{
+public:
+
+    ~CRef()
+    {
+        cout << "~CRef" << endl;
+    }
+};
+
+
+CRef cref()
+{
+    return CRef();
+}
+
 int main()
 {
+    const auto &c_r = cref();
+
+    cout << "begin" << endl;
+
     list<shared_ptr<int>> int_list;
 
     int_list.push_back(shared_ptr<int>(new int(1)));

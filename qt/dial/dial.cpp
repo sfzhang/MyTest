@@ -10,10 +10,13 @@
 
 using namespace std;
 
-double K_INIT_ANGLE_DEG = 150;
-double K_RANGE_ANGLE_DEG = 240;
-double K_INIT_ANGLE = (M_PI * K_INIT_ANGLE_DEG / 180);
-double K_RANGE_ANGLE = (M_PI * K_RANGE_ANGLE_DEG / 180);
+const double Dial::K_INIT_ANGLE_DEG = 150;
+const double Dial::K_RANGE_ANGLE_DEG = 240;
+const double Dial::K_INIT_ANGLE = (M_PI * K_INIT_ANGLE_DEG / 180);
+const double Dial::K_RANGE_ANGLE = (M_PI * K_RANGE_ANGLE_DEG / 180);
+
+const QColor Dial::K_DARK_COLOR = QColor(204, 204, 204);
+const QColor Dial::K_BRIGHT_COLOR = QColor(71, 222, 229);
 
 Dial::Dial(int min, int max, int dft, QWidget *parent):
     QAbstractSlider(parent),
@@ -21,7 +24,6 @@ Dial::Dial(int min, int max, int dft, QWidget *parent):
     m_sub_btn(nullptr),
     m_dft_btn(nullptr),
     m_dft_value(dft),
-    m_show_notch_value(true),
     m_adjust(false)
 {
     setMinimum(min);
@@ -80,6 +82,8 @@ void Dial::initialize()
     add_icon.addFile(":res/dial_add_active.png", QSize(), QIcon::Active);
     add_icon.addFile(":res/dial_add_selected.png", QSize(), QIcon::Selected);
     m_add_btn = new CircularButton(32, 72, add_icon, "", this);
+    m_add_btn->setAutoRepeat(true);
+    m_add_btn->setAutoRepeatInterval(80);
     connect(m_add_btn, &QPushButton::clicked, this, &Dial::increase);
 
     /* Sub button */
@@ -89,6 +93,8 @@ void Dial::initialize()
     sub_icon.addFile(":res/dial_sub_active.png", QSize(), QIcon::Active);
     sub_icon.addFile(":res/dial_sub_selected.png", QSize(), QIcon::Selected);
     m_sub_btn = new CircularButton(32, 72, sub_icon, "", this);
+    m_sub_btn->setAutoRepeat(true);
+    m_sub_btn->setAutoRepeatInterval(80);
     connect(m_sub_btn, &QPushButton::clicked, this, &Dial::descrease);
 
     /* Default button */
@@ -224,64 +230,78 @@ void Dial::setDefault()
     setSliderPosition(new_value);
 }
 
-void Dial::paintEvent(QPaintEvent *)
+void Dial::drawPanel(QPainter &painter)
 {
-    QPainter painter(this);
-    painter.save();
-
-    QColor dark(204, 204, 204);
-    QColor bright(71, 222, 229);
-
-    double scale = m_panel_icon.getScale();
-    QPointF center = m_panel_icon.getCenter();
-    double min = minimum();
-    double max = maximum();
-
-    /* Draw panel */
     painter.drawPixmap(m_panel_icon.getPosition(), m_panel_icon.getPixmap());
+}
 
-    /* Draw tracking */
+void Dial::drawTracking(QPainter &painter)
+{
     double angle = value2Angle(value());
     double angle_deg = angle * 180 / M_PI;
 
-    QPen pen(bright);
+    painter.save();
+
+    QPen pen(K_BRIGHT_COLOR);
     if (!isEnabled()) {
-        pen.setColor(dark);
+        pen.setColor(K_DARK_COLOR);
     }
-    pen.setWidth(scale / 0.2);
+    pen.setWidth(m_panel_icon.getScale() / 0.2);
+
     painter.setRenderHint(QPainter::Antialiasing);
     painter.setPen(pen);
-    double r = m_tracking_radius * scale;
-    QRectF rect(center.x() - r, center.y() - r, r * 2, r * 2);
+    double r = m_tracking_radius * m_panel_icon.getScale();
+    QRectF rect(m_panel_icon.getCenter().x() - r,
+                m_panel_icon.getCenter().y() - r, r * 2, r * 2);
     painter.drawArc(rect, -(K_INIT_ANGLE_DEG - 1) * 16,
                           -(angle_deg - K_INIT_ANGLE_DEG + 1) * 16);
 
-    /* Draw notch */
+    painter.restore();
+}
+
+void Dial::drawNotch(QPainter &painter)
+{
+    painter.save();
+    painter.setRenderHint(QPainter::Antialiasing);
+
+    QPen pen(K_DARK_COLOR);
     pen.setWidth(2);
-    pen.setColor(dark);
     painter.setPen(pen);
 
-    QBrush brush(dark);
+    QBrush brush(K_DARK_COLOR);
     painter.setBrush(brush);
 
     double x = 0;
     double y = 0;
-    r = m_notch_radius * scale;
+    double r = m_notch_radius * m_panel_icon.getScale();
+    QPointF center = m_panel_icon.getCenter();
 
-    double d = scale / 0.4;
+    double d = m_panel_icon.getScale() / 0.4;
     for (int i = 0; i <= K_RANGE_ANGLE_DEG; i += 30) {
         x = center.x() + r * cos((K_INIT_ANGLE_DEG + i) * M_PI / 180);
         y = center.y() + r * sin((K_INIT_ANGLE_DEG + i) * M_PI / 180);
-        painter.drawPie(x - d, y - d, 2 * d, 2 * d, 0, 360 * 16);
+        painter.drawPie(QRectF(x - d, y - d, 2 * d, 2 * d), 0, 360 * 16);
     }
 
-    /* Draw switch */
-    painter.drawPixmap(m_switch_icon.getPosition(), m_switch_icon.getPixmap());
+    painter.restore();
+}
 
-    /* Draw indicator */
-    r = m_indicator_radius * scale;
-    x = center.x() + r * cos(angle);
-    y = center.y() + r * sin(angle);
+void Dial::drawSwitch(QPainter &painter)
+{
+    painter.drawPixmap(m_switch_icon.getPosition(), m_switch_icon.getPixmap());
+}
+
+void Dial::drawIndicator(QPainter &painter)
+{
+    double angle = value2Angle(value());
+    double angle_deg = angle * 180 / M_PI;
+
+    painter.save();
+
+    double r = m_indicator_radius * m_panel_icon.getScale();
+    double x = m_panel_icon.getCenter().x() + r * cos(angle);
+    double y = m_panel_icon.getCenter().y() + r * sin(angle);
+
     painter.translate(x, y);
     painter.rotate(90 + angle_deg);
     painter.setRenderHint(QPainter::SmoothPixmapTransform);
@@ -296,40 +316,56 @@ void Dial::paintEvent(QPaintEvent *)
     painter.rotate(-(90 + angle_deg));
     painter.translate(-x, -y);
 
-    /* Draw value */
+    painter.restore();
+}
+
+void Dial::drawValue(QPainter &painter)
+{
+    painter.save();
+
     QString text = QString("%1").arg(value());
-    QFont font("Square721 BT", getFontSize(text, scale), QFont::Bold);
+    double size = getFontSize(text, m_panel_icon.getScale());
+    QFont font("Square721 BT", size, QFont::Bold);
     painter.setFont(font);
 
     if (!isEnabled()) {
-        pen.setColor(dark);
+        painter.setPen(K_DARK_COLOR);
     }
     else {
-        pen.setColor(bright);
+        painter.setPen(K_BRIGHT_COLOR);
     }
-    painter.setPen(pen);
 
+    QPointF center = m_panel_icon.getCenter();
     QRectF text_rect = QRectF(center.x() - 1, center.y() - 1, 2, 2);
     painter.drawText(text_rect, Qt::AlignCenter | Qt::TextSingleLine | Qt::TextDontClip,
                      text);
 
-    /* Draw notch value */
+    painter.restore();
+}
+
+void Dial::drawNotchValue(QPainter &painter)
+{
+    painter.save();
+
+    double min = minimum();
+    double max = maximum();
+
     double v = 0;
-    if (m_show_notch_value) {
-        pen.setColor(dark);
-        pen.setWidth(2);
-        painter.setPen(pen);
+    QPen pen(K_DARK_COLOR);
+    pen.setWidth(2);
+    painter.setPen(pen);
 
-        font.setPointSize(scale * 16);
-        painter.setFont(font);
+    QFont font("Square721 BT", (m_panel_icon.getScale() * 16), QFont::Normal);
+    painter.setFont(font);
 
-        r = m_notch_value_radius * scale;
-        for (int i = 0; i <= K_RANGE_ANGLE_DEG; i += 30) {
-            if (i / 30 % 2) {
-                continue;
-            }
-            double x = center.x() + r * cos((i + K_INIT_ANGLE_DEG) * M_PI / 180);
-            double y = center.y() + r * sin((i + K_INIT_ANGLE_DEG) * M_PI / 180);
+    double r = m_notch_value_radius * m_panel_icon.getScale();
+    double x = 0;
+    double y = 0;
+    QPointF center = m_panel_icon.getCenter();
+    for (int i = 0; i <= K_RANGE_ANGLE_DEG; i += 30) {
+        if (!(i / 30 % 2)) {
+            x = center.x() + r * cos((i + K_INIT_ANGLE_DEG) * M_PI / 180);
+            y = center.y() + r * sin((i + K_INIT_ANGLE_DEG) * M_PI / 180);
             v = min + (max - min) / (K_RANGE_ANGLE_DEG / 30) * i / 30;
 
             painter.translate(x, y);
@@ -342,6 +378,32 @@ void Dial::paintEvent(QPaintEvent *)
     }
 
     painter.restore();
+}
+
+void Dial::paintEvent(QPaintEvent *)
+{
+    QPainter painter(this);
+
+    /* Draw panel */
+    drawPanel(painter);
+
+    /* Draw tracking */
+    drawTracking(painter);
+
+    /* Draw notch */
+    drawNotch(painter);
+
+    /* Draw switch */
+    drawSwitch(painter);
+
+    /* Draw indicator */
+    drawIndicator(painter);
+
+    /* Draw value */
+    drawValue(painter);
+
+    /* Draw notch value */
+    drawNotchValue(painter);
 }
 
 void Dial::resizeEvent(QResizeEvent *event)
@@ -404,12 +466,6 @@ void Dial::mouseMoveEvent(QMouseEvent *event)
 void Dial::setDefaultValue(int value)
 {
     m_dft_value = qBound(minimum(), value, maximum());
-    update();
-}
-
-void Dial::showNotchValue(bool enable)
-{
-    m_show_notch_value = enable;
     update();
 }
 

@@ -7,12 +7,15 @@
 
 #include <QApplication>
 #include "dial.h"
+#include "simpledial.h"
 #include <QDial>
 
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
     Dial dial(200, 1000, 480);
+    dial.resize(640 / 3, 640 / 3);
+    dial.setValue(500);
     //QDial dial;
     dial.show();
 
