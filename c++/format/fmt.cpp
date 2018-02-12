@@ -35,6 +35,11 @@ protected:
 int main()
 {
 
+    double value = 25;
+    stringstream sstrm;
+    sstrm << fixed << setprecision(0) << value;
+    cout << sstrm.str() << endl;
+
     C c(10);
 
     c.get() = 5;
@@ -44,11 +49,12 @@ int main()
     st_list.push_back(st{10, 0});
     cout << st_list[0].i << " " << st_list[0].b << endl;
 
-    stringstream sstrm;
+    sstrm.str("");
+    sstrm.clear();
     string slice_location = "8.01999999999999";
 
     sstrm << slice_location;
-    double value = 0;
+    value = 0;
     sstrm >> value;
     cout << value << endl;
 
