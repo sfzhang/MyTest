@@ -1,0 +1,17 @@
+------- cpptestscan v.10.3.3.20171002B1407 (cpptesttrace) -------
+working_dir=/home/fus/Git/MyTest/cpptest/mylog
+project_name=mylog
+arg=g++
+arg=-g
+arg=-std=c++11
+arg=-fPIC
+arg=-c
+arg=mylog.cpp
+------- cpptestscan v.10.3.3.20171002B1407 (cpptesttrace) -------
+working_dir=/home/fus/Git/MyTest/cpptest/mylog
+project_name=mylog
+arg=g++
+arg=-shared
+arg=-o
+arg=libmylog.so
+arg=mylog.o

@@ -1,0 +1,18 @@
+------- cpptestscan v.10.3.3.20171002B1407 (cpptesttrace) -------
+working_dir=/home/fus/Git/MyTest/cpptest/multimain
+project_name=multimain
+arg=g++
+arg=-g
+arg=-std=c++11
+arg=-o
+arg=add
+arg=add.cpp
+------- cpptestscan v.10.3.3.20171002B1407 (cpptesttrace) -------
+working_dir=/home/fus/Git/MyTest/cpptest/multimain
+project_name=multimain
+arg=g++
+arg=-g
+arg=-std=c++11
+arg=-o
+arg=sub
+arg=sub.cpp

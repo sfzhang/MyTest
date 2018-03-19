@@ -5,6 +5,9 @@
 
 using namespace std;
 
+template<typename T, typename U>
+using sum_t = decltype(std::declval<T>() + std::declval<U>());
+
 struct C {
 
     int foo(int i) { return i; }
@@ -21,6 +24,12 @@ struct C {
     /* overload error for decltype */
     //static void f(int) {};
 };
+
+int fun(int a)
+{
+    cout << "fun" << endl;
+    return 0;
+}
 
 int main()
 {
@@ -44,6 +53,13 @@ int main()
 
     decltype(&C::f) f3;
     cout << typeid(f3).name() << endl;
+
+    decltype(fun(0)) f4;
+    cout << typeid(f4).name() << endl;
+
+    sum_t<double, long> s;
+
+    cout << typeid(s).name() << endl;
 
     return 0;
 }
