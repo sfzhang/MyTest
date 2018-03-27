@@ -6,29 +6,38 @@
 #include <signal.h>
 #include <unistd.h>
 #include <stdlib.h>
+#include <fcntl.h>
 #include "trace.h"
 
 int process(int fd)
 {
+    int flags = fcntl(fd, F_GETFL, 0);
+    fcntl(fd, F_SETFL, flags|O_NONBLOCK);
+
     char buffer[1024] = {0};
     ssize_t size = 0;
     while (1) {
         size = read(fd, buffer, sizeof(buffer));
         if (size < 0) {
+            if ((EAGAIN == errno) || (EWOULDBLOCK == errno)) {
+                continue;
+            }
+
             ETRACE("read() failed: errno[%d]", errno);
             return -1;
         }
         else if (0 == size) {
             WTRACE("read() failed as close by peer!");
+            //continue;
             return 0;
         }
 
         ITRACE("read() success: buffer[%s]", buffer);
         memset(buffer, 0, sizeof(buffer));
 
-        sleep(1);
+        //sleep(1);
         //close(fd);
-        shutdown(fd, SHUT_RDWR);
+        //shutdown(fd, SHUT_RDWR);
 
         /*
         size = 1024;

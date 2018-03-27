@@ -42,7 +42,23 @@ int main(int argc, char *argv[])
 
     char buffer[1024] = {0};
     ssize_t size = 0;
+    char *ptr = NULL;
 
+    while (ptr = fgets(buffer, 1024, stdin)) {
+        size = write(sock_fd, buffer, strlen(buffer));
+        if (size != strlen(buffer)) {
+            ETRACE("write() failed: errno[%d]", errno);
+            return -1;
+        }
+        memset(buffer, 0, sizeof(buffer));
+    }
+
+    if (!ptr) {
+        ETRACE("fgets() failed: errno[%d]", errno);
+    }
+
+
+    /*
     unsigned long i = 0;
     while (1) {
         snprintf(buffer, sizeof(buffer), "%lu", i);
@@ -56,6 +72,7 @@ int main(int argc, char *argv[])
 
         sleep(2);
     }
+    */
 
     return 0;
 }
