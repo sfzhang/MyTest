@@ -1,0 +1,279 @@
+(gdb) disassemble /m 0x555555554ce0,0x555555554fe0
+Dump of assembler code from 0x555555554ce0 to 0x555555554fe0:
+5	struct GrandParent {
+   0x0000555555554e3e <GrandParent::GrandParent()+0>:	push   %rbp
+   0x0000555555554e3f <GrandParent::GrandParent()+1>:	mov    %rsp,%rbp
+   0x0000555555554e42 <GrandParent::GrandParent()+4>:	mov    %rdi,-0x8(%rbp)
+   0x0000555555554e46 <GrandParent::GrandParent()+8>:	lea    0x200ecb(%rip),%rdx        # 0x555555755d18 <vtable for GrandParent+16>
+   0x0000555555554e4d <GrandParent::GrandParent()+15>:	mov    -0x8(%rbp),%rax
+   0x0000555555554e51 <GrandParent::GrandParent()+19>:	mov    %rdx,(%rax)
+   0x0000555555554e54 <GrandParent::GrandParent()+22>:	mov    -0x8(%rbp),%rax
+   0x0000555555554e58 <GrandParent::GrandParent()+26>:	movq   $0x1,0x8(%rax)
+   0x0000555555554e60 <GrandParent::GrandParent()+34>:	nop
+   0x0000555555554e61 <GrandParent::GrandParent()+35>:	pop    %rbp
+   0x0000555555554e62 <GrandParent::GrandParent()+36>:	retq   
+
+6	    virtual void f() {}
+   0x0000555555554e0e <GrandParent::f()+0>:	push   %rbp
+   0x0000555555554e0f <GrandParent::f()+1>:	mov    %rsp,%rbp
+   0x0000555555554e12 <GrandParent::f()+4>:	mov    %rdi,-0x8(%rbp)
+   0x0000555555554e16 <GrandParent::f()+8>:	nop
+   0x0000555555554e17 <GrandParent::f()+9>:	pop    %rbp
+   0x0000555555554e18 <GrandParent::f()+10>:	retq   
+
+7	    long d1 = 1;
+8	};
+9	
+10	struct Mother: virtual GrandParent {
+   0x0000555555554e64 <Mother::Mother()+0>:	push   %rbp
+   0x0000555555554e65 <Mother::Mother()+1>:	mov    %rsp,%rbp
+   0x0000555555554e68 <Mother::Mother()+4>:	mov    %rdi,-0x8(%rbp)
+   0x0000555555554e6c <Mother::Mother()+8>:	mov    %rsi,-0x10(%rbp)
+   0x0000555555554e70 <Mother::Mother()+12>:	mov    -0x10(%rbp),%rax
+   0x0000555555554e74 <Mother::Mother()+16>:	mov    (%rax),%rdx
+   0x0000555555554e77 <Mother::Mother()+19>:	mov    -0x8(%rbp),%rax
+   0x0000555555554e7b <Mother::Mother()+23>:	mov    %rdx,(%rax)
+   0x0000555555554e7e <Mother::Mother()+26>:	mov    -0x8(%rbp),%rax
+   0x0000555555554e82 <Mother::Mother()+30>:	mov    (%rax),%rax
+   0x0000555555554e85 <Mother::Mother()+33>:	sub    $0x18,%rax
+   0x0000555555554e89 <Mother::Mother()+37>:	mov    (%rax),%rax
+   0x0000555555554e8c <Mother::Mother()+40>:	mov    %rax,%rdx
+   0x0000555555554e8f <Mother::Mother()+43>:	mov    -0x8(%rbp),%rax
+   0x0000555555554e93 <Mother::Mother()+47>:	add    %rax,%rdx
+   0x0000555555554e96 <Mother::Mother()+50>:	mov    -0x10(%rbp),%rax
+   0x0000555555554e9a <Mother::Mother()+54>:	mov    0x8(%rax),%rax
+   0x0000555555554e9e <Mother::Mother()+58>:	mov    %rax,(%rdx)
+   0x0000555555554ea1 <Mother::Mother()+61>:	mov    -0x8(%rbp),%rax
+---Type <return> to continue, or q <return> to quit---
+   0x0000555555554ea5 <Mother::Mother()+65>:	movq   $0x2,0x8(%rax)
+   0x0000555555554ead <Mother::Mother()+73>:	nop
+   0x0000555555554eae <Mother::Mother()+74>:	pop    %rbp
+   0x0000555555554eaf <Mother::Mother()+75>:	retq   
+   0x0000555555554eb0 <Mother::Mother()+0>:	push   %rbp
+   0x0000555555554eb1 <Mother::Mother()+1>:	mov    %rsp,%rbp
+   0x0000555555554eb4 <Mother::Mother()+4>:	sub    $0x10,%rsp
+   0x0000555555554eb8 <Mother::Mother()+8>:	mov    %rdi,-0x8(%rbp)
+   0x0000555555554ebc <Mother::Mother()+12>:	mov    -0x8(%rbp),%rax
+   0x0000555555554ec0 <Mother::Mother()+16>:	add    $0x10,%rax
+   0x0000555555554ec4 <Mother::Mother()+20>:	mov    %rax,%rdi
+   0x0000555555554ec7 <Mother::Mother()+23>:	callq  0x555555554e3e <GrandParent::GrandParent()>
+   0x0000555555554ecc <Mother::Mother()+28>:	lea    0x200dfd(%rip),%rdx        # 0x555555755cd0 <vtable for Mother+24>
+   0x0000555555554ed3 <Mother::Mother()+35>:	mov    -0x8(%rbp),%rax
+   0x0000555555554ed7 <Mother::Mother()+39>:	mov    %rdx,(%rax)
+   0x0000555555554eda <Mother::Mother()+42>:	mov    -0x8(%rbp),%rax
+   0x0000555555554ede <Mother::Mother()+46>:	lea    0x10(%rax),%rdx
+   0x0000555555554ee2 <Mother::Mother()+50>:	lea    0x200e07(%rip),%rax        # 0x555555755cf0 <vtable for Mother+56>
+   0x0000555555554ee9 <Mother::Mother()+57>:	mov    %rax,(%rdx)
+   0x0000555555554eec <Mother::Mother()+60>:	mov    -0x8(%rbp),%rax
+   0x0000555555554ef0 <Mother::Mother()+64>:	movq   $0x2,0x8(%rax)
+   0x0000555555554ef8 <Mother::Mother()+72>:	nop
+   0x0000555555554ef9 <Mother::Mother()+73>:	leaveq 
+   0x0000555555554efa <Mother::Mother()+74>:	retq   
+
+11	    virtual void g() {}
+   0x0000555555554e1a <Mother::g()+0>:	push   %rbp
+   0x0000555555554e1b <Mother::g()+1>:	mov    %rsp,%rbp
+   0x0000555555554e1e <Mother::g()+4>:	mov    %rdi,-0x8(%rbp)
+   0x0000555555554e22 <Mother::g()+8>:	nop
+   0x0000555555554e23 <Mother::g()+9>:	pop    %rbp
+   0x0000555555554e24 <Mother::g()+10>:	retq   
+
+12	    long d2 = 2;
+13	};
+14	
+15	struct Father: virtual GrandParent {
+   0x0000555555554efc <Father::Father()+0>:	push   %rbp
+   0x0000555555554efd <Father::Father()+1>:	mov    %rsp,%rbp
+   0x0000555555554f00 <Father::Father()+4>:	mov    %rdi,-0x8(%rbp)
+   0x0000555555554f04 <Father::Father()+8>:	mov    %rsi,-0x10(%rbp)
+   0x0000555555554f08 <Father::Father()+12>:	mov    -0x10(%rbp),%rax
+   0x0000555555554f0c <Father::Father()+16>:	mov    (%rax),%rdx
+   0x0000555555554f0f <Father::Father()+19>:	mov    -0x8(%rbp),%rax
+   0x0000555555554f13 <Father::Father()+23>:	mov    %rdx,(%rax)
+---Type <return> to continue, or q <return> to quit---
+   0x0000555555554f16 <Father::Father()+26>:	mov    -0x8(%rbp),%rax
+   0x0000555555554f1a <Father::Father()+30>:	mov    (%rax),%rax
+   0x0000555555554f1d <Father::Father()+33>:	sub    $0x18,%rax
+   0x0000555555554f21 <Father::Father()+37>:	mov    (%rax),%rax
+   0x0000555555554f24 <Father::Father()+40>:	mov    %rax,%rdx
+   0x0000555555554f27 <Father::Father()+43>:	mov    -0x8(%rbp),%rax
+   0x0000555555554f2b <Father::Father()+47>:	add    %rax,%rdx
+   0x0000555555554f2e <Father::Father()+50>:	mov    -0x10(%rbp),%rax
+   0x0000555555554f32 <Father::Father()+54>:	mov    0x8(%rax),%rax
+   0x0000555555554f36 <Father::Father()+58>:	mov    %rax,(%rdx)
+   0x0000555555554f39 <Father::Father()+61>:	mov    -0x8(%rbp),%rax
+   0x0000555555554f3d <Father::Father()+65>:	movq   $0x3,0x8(%rax)
+   0x0000555555554f45 <Father::Father()+73>:	nop
+   0x0000555555554f46 <Father::Father()+74>:	pop    %rbp
+   0x0000555555554f47 <Father::Father()+75>:	retq   
+   0x0000555555554f48 <Father::Father()+0>:	push   %rbp
+   0x0000555555554f49 <Father::Father()+1>:	mov    %rsp,%rbp
+   0x0000555555554f4c <Father::Father()+4>:	sub    $0x10,%rsp
+   0x0000555555554f50 <Father::Father()+8>:	mov    %rdi,-0x8(%rbp)
+   0x0000555555554f54 <Father::Father()+12>:	mov    -0x8(%rbp),%rax
+   0x0000555555554f58 <Father::Father()+16>:	add    $0x10,%rax
+   0x0000555555554f5c <Father::Father()+20>:	mov    %rax,%rdi
+   0x0000555555554f5f <Father::Father()+23>:	callq  0x555555554e3e <GrandParent::GrandParent()>
+   0x0000555555554f64 <Father::Father()+28>:	lea    0x200d15(%rip),%rdx        # 0x555555755c80 <vtable for Father+24>
+   0x0000555555554f6b <Father::Father()+35>:	mov    -0x8(%rbp),%rax
+   0x0000555555554f6f <Father::Father()+39>:	mov    %rdx,(%rax)
+   0x0000555555554f72 <Father::Father()+42>:	mov    -0x8(%rbp),%rax
+   0x0000555555554f76 <Father::Father()+46>:	lea    0x10(%rax),%rdx
+   0x0000555555554f7a <Father::Father()+50>:	lea    0x200d1f(%rip),%rax        # 0x555555755ca0 <vtable for Father+56>
+   0x0000555555554f81 <Father::Father()+57>:	mov    %rax,(%rdx)
+   0x0000555555554f84 <Father::Father()+60>:	mov    -0x8(%rbp),%rax
+   0x0000555555554f88 <Father::Father()+64>:	movq   $0x3,0x8(%rax)
+   0x0000555555554f90 <Father::Father()+72>:	nop
+   0x0000555555554f91 <Father::Father()+73>:	leaveq 
+   0x0000555555554f92 <Father::Father()+74>:	retq   
+
+16	    virtual void h() {}
+   0x0000555555554e26 <Father::h()+0>:	push   %rbp
+   0x0000555555554e27 <Father::h()+1>:	mov    %rsp,%rbp
+   0x0000555555554e2a <Father::h()+4>:	mov    %rdi,-0x8(%rbp)
+   0x0000555555554e2e <Father::h()+8>:	nop
+   0x0000555555554e2f <Father::h()+9>:	pop    %rbp
+   0x0000555555554e30 <Father::h()+10>:	retq   
+
+17	    long d3 = 3;
+---Type <return> to continue, or q <return> to quit---
+18	};
+19	
+20	struct Child: Mother, Father {
+   0x0000555555554f94 <Child::Child()+0>:	push   %rbp
+   0x0000555555554f95 <Child::Child()+1>:	mov    %rsp,%rbp
+   0x0000555555554f98 <Child::Child()+4>:	sub    $0x10,%rsp
+   0x0000555555554f9c <Child::Child()+8>:	mov    %rdi,-0x8(%rbp)
+   0x0000555555554fa0 <Child::Child()+12>:	mov    -0x8(%rbp),%rax
+   0x0000555555554fa4 <Child::Child()+16>:	add    $0x28,%rax
+   0x0000555555554fa8 <Child::Child()+20>:	mov    %rax,%rdi
+   0x0000555555554fab <Child::Child()+23>:	callq  0x555555554e3e <GrandParent::GrandParent()>
+   0x0000555555554fb0 <Child::Child()+28>:	lea    0x200c01(%rip),%rdx        # 0x555555755bb8 <VTT for Child+8>
+   0x0000555555554fb7 <Child::Child()+35>:	mov    -0x8(%rbp),%rax
+   0x0000555555554fbb <Child::Child()+39>:	mov    %rdx,%rsi
+   0x0000555555554fbe <Child::Child()+42>:	mov    %rax,%rdi
+   0x0000555555554fc1 <Child::Child()+45>:	callq  0x555555554e64 <Mother::Mother()>
+   0x0000555555554fc6 <Child::Child()+50>:	lea    0x200bfb(%rip),%rax        # 0x555555755bc8 <VTT for Child+24>
+   0x0000555555554fcd <Child::Child()+57>:	mov    -0x8(%rbp),%rdx
+   0x0000555555554fd1 <Child::Child()+61>:	add    $0x10,%rdx
+   0x0000555555554fd5 <Child::Child()+65>:	mov    %rax,%rsi
+   0x0000555555554fd8 <Child::Child()+68>:	mov    %rdx,%rdi
+   0x0000555555554fdb <Child::Child()+71>:	callq  0x555555554efc <Father::Father()>
+   0x0000555555554fe0 <Child::Child()+76>:	lea    0x200b79(%rip),%rdx        # 0x555555755b60 <vtable for Child+24>
+   0x0000555555554fe7 <Child::Child()+83>:	mov    -0x8(%rbp),%rax
+   0x0000555555554feb <Child::Child()+87>:	mov    %rdx,(%rax)
+   0x0000555555554fee <Child::Child()+90>:	mov    -0x8(%rbp),%rax
+   0x0000555555554ff2 <Child::Child()+94>:	lea    0x28(%rax),%rdx
+   0x0000555555554ff6 <Child::Child()+98>:	lea    0x200bab(%rip),%rax        # 0x555555755ba8 <vtable for Child+96>
+   0x0000555555554ffd <Child::Child()+105>:	mov    %rax,(%rdx)
+   0x0000555555555000 <Child::Child()+108>:	lea    0x200b81(%rip),%rdx        # 0x555555755b88 <vtable for Child+64>
+   0x0000555555555007 <Child::Child()+115>:	mov    -0x8(%rbp),%rax
+   0x000055555555500b <Child::Child()+119>:	mov    %rdx,0x10(%rax)
+   0x000055555555500f <Child::Child()+123>:	mov    -0x8(%rbp),%rax
+   0x0000555555555013 <Child::Child()+127>:	movq   $0x4,0x20(%rax)
+   0x000055555555501b <Child::Child()+135>:	nop
+   0x000055555555501c <Child::Child()+136>:	leaveq 
+   0x000055555555501d <Child::Child()+137>:	retq   
+
+21	    virtual void foo() {}
+   0x0000555555554e32 <Child::foo()+0>:	push   %rbp
+   0x0000555555554e33 <Child::foo()+1>:	mov    %rsp,%rbp
+   0x0000555555554e36 <Child::foo()+4>:	mov    %rdi,-0x8(%rbp)
+   0x0000555555554e3a <Child::foo()+8>:	nop
+   0x0000555555554e3b <Child::foo()+9>:	pop    %rbp
+   0x0000555555554e3c <Child::foo()+10>:	retq   
+---Type <return> to continue, or q <return> to quit---
+
+22	    long d4 = 4;
+23	};
+24	
+25	int main()
+26	{
+   0x0000555555554ce0 <main()+0>:	push   %rbp
+   0x0000555555554ce1 <main()+1>:	mov    %rsp,%rbp
+   0x0000555555554ce4 <main()+4>:	sub    $0xb0,%rsp
+
+27	    GrandParent gp;
+=> 0x0000555555554ceb <main()+11>:	lea    0x201026(%rip),%rax        # 0x555555755d18 <vtable for GrandParent+16>
+   0x0000555555554cf2 <main()+18>:	mov    %rax,-0x30(%rbp)
+   0x0000555555554cf6 <main()+22>:	movq   $0x1,-0x28(%rbp)
+
+28	    Mother m;
+   0x0000555555554cfe <main()+30>:	lea    -0x50(%rbp),%rax
+   0x0000555555554d02 <main()+34>:	mov    %rax,%rdi
+   0x0000555555554d05 <main()+37>:	callq  0x555555554eb0 <Mother::Mother()>
+
+29	    Father f;
+   0x0000555555554d0a <main()+42>:	lea    -0x70(%rbp),%rax
+   0x0000555555554d0e <main()+46>:	mov    %rax,%rdi
+   0x0000555555554d11 <main()+49>:	callq  0x555555554f48 <Father::Father()>
+
+30	
+31	    Child c;
+   0x0000555555554d16 <main()+54>:	lea    -0xb0(%rbp),%rax
+   0x0000555555554d1d <main()+61>:	mov    %rax,%rdi
+   0x0000555555554d20 <main()+64>:	callq  0x555555554f94 <Child::Child()>
+
+32	
+33	    Child *pc = &c;
+   0x0000555555554d25 <main()+69>:	lea    -0xb0(%rbp),%rax
+   0x0000555555554d2c <main()+76>:	mov    %rax,-0x8(%rbp)
+
+34	    pc->foo();
+   0x0000555555554d30 <main()+80>:	mov    -0x8(%rbp),%rax
+   0x0000555555554d34 <main()+84>:	mov    (%rax),%rax
+   0x0000555555554d37 <main()+87>:	add    $0x8,%rax
+   0x0000555555554d3b <main()+91>:	mov    (%rax),%rax
+   0x0000555555554d3e <main()+94>:	mov    -0x8(%rbp),%rdx
+   0x0000555555554d42 <main()+98>:	mov    %rdx,%rdi
+   0x0000555555554d45 <main()+101>:	callq  *%rax
+
+---Type <return> to continue, or q <return> to quit---
+35	
+36	    Mother *pm = &c;
+   0x0000555555554d47 <main()+103>:	lea    -0xb0(%rbp),%rax
+   0x0000555555554d4e <main()+110>:	mov    %rax,-0x10(%rbp)
+
+37	    pm->g();
+   0x0000555555554d52 <main()+114>:	mov    -0x10(%rbp),%rax
+   0x0000555555554d56 <main()+118>:	mov    (%rax),%rax
+   0x0000555555554d59 <main()+121>:	mov    (%rax),%rax
+   0x0000555555554d5c <main()+124>:	mov    -0x10(%rbp),%rdx
+   0x0000555555554d60 <main()+128>:	mov    %rdx,%rdi
+   0x0000555555554d63 <main()+131>:	callq  *%rax
+
+38	
+39	    Father *pf = &c;
+   0x0000555555554d65 <main()+133>:	lea    -0xb0(%rbp),%rax
+   0x0000555555554d6c <main()+140>:	add    $0x10,%rax
+   0x0000555555554d70 <main()+144>:	mov    %rax,-0x18(%rbp)
+
+40	    pf->h();
+   0x0000555555554d74 <main()+148>:	mov    -0x18(%rbp),%rax
+   0x0000555555554d78 <main()+152>:	mov    (%rax),%rax
+   0x0000555555554d7b <main()+155>:	mov    (%rax),%rax
+   0x0000555555554d7e <main()+158>:	mov    -0x18(%rbp),%rdx
+   0x0000555555554d82 <main()+162>:	mov    %rdx,%rdi
+   0x0000555555554d85 <main()+165>:	callq  *%rax
+
+41	
+42	    GrandParent *pg = &c;
+   0x0000555555554d87 <main()+167>:	lea    -0xb0(%rbp),%rax
+   0x0000555555554d8e <main()+174>:	add    $0x28,%rax
+   0x0000555555554d92 <main()+178>:	mov    %rax,-0x20(%rbp)
+
+43	    pg->f();
+   0x0000555555554d96 <main()+182>:	mov    -0x20(%rbp),%rax
+   0x0000555555554d9a <main()+186>:	mov    (%rax),%rax
+   0x0000555555554d9d <main()+189>:	mov    (%rax),%rax
+   0x0000555555554da0 <main()+192>:	mov    -0x20(%rbp),%rdx
+   0x0000555555554da4 <main()+196>:	mov    %rdx,%rdi
+   0x0000555555554da7 <main()+199>:	callq  *%rax
+
+44	
+45	    return 0;
+   0x0000555555554da9 <main()+201>:	mov    $0x0,%eax
+
+---Type <return> to continue, or q <return> to quit---
+46	}
+
