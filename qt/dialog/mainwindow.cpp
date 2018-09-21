@@ -14,6 +14,7 @@
 #include <QMessageBox>
 #include <QApplication>
 #include <QDesktopWidget>
+#include <QFileDialog>
 
 using namespace std;
 
@@ -36,6 +37,9 @@ void MainWindow::createToolBar()
 
 void MainWindow::on_new_action_triggered()
 {
+    QFileDialog dlg(this);
+    dlg.exec();
+
     QRect rect = QApplication::desktop()->screenGeometry();
     QImage image("/home/fus/Pictures/test.png");
     m_dlg->setImage(image);

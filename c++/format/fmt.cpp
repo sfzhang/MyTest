@@ -35,6 +35,11 @@ protected:
 int main()
 {
 
+    ssize_t sd = -100000000000;
+    printf("%d\n", sd);
+    printf("%ld\n", sd);
+    printf("%zd\n", sd);
+
     double value = 25;
     stringstream sstrm;
     sstrm << fixed << setprecision(0) << value;
