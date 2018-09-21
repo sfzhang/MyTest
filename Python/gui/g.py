@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 
-import sys
+
+import os
 import pyautogui
 import datetime
 from PyQt5 import QtCore
@@ -218,10 +219,11 @@ class ToolBar(QToolBar):
         self.setMovable(False)
         self.setFloatable(True)
 
-        self.addAction(QIcon("./save.png"), "Save as...", self.save_clicked.emit)
-        self.addAction(QIcon("./ok.png"), "OK", self.ok_clicked.emit)
-        self.addAction(QIcon("./redo.png"), "Redo", self.redo_clicked.emit)
-        self.addAction(QIcon("./exit.png"), "Exit", self.exit_clicked.emit)
+        path = os.path.dirname(os.path.realpath(__file__))
+        self.addAction(QIcon(path + "/save.png"), "Save as...", self.save_clicked.emit)
+        self.addAction(QIcon(path + "/ok.png"), "OK", self.ok_clicked.emit)
+        self.addAction(QIcon(path + "/redo.png"), "Redo", self.redo_clicked.emit)
+        self.addAction(QIcon(path + "/exit.png"), "Exit", self.exit_clicked.emit)
 
         self.setStyleSheet("QToolBar{background-color: white;\nborder: 1px solid gray;}")
 
@@ -267,11 +269,13 @@ class ScreenShot(QWidget):
         self.tool.ok_clicked.connect(self.accept)
         self.tool.exit_clicked.connect(self.close)
 
-    def _get_default_name(self):
-        return datetime.datetime.now().strftime("screenshot-%Y%m%d%H%M%S.png")
+    @staticmethod
+    def _get_default_name():
+        return datetime.datetime.now().strftime("screenshot-%Y%m%d-%H%M%S")
 
     def _save_image(self, file, format="png"):
-        self.image.crop((self.rect.left(), self.rect.top(), self.rect.right(), self.rect.bottom())).save(file, format)
+        crop_image = self.image.crop((self.rect.left(), self.rect.top(), self.rect.right(), self.rect.bottom()))
+        crop_image.save(file + "." + format, format)
 
     def _correct_position(self, point):
         if point.x() < 0:
@@ -387,6 +391,10 @@ class ScreenShot(QWidget):
         self.display_magnifier = False
         self.update()
 
+    def showEvent(self, e):
+        self._hide_tool()
+        super(ScreenShot, self).showEvent(e)
+
     def enterEvent(self, e):
         if not self.rect.valid():
             self.display_magnifier = True
@@ -460,7 +468,16 @@ class ScreenShot(QWidget):
 
     @pyqtSlot()
     def save(self):
-        print("save")
+        default_file = "./" + ScreenShot._get_default_name()
+        png_filter = "PNG image (*.png)"
+        bmp_filter = "BMP image (*.bmp)"
+        result = QFileDialog.getSaveFileName(self, "Save as", default_file, png_filter + ";;" + bmp_filter)
+        if len(result) == 2 and len(result[0]) > 0:
+            if result[1] == png_filter:
+                self._save_image(os.path.splitext(result[0])[0], "png")
+            else:
+                self._save_image(os.path.splitext(result[0])[0], "bmp")
+            self.close()
 
     @pyqtSlot()
     def redo(self):
@@ -471,7 +488,7 @@ class ScreenShot(QWidget):
 
     @pyqtSlot()
     def accept(self):
-        self._save_image(self._get_default_name())
+        self._save_image(ScreenShot._get_default_name())
         self.close()
 
 
