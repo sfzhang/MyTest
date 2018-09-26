@@ -26,6 +26,7 @@ class RunScript(QDialog):
 
         self.ok_btn = QPushButton(QIcon(path + "/ok.png"), "")
         self.cancel_btn = QPushButton(QIcon(path + "/exit.png"), "")
+        self.ok_btn.setDefault(True)
 
         self.hbox_layout = QHBoxLayout()
         self.hbox_layout.addWidget(self.file_label)

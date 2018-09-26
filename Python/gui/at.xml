@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<auto_test>
+    <mouse interval=452930 event=scrolled button=none x=937 y=669 dx=0 dy=1 />
+    <mouse interval=63814 event=scrolled button=none x=937 y=669 dx=0 dy=1 />
+    <mouse interval=70051 event=scrolled button=none x=937 y=669 dx=0 dy=1 />
+    <mouse interval=146087 event=scrolled button=none x=937 y=669 dx=0 dy=-1 />
+    <mouse interval=15873 event=scrolled button=none x=937 y=669 dx=0 dy=-1 />
+    <mouse interval=23996 event=scrolled button=none x=937 y=669 dx=0 dy=-1 />
+    <mouse interval=15919 event=scrolled button=none x=937 y=669 dx=0 dy=-1 />
+    <mouse interval=22111 event=scrolled button=none x=937 y=669 dx=0 dy=-1 />
+    <mouse interval=31911 event=scrolled button=none x=937 y=669 dx=0 dy=-1 />
+    <mouse interval=379932 event=scrolled button=none x=937 y=669 dx=0 dy=-1 />
+    <mouse interval=16129 event=scrolled button=none x=937 y=669 dx=0 dy=-1 />
+    <mouse interval=16187 event=scrolled button=none x=937 y=669 dx=0 dy=-1 />
+    <mouse interval=13787 event=scrolled button=none x=937 y=669 dx=0 dy=-1 />
+    <mouse interval=23980 event=scrolled button=none x=937 y=669 dx=0 dy=-1 />
+    <mouse interval=342118 event=scrolled button=none x=1063 y=633 dx=0 dy=-1 />
+    <mouse interval=7876 event=scrolled button=none x=1063 y=633 dx=0 dy=-1 />
+    <mouse interval=16173 event=scrolled button=none x=1063 y=633 dx=0 dy=-1 />
+    <mouse interval=21828 event=scrolled button=none x=1063 y=633 dx=0 dy=-1 />
+    <mouse interval=288047 event=scrolled button=none x=1063 y=633 dx=0 dy=-1 />
+    <mouse interval=15977 event=scrolled button=none x=1063 y=633 dx=0 dy=-1 />
+    <mouse interval=15980 event=scrolled button=none x=1063 y=633 dx=0 dy=-1 />
+    <mouse interval=21995 event=scrolled button=none x=1063 y=633 dx=0 dy=-1 />
+    <mouse interval=513950 event=pressed button=right x=1025 y=634 />
+    <mouse interval=108066 event=released button=right x=1025 y=634 />
+    <mouse interval=287664 event=pressed button=left x=697 y=590 />
+    <mouse interval=91931 event=released button=left x=697 y=590 />
+    <mouse interval=250312 event=pressed button=left x=852 y=506 />
+    <mouse interval=99507 event=released button=left x=852 y=506 />
+    <mouse interval=86347 event=pressed button=left x=852 y=506 />
+    <mouse interval=108016 event=released button=left x=852 y=506 />
+    <mouse interval=325984 event=pressed button=left x=1282 y=343 />
+    <mouse interval=69893 event=released button=left x=1282 y=343 />
+    <screen_shot interval=305844 x=874 y=595 w=271 h=112 file="/home/fus/Git/MyTest/Python/gui/screenshot-20180926-164803.png" />
+    <keyboard interval=185423 event=pressed key=a />
+    <keyboard interval=115916 event=pressed key=s />
+    <keyboard interval=28855 event=pressed key=d />
+    <keyboard interval=27868 event=released key=a />
+    <keyboard interval=47031 event=released key=s />
+    <keyboard interval=1128 event=pressed key=f />
+    <keyboard interval=793 event=released key=d />
+    <keyboard interval=89047 event=released key=f />
+    <keyboard interval=749281 event=pressed key=a />
+    <keyboard interval=20853 event=pressed key=s />
+    <keyboard interval=68056 event=pressed key=d />
+    <keyboard interval=93940 event=released key=a />
+    <keyboard interval=28980 event=pressed key=f />
+    <keyboard interval=25813 event=released key=s />
+    <keyboard interval=14027 event=released key=d />
+    <keyboard interval=71972 event=released key=f />
+    <keyboard interval=793347 event=pressed key=space />
+    <keyboard interval=145800 event=released key=space />
+    <keyboard interval=81045 event=pressed key=enter />
+    <keyboard interval=110972 event=released key=enter />
+    <keyboard interval=104025 event=pressed key=enter />
+    <keyboard interval=79005 event=released key=enter />
+    <mouse interval=957406 event=scrolled button=none x=1069 y=558 dx=0 dy=-1 />
+    <mouse interval=23752 event=scrolled button=none x=1069 y=558 dx=0 dy=-1 />
+    <mouse interval=21974 event=scrolled button=none x=1069 y=558 dx=0 dy=-1 />
+    <mouse interval=40166 event=scrolled button=none x=1069 y=558 dx=0 dy=-1 />
+    <mouse interval=263781 event=pressed button=right x=1071 y=557 />
+    <mouse interval=77829 event=released button=right x=1071 y=557 />
+    <mouse interval=108358 event=pressed button=right x=1071 y=557 />
+    <mouse interval=101532 event=released button=right x=1071 y=556 />
+    <mouse interval=256095 event=pressed button=left x=788 y=494 />
+    <mouse interval=77849 event=released button=left x=788 y=494 />
+    <mouse interval=84124 event=pressed button=left x=788 y=494 />
+    <mouse interval=101935 event=released button=left x=788 y=494 />
+    <mouse interval=474099 event=pressed button=left x=1331 y=480 />
+    <mouse interval=93897 event=released button=left x=1331 y=480 />
+</auto_test>

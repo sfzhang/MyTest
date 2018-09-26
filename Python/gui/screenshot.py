@@ -483,12 +483,12 @@ class ScreenShot(QWidget):
 
         super(ScreenShot, self).paintEvent(e)
 
-    def keyReleaseEvent(self, e):
+    def keyPressEvent(self, e):
         if e.key() == Qt.Key_Escape:
             self.rect = None
             self._exit()
         else:
-            super(ScreenShot, self).keyReleaseEvent(e)
+            super(ScreenShot, self).keyPressEvent(e)
 
     @pyqtSlot()
     def save(self):
@@ -512,7 +512,8 @@ class ScreenShot(QWidget):
 
     @pyqtSlot()
     def accept(self):
-        self._save_image(ScreenShot._get_default_name())
+        file = os.path.dirname(os.path.realpath(__file__)) + "/" + ScreenShot._get_default_name()
+        self._save_image(file)
         self._exit()
 
 

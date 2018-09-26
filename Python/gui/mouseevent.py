@@ -50,7 +50,7 @@ class MouseEvent(object):
         pass
 
     def on_click(self, x, y, button, pressed):
-        print('{0} at {1} with button {2}'.format('Pressed' if pressed else 'Released', (x, y), button))
+        # print('{0} at {1} with button {2}'.format('Pressed' if pressed else 'Released', (x, y), button))
 
         self.x, self.y = x, y
         if pressed:
@@ -70,7 +70,7 @@ class MouseEvent(object):
         self._send()
 
     def on_scroll(self, x, y, dx, dy):
-        print('Scrolled {0} at {1} with ({2})'.format('down' if dy < 0 else 'up', (x, y), (dx, dy)))
+        # print('Scrolled {0} at {1} with ({2})'.format('down' if dy < 0 else 'up', (x, y), (dx, dy)))
 
         self.event = "scrolled"
         self.button = "none"

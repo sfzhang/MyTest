@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 
 
+import sys
 import datetime
 from multiprocessing import Process, Queue
 import mouseevent
@@ -71,8 +72,8 @@ class Sloth(object):
             file: The saved file path name
 
         Check log:
-            [match log file]
-            match:
+            [type log file]
+            type:
                 include
                 exclude
             log: The log to check
@@ -86,7 +87,8 @@ class Sloth(object):
             script: The script file
     """
 
-    def __init__(self):
+    def __init__(self, file):
+        self.file = file
         self.exit = False
 
         self.q = Queue()
@@ -100,10 +102,53 @@ class Sloth(object):
 
         self.event_list = []
 
+    def _valid_key(self, key):
+        for event in reversed(self.event_list):
+            if event[1] == "keyboard" and event[3] == key:
+                if event[2] == "pressed":
+                    return True
+                else:
+                    return False
+        return False
+
+    def _append_event(self, msg):
+        now = datetime.datetime.now()
+        interval = str((now - self.timestamp).microseconds)
+
+        split_msg = msg.split(' ')
+        msg_item = [str(interval)]
+        for i in split_msg:
+            msg_item.append(i.replace('\x00', ' '))
+        self.event_list.append(msg_item)
+        self.timestamp = now
+
     def _finish(self):
-        print("-----------------------------------------")
-        for event in self.event_list:
-            print(event)
+        if len(self.event_list) == 0:
+            return
+
+        with open(self.file, 'w') as f:
+            f.write('<?xml version="1.0" encoding="UTF-8"?>\n')
+            f.write('<auto_test>\n')
+            for event in self.event_list:
+                s = '    <' + event[1] + ' interval=' + event[0]
+                if event[1] == "mouse":
+                    s += ' event=' + event[2] + ' button=' + event[3] + ' x=' + event[4].split(',')[0] + \
+                         ' y=' + event[4].split(',')[1]
+                    if len(event) > 5:
+                        s += ' dx=' + event[5].split(',')[0] + ' dy=' + event[5].split(',')[1]
+                elif event[1] == "keyboard":
+                    s += ' event=' + event[2] + ' key=' + event[3]
+                elif event[1] == "screen_shot":
+                    s += ' x=' + event[2].split(',')[0] + ' y=' + event[2].split(',')[1] + ' w=' + \
+                         event[3].split(',')[0] + ' h=' + event[3].split(',')[1] + ' file="' + event[4] + '"'
+                elif event[1] == "check_log":
+                    s += ' type=' + event[2] + ' file="' + event[3] + '" log="' + event[4] + '"'
+                elif event[1] == "run_script":
+                    s += ' type=' + event[2] + ' file="' + event[3] + '"'
+                s += ' />\n'
+                f.write(s)
+
+            f.write("</auto_test>\n")
 
     def _screen_shot(self):
         self.start = False
@@ -132,7 +177,7 @@ class Sloth(object):
             if split_msg[0] == "screen_shot" or split_msg[0] == "check_log" or split_msg[0] == "run_script":
                 self._join_child_process()
                 if len(split_msg) > 1:
-                    self.event_list.append(msg)
+                    self._append_event(msg)
                 self.timestamp = datetime.datetime.now()
                 self.start = True
                 continue
@@ -143,12 +188,8 @@ class Sloth(object):
                     self.start = True
                 continue
 
-            now = datetime.datetime.now()
-            interval = str((now - self.timestamp).microseconds)
-
             if split_msg[0] == "mouse":
-                self.event_list.append(interval + " " + msg)
-                self.timestamp = now
+                self._append_event(msg)
             elif split_msg[0] == "keyboard":
                 if split_msg[1] == "released" and split_msg[2] == "f2":
                     continue
@@ -168,10 +209,15 @@ class Sloth(object):
                     self._run_script()
                     continue
 
-                self.event_list.append(interval + " " + msg)
-                self.timestamp = now
+                if split_msg[1] == "released" and not self._valid_key(split_msg[2]):
+                    continue
+                else:
+                    self._append_event(msg)
 
 
 if __name__ == "__main__":
-    s = Sloth()
-    s.process()
+    if len(sys.argv) != 2:
+        print("Usage: " + sys.argv[0] + " file")
+    else:
+        s = Sloth(sys.argv[1])
+        s.process()

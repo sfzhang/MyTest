@@ -41,10 +41,10 @@ class KeyboardEvent(object):
 
     def on_press(self, key):
         try:
-            print('alphanumeric key {0} pressed'.format(key.char))
+            # print('alphanumeric key {0} pressed'.format(key.char))
             self.key = key.char
         except AttributeError:
-            print('special key {0} pressed'.format(key))
+            # print('special key {0} pressed'.format(key))
             self.key = str(key).split('.')[1]
 
         self.event = "pressed"
@@ -52,10 +52,10 @@ class KeyboardEvent(object):
 
     def on_release(self, key):
         try:
-            print('alphanumeric key {0} released'.format(key.char))
+            # print('alphanumeric key {0} released'.format(key.char))
             self.key = key.char
         except AttributeError:
-            print('special key {0} released'.format(key))
+            # print('special key {0} released'.format(key))
             self.key = str(key).split('.')[1]
 
         self.event = "released"

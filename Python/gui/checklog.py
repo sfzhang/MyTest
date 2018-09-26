@@ -20,8 +20,8 @@ class CheckLog(QDialog):
         self.file_label = QLabel("File: ")
         self.file_line_edit = QLineEdit()
         self.type_cbb = QComboBox()
-        self.type_cbb.addItem("Include")
-        self.type_cbb.addItem("Exclude")
+        self.type_cbb.addItem("include")
+        self.type_cbb.addItem("exclude")
         self.open_btn = QPushButton(QIcon(path + "/open.png"), "")
 
         self.hbox_layout1 = QHBoxLayout()
@@ -39,6 +39,7 @@ class CheckLog(QDialog):
 
         self.ok_btn = QPushButton(QIcon(path + "/ok.png"), "")
         self.cancel_btn = QPushButton(QIcon(path + "/exit.png"), "")
+        self.ok_btn.setDefault(True)
 
         self.hbox_layout3 = QHBoxLayout()
         self.hbox_layout3.addStretch(2)
