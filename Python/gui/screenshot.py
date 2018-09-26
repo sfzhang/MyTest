@@ -4,11 +4,12 @@
 import os
 import pyautogui
 import datetime
+from multiprocessing import Queue
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 from PIL.ImageQt import *
-from enum import  Enum
+from enum import Enum
 
 
 class HitPos(Enum):
@@ -90,6 +91,12 @@ class Rect(object):
 
     def center(self):
         return self.rect.center()
+
+    def w(self):
+        return self.rect.width()
+
+    def h(self):
+        return self.rect.height()
 
     def valid(self):
         return self.rect is not None
@@ -234,11 +241,13 @@ class ActionState(Enum):
 
 class ScreenShot(QWidget):
 
-    def __init__(self, parent=None, screen_shot=None):
+    def __init__(self, parent=None, q=None, screen_shot=None):
         super(ScreenShot, self).__init__(parent=parent)
         self.setWindowFlags(Qt.FramelessWindowHint)
         self.setMouseTracking(True)
 
+        self.q = q
+        self.file = None
         if screen_shot is not None:
             self.image = screen_shot
             self.screen_shot = ImageQt(screen_shot)
@@ -271,9 +280,19 @@ class ScreenShot(QWidget):
     def _get_default_name():
         return datetime.datetime.now().strftime("screenshot-%Y%m%d-%H%M%S")
 
-    def _save_image(self, file, format="png"):
+    def _save_image(self, file, fmt="png"):
         crop_image = self.image.crop((self.rect.left(), self.rect.top(), self.rect.right(), self.rect.bottom()))
-        crop_image.save(file + "." + format, format)
+        crop_image.save(file + "." + fmt, fmt)
+        self.file = file + "." + fmt
+
+    def _exit(self):
+        msg = "screen_shot "
+        if self.q is not None:
+            if self.rect is not None:
+                msg += str(self.x) + "," + str(self.y) + " " + str(self.rect.w()) + "," + str(self.rect.h()) + " " + \
+                       self.file.replace(' ', '\x00')
+            self.q.put(msg)
+        self.close()
 
     def _correct_position(self, point):
         if point.x() < 0:
@@ -464,6 +483,13 @@ class ScreenShot(QWidget):
 
         super(ScreenShot, self).paintEvent(e)
 
+    def keyReleaseEvent(self, e):
+        if e.key() == Qt.Key_Escape:
+            self.rect = None
+            self._exit()
+        else:
+            super(ScreenShot, self).keyReleaseEvent(e)
+
     @pyqtSlot()
     def save(self):
         default_file = "./" + ScreenShot._get_default_name()
@@ -475,7 +501,7 @@ class ScreenShot(QWidget):
                 self._save_image(os.path.splitext(result[0])[0], "png")
             else:
                 self._save_image(os.path.splitext(result[0])[0], "bmp")
-            self.close()
+            self._exit()
 
     @pyqtSlot()
     def redo(self):
@@ -487,5 +513,17 @@ class ScreenShot(QWidget):
     @pyqtSlot()
     def accept(self):
         self._save_image(ScreenShot._get_default_name())
-        self.close()
+        self._exit()
 
+
+def get_screen_shot(q):
+    app = QApplication(sys.argv)
+    screen_shot = pyautogui.screenshot()
+    widget = ScreenShot(q=q, screen_shot=screen_shot)
+    widget.showFullScreen()
+    sys.exit(app.exec())
+
+
+if __name__ == "__main__":
+    q = Queue()
+    get_screen_shot(q)

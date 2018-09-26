@@ -1,30 +1,22 @@
 #!/usr/bin/python3
 
 
-import queue
 import signal
+from multiprocessing import Queue
 from pynput import keyboard
 
 
 class KeyboardEvent(object):
     """
-    Message protocol:
-        [type message]
-        type:
-            0: Mouse event
-            1: Keyboard event
-            2: Screen shot event
-            3: Log event
-        
     Keyboard event message:
         [event key]
         event:
-            0: Pressed
-            1: Released
+            pressed
+            released
         key:
             alt/alt_gr/alt_l/alt_r/backspace/caps_lock/cmd/cmd_l/cmd_r/ctrl/ctrl_l/ctrl_r/delete/down/end/enter/esc/
-            f1-f20/home/insert/left/menu/num_lock/page_down/page_up/pause/print_screen/right/scroll_lock/shift/shift_l/
-            shift_r/space/tab/up/...
+            f1-f20/home/insert/left/menu/num_lock/page_down/page_up/pause/print_screen/right/scroll_lock/shift/
+            shift_l/shift_r/space/tab/up...
     """
 
     def __init__(self, q):
@@ -32,13 +24,13 @@ class KeyboardEvent(object):
         signal.signal(signal.SIGQUIT, signal.SIG_IGN)
         signal.signal(signal.SIGTSTP, signal.SIG_IGN)
         self.q = q
-        self.event = 0
+        self.event = None
         self.key = None
         self.listener = keyboard.Listener(on_press=self.on_press, on_release=self.on_release)
         self.listener.start()
 
     def _send(self):
-        msg = "1 " + str(self.event) + " " + self.key
+        msg = "keyboard " + self.event + " " + self.key
         self.q.put(msg)
 
     def stop(self):
@@ -55,7 +47,7 @@ class KeyboardEvent(object):
             print('special key {0} pressed'.format(key))
             self.key = str(key).split('.')[1]
 
-        self.event = 0
+        self.event = "pressed"
         self._send()
 
     def on_release(self, key):
@@ -66,11 +58,11 @@ class KeyboardEvent(object):
             print('special key {0} released'.format(key))
             self.key = str(key).split('.')[1]
 
-        self.event = 1
+        self.event = "released"
         self._send()
 
 
 if __name__ == '__main__':
-    q = queue.Queue()
+    q = Queue()
     k = KeyboardEvent(q)
     k.join()
