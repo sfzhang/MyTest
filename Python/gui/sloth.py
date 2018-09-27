@@ -129,22 +129,23 @@ class Sloth(object):
         with open(self.file, 'w') as f:
             f.write('<?xml version="1.0" encoding="UTF-8"?>\n')
             f.write('<auto_test>\n')
+            f.write('    <sleep interval="0" seconds="8" />\n')
             for event in self.event_list:
-                s = '    <' + event[1] + ' interval=' + event[0]
+                s = '    <' + event[1] + ' interval="' + event[0] + '"'
                 if event[1] == "mouse":
-                    s += ' event=' + event[2] + ' button=' + event[3] + ' x=' + event[4].split(',')[0] + \
-                         ' y=' + event[4].split(',')[1]
+                    s += ' event="' + event[2] + '" button="' + event[3] + '" x="' + event[4].split(',')[0] + \
+                         '" y="' + event[4].split(',')[1] + '"'
                     if len(event) > 5:
-                        s += ' dx=' + event[5].split(',')[0] + ' dy=' + event[5].split(',')[1]
+                        s += ' dx="' + event[5].split(',')[0] + '" dy="' + event[5].split(',')[1] + '"'
                 elif event[1] == "keyboard":
-                    s += ' event=' + event[2] + ' key=' + event[3]
+                    s += ' event="' + event[2] + '" key="' + event[3] + '"'
                 elif event[1] == "screen_shot":
-                    s += ' x=' + event[2].split(',')[0] + ' y=' + event[2].split(',')[1] + ' w=' + \
-                         event[3].split(',')[0] + ' h=' + event[3].split(',')[1] + ' file="' + event[4] + '"'
+                    s += ' x="' + event[2].split(',')[0] + '" y="' + event[2].split(',')[1] + '" w="' + \
+                         event[3].split(',')[0] + '" h="' + event[3].split(',')[1] + '" file="' + event[4] + '"'
                 elif event[1] == "check_log":
-                    s += ' type=' + event[2] + ' file="' + event[3] + '" log="' + event[4] + '"'
+                    s += ' type="' + event[2] + '" file="' + event[3] + '" log="' + event[4] + '"'
                 elif event[1] == "run_script":
-                    s += ' type=' + event[2] + ' file="' + event[3] + '"'
+                    s += ' type="' + event[2] + '" file="' + event[3] + '"'
                 s += ' />\n'
                 f.write(s)
 

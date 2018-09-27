@@ -281,7 +281,7 @@ class ScreenShot(QWidget):
         return datetime.datetime.now().strftime("screenshot-%Y%m%d-%H%M%S")
 
     def _save_image(self, file, fmt="png"):
-        crop_image = self.image.crop((self.rect.left(), self.rect.top(), self.rect.right(), self.rect.bottom()))
+        crop_image = self.image.crop((self.rect.left(), self.rect.top(), self.rect.right() + 1, self.rect.bottom() + 1))
         crop_image.save(file + "." + fmt, fmt)
         self.file = file + "." + fmt
 
@@ -289,8 +289,8 @@ class ScreenShot(QWidget):
         msg = "screen_shot "
         if self.q is not None:
             if self.rect is not None:
-                msg += str(self.x) + "," + str(self.y) + " " + str(self.rect.w()) + "," + str(self.rect.h()) + " " + \
-                       self.file.replace(' ', '\x00')
+                msg += str(self.rect.left()) + "," + str(self.rect.top()) + " " + str(self.rect.w()) + "," + \
+                       str(self.rect.h()) + " " + self.file.replace(' ', '\x00')
             self.q.put(msg)
         self.close()
 

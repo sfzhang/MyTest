@@ -1,1 +1,14 @@
-sudo pip3 install pyqt5==5.9.2
+1. sudo pip3 install pyqt5==5.9.2 pyautogui pynput
+
+2. sloth.py
+    usage: ./sloty.py xxx.xml
+    command:
+        F2: Start to record
+        F3: Pause record
+        F4: Finish record
+        F5: Screen shot
+        F6: Check log
+        F7: Add script to run
+
+3. hound.py
+    usage: ./hound.py xxx.xml
