@@ -9,6 +9,8 @@ import keyboardevent
 import screenshot
 import checklog
 import runscript
+import includefile
+import waiting
 
 
 class Sloth(object):
@@ -20,13 +22,14 @@ class Sloth(object):
     F5: Screen shot
     F6: Check log
     F7: Add script to run
+    F8: Include other file
+    F9: Waiting
 
-    Message protocol:
-        [timestamp type message]
-        timestamp: The timestamp
+    Message protocol between process:
+        [type message]
         type:
             include: include other message
-            sleep: sleep for a moment
+            wait: wait for a moment
             mouse: mouse event
             keyboard: keyboard event
             screen_shot: check point by screen_shot
@@ -37,7 +40,7 @@ class Sloth(object):
             [file]
             file: message file name
 
-        Sleep message:
+        Wait message:
             [seconds]
             seconds: sleep seconds
 
@@ -65,7 +68,7 @@ class Sloth(object):
                 f1-f20/home/insert/left/menu/num_lock/page_down/page_up/pause/print_screen/right/scroll_lock/shift/
                 shift_l/shift_r/space/tab/up...
 
-        Screen shot event:(alt+s)
+        Screen shot event:
             [x,y w,h file]
             x,y: top left position
             w,h: image width and height
@@ -80,11 +83,32 @@ class Sloth(object):
             file: The log file name
 
         Run script:
-            [type script]
-            type:
+            [type script func]
+            type: ignored if func existed
                 sync: run script in the same process
                 async: run the script in the different process
             script: The script file
+            func: The function in script
+
+    Generated XML format:
+    <?xml version="1.0" encoding="UTF-8"?>
+    <gui_auto_test>
+        <include interval="xx" file="xx.xml" />
+        <wait seconds="xx" />
+        <mouse interval="xx" event="pressed" button="left/middle/right" x="xx" y="xx" />
+        <mouse interval="xx" event="released" button="left/middle/right" x="xx" y="xx" />
+        <mouse interval="xx" event="clicked" button="left/middle/right" x="xx" y="xx" />
+        <mouse interval="xx" event="double_clicked" button="left/middle/right" x="xx" y="xx" />
+        <mouse interval="xx" event="scrolled" button="none" x="xx" y="xx" dx="xx" dy="xx"/>
+        <mouse interval="xx" event="dragged" button="left/middle/right" x="xx" y="xx" dx="xx" dy="xx" duration="xx"/>
+        <keyboard interval="xx" event="pressed" key="xx" />
+        <keyboard interval="xx" event="released" key="xx" />
+        <keyboard interval="xx" event="type" key="xx" />
+        <screen_shot interval="xx" x="xx" y="xx" w="xx" h="xx" file="xx" />
+        <check_log interval="xx" type="include/exclude" log="xx" file="xx" />
+        <run_script interval="xx" type="sync/async" file="xx" />
+        <run_script interval="xx" file="xx" func="xx" />
+    </gui_auto_test>
     """
 
     click_interval = 400000
@@ -206,6 +230,10 @@ class Sloth(object):
             print("Invalid error: unknown event[" + event + "]")
 
     def _append_event(self, msg):
+        """
+        Append message to event
+        :param msg: The event message
+        """
         now = datetime.datetime.now()
         interval = str((now - self.timestamp).microseconds)
 
@@ -217,13 +245,20 @@ class Sloth(object):
         self.timestamp = now
 
     def _finish(self):
+        """
+        Write the command to XML file
+        """
         if len(self.event_list) > 0:
             with open(self.file, 'w') as f:
                 f.write('<?xml version="1.0" encoding="UTF-8"?>\n')
-                f.write('<auto_test>\n')
-                f.write('    <sleep interval="0" seconds="8" />\n')
+                f.write('<gui_auto_test>\n')
+
                 for event in self.event_list:
-                    s = '    <' + event[1] + ' interval="' + str(event[0]) + '"'
+                    s = '    <' + event[1]
+
+                    if event[1] != "wait":
+                        s += ' interval="' + str(event[0]) + '"'
+
                     if event[1] == "mouse":
                         s += ' event="' + event[2] + '" button="' + event[3] + '" x="' + str(event[4]) + '" y="' + \
                              str(event[5]) + '"'
@@ -231,7 +266,7 @@ class Sloth(object):
                             s += ' dx="' + str(event[6]) + '" dy="' + str(event[7]) + '"'
                         elif len(event) == 9:
                             s += ' dx="' + str(event[6] - event[4]) + '" dy="' + str(event[7] - event[5]) + \
-                                 '" duration="' + str(event[8]) + '"'
+                                 '" duration="' + str(event[8] / 1000000.) + '"'
                     elif event[1] == "keyboard":
                         s += ' event="' + event[2] + '" key="' + event[3] + '"'
                     elif event[1] == "screen_shot":
@@ -241,35 +276,71 @@ class Sloth(object):
                         s += ' type="' + event[2] + '" file="' + event[3] + '" log="' + event[4] + '"'
                     elif event[1] == "run_script":
                         s += ' type="' + event[2] + '" file="' + event[3] + '"'
+                    elif event[1] == "include":
+                        s += ' file="' + event[2] + '"'
+                    elif event[1] == "wait":
+                        s += ' second="' + event[2] + '"'
                     s += ' />\n'
                     f.write(s)
-                f.write("</auto_test>\n")
+                f.write("</gui_auto_test>\n")
 
     def _screen_shot(self):
+        """
+        Get the screen shot
+        """
         self.start = False
         self.child_process = Process(target=screenshot.get_screen_shot, args=(self.q,))
         self.child_process.start()
 
     def _check_log(self):
+        """
+        Get the check log
+        """
         self.start = False
         self.child_process = Process(target=checklog.get_check_log, args=(self.q,))
         self.child_process.start()
 
     def _run_script(self):
+        """
+        Get the run script
+        """
         self.start = False
         self.child_process = Process(target=runscript.get_run_script, args=(self.q,))
         self.child_process.start()
 
+    def _include_file(self):
+        """
+        Get the include file
+        """
+        self.start = False
+        self.child_process = Process(target=includefile.get_include_file, args=(self.q,))
+        self.child_process.start()
+
+    def _waiting(self):
+        """
+        Get the wait time
+        """
+        self.start = False
+        self.child_process = Process(target=waiting.get_waiting, args=(self.q,))
+        self.child_process.start()
+
     def _join_child_process(self):
+        """
+        Join the child process
+        """
         self.child_process.join()
         self.child_process = None
 
     def process(self):
+        """
+        Process the queue message
+        """
         while True:
             msg = self.q.get()
             split_msg = msg.split()
 
-            if split_msg[0] == "screen_shot" or split_msg[0] == "check_log" or split_msg[0] == "run_script":
+            if split_msg[0] == "screen_shot" or split_msg[0] == "check_log" or split_msg[0] == "run_script" or \
+                    split_msg[0] == "include" or split_msg[0] == "wait":
                 self._join_child_process()
                 if len(split_msg) > 1:
                     self._append_event(msg)
@@ -311,6 +382,12 @@ class Sloth(object):
                     continue
                 elif split_msg[1] == "pressed" and split_msg[2] == "f7":
                     self._run_script()
+                    continue
+                elif split_msg[1] == "pressed" and split_msg[2] == "f8":
+                    self._include_file()
+                    continue
+                elif split_msg[1] == "pressed" and split_msg[2] == "f9":
+                    self._waiting()
                     continue
 
                 self._append_key_event(split_msg[1], split_msg[2])

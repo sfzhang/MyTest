@@ -3,82 +3,36 @@
 
 import sys
 import time
+import getopt
 import pyautogui
 import pynput
-from pynput.mouse import Button
 from pynput.keyboard import Key
 import xml.etree.ElementTree as ET
 
 
 class Hound(object):
     """
-    Message protocol:
-        [timestamp type message]
-        timestamp: The timestamp
-        type:
-            include: include other message
-            sleep: sleep for a moment
-            mouse: mouse event
-            keyboard: keyboard event
-            screen_shot: check point by screen_shot
-            check_log: check point by log
-            run_script: run other script
-
-        Include message:
-            [file]
-            file: message file name
-
-        Sleep message:
-            [seconds]
-            seconds: sleep seconds
-
-        Mouse event message:
-            [event button x,y dx,dy]
-            event:
-                pressed
-                released
-                scrolled
-            button:
-                none
-                left
-                right
-                middle
-            x,y: x and y position
-            dx,dy: dx and dy exist when scrolled
-
-        Keyboard event message:
-            [event key]
-            event:
-                pressed
-                released
-            key:
-                alt/alt_gr/alt_l/alt_r/backspace/caps_lock/cmd/cmd_l/cmd_r/ctrl/ctrl_l/ctrl_r/delete/down/end/enter/esc/
-                f1-f20/home/insert/left/menu/num_lock/page_down/page_up/pause/print_screen/right/scroll_lock/shift/
-                shift_l/shift_r/space/tab/up...
-
-        Screen shot event:(alt+s)
-            [x,y w,h file]
-            x,y: top left position
-            w,h: image width and height
-            file: The saved file path name
-
-        Check log:
-            [type log file]
-            type:
-                include
-                exclude
-            log: The log to check
-            file: The log file name
-
-        Run script:
-            [type script]
-            type:
-                sync: run script in the same process
-                async: run the script in the different process
-            script: The script file
+    Parse XML and run.
+    The XML format:
+    <?xml version="1.0" encoding="UTF-8"?>
+    <gui_auto_test>
+        <include interval="xx" file="xx.xml" />
+        <wait seconds="xx" />
+        <mouse interval="xx" event="pressed" button="left/middle/right" x="xx" y="xx" />
+        <mouse interval="xx" event="released" button="left/middle/right" x="xx" y="xx" />
+        <mouse interval="xx" event="clicked" button="left/middle/right" x="xx" y="xx" />
+        <mouse interval="xx" event="double_clicked" button="left/middle/right" x="xx" y="xx" />
+        <mouse interval="xx" event="scrolled" button="none" x="xx" y="xx" dx="xx" dy="xx"/>
+        <mouse interval="xx" event="dragged" button="left/middle/right" x="xx" y="xx" dx="xx" dy="xx" duration="xx"/>
+        <keyboard interval="xx" event="pressed" key="xx" />
+        <keyboard interval="xx" event="released" key="xx" />
+        <keyboard interval="xx" event="type" key="xx" />
+        <screen_shot interval="xx" x="xx" y="xx" w="xx" h="xx" file="xx" />
+        <check_log type="include/exclude" log="xx" file="xx" />
+        <run_script type="sync/async" file="xx" />
+        <run_script file="xx" func="xx" />
+    </gui_auto_test>
     """
-
-    button_dict = {"left": Button.left, "middle": Button.middle, "right": Button.right}
 
     key_dict = {"alt": Key.alt, "alt_gr": Key.alt_gr, "alt_l": Key.alt_l, "alt_r": Key.alt_r,
                 "backspace": Key.backspace, "caps_lock": Key.caps_lock, "cmd": Key.cmd, "cmd_l": Key.cmd_l,
@@ -93,10 +47,14 @@ class Hound(object):
                 "shift": Key.shift, "shift_l": Key.shift_l, "shift_r": Key.shift_r, "space": Key.space,
                 "tab": Key.tab, "up": Key.up}
 
-    mouse_ctrl = pynput.mouse.Controller()
-    keyboard_ctrl = pynput.keyboard.Controller()
+    keyboard_ctrl = pynput.keyboard.Controller() # Use pynput.keyboard to avoid translate special key
 
     def run(self, file):
+        """
+        Run the XML file
+        :param file: xml command file
+        :return: True if succeed, otherwise False
+        """
         tree = ET.parse(file)
         root = tree.getroot()
         for child in root:
@@ -105,8 +63,8 @@ class Hound(object):
                 if not Hound._process_include_stmt(child.attrib["file"]):
                     print("_process_include_stmt() failed")
                     return False
-            elif child.tag == "sleep":
-                Hound._process_sleep_stmt(float(child.attrib["seconds"]))
+            elif child.tag == "wait":
+                Hound._process_wait_stmt(float(child.attrib["seconds"]))
             elif child.tag == "mouse":
                 if child.attrib["event"] == "scrolled":
                     Hound._process_mouse_stmt(child.attrib["event"], child.attrib["button"], int(child.attrib["x"]),
@@ -138,15 +96,34 @@ class Hound(object):
 
     @staticmethod
     def _process_include_stmt(file):
+        """
+        Process include statement
+        :param file: The included file
+        :return: True if succeed, otherwise False
+        """
         hound = Hound()
         return hound.run(file)
 
     @staticmethod
-    def _process_sleep_stmt(seconds):
+    def _process_wait_stmt(seconds):
+        """
+        Process wait statement
+        :param seconds: The time in s to wait
+        """
         time.sleep(seconds)
 
     @staticmethod
     def _process_mouse_stmt(event, button, x, y, dx=None, dy=None, duration=None):
+        """
+        Process mouse event
+        :param event: The mouse event, pressed/released/scrolled/clicked/double_clicked/dragged
+        :param button: The action button
+        :param x: The position X
+        :param y: The position Y
+        :param dx: The delta X, only for scrolled and dragged
+        :param dy: The delta Y, only for scrolled and dragged
+        :param duration: The dragging duration
+        """
         if event == "pressed":
             pyautogui.mouseDown(x, y, button)
         elif event == "released":
@@ -163,6 +140,11 @@ class Hound(object):
 
     @staticmethod
     def _process_keyboard_stmt(event, key):
+        """
+        Process keyboard statement
+        :param event: The keyboard event
+        :param key: The action key
+        """
         if key in Hound.key_dict:
             k = Hound.key_dict[key]
         else:
@@ -177,6 +159,15 @@ class Hound(object):
 
     @staticmethod
     def _process_screen_shot_stmt(file, x, y, width, height):
+        """
+        Process screen shot matched statement
+        :param file: The file to matched
+        :param x: The left position
+        :param y: The right position
+        :param width: The image width
+        :param height: The image height
+        :return: True if matched, otherwise False
+        """
         if pyautogui.locateOnScreen(file, minSearchTime=5, region=(x, y, width, height)) is None:
             return False
         else:
@@ -184,6 +175,13 @@ class Hound(object):
 
     @staticmethod
     def _process_check_log_stmt(match_type, log, file):
+        """
+        Process check log statement
+        :param match_type: include or exclude
+        :param log: The log to check
+        :param file: The log file
+        :return: True if fitted, otherwise False
+        """
         try:
             with open(file) as f:
                 for line in f:
@@ -202,15 +200,61 @@ class Hound(object):
 
     @staticmethod
     def _process_run_script_stmt(run_type, script):
+        """
+        Process run script statement
+        :param run_type: The run type, sync/async
+        :param script: The script to run
+        :return: True if succeed, otherwise False
+        """
         return True
 
 
+def usage(app):
+    """
+    Print usage
+    :param app: The application name
+    """
+    print("Usage: " + app + " [-h] [-w time] [-n count] -f file")
+    print("    -h:       Print help")
+    print("    -i:       Ignore error, default False")
+    print("    -w time:  Wait for <time>(s) before each running, default 10s")
+    print("    -n count: Run time, default 1")
+    print("    -f file:  The file to run")
+
+
 if __name__ == "__main__":
-    if len(sys.argv) != 2:
-        print("Usage: " + sys.argv[0] + " file")
-    else:
-        h = Hound()
-        if h.run(sys.argv[1]):
-            print("Auto test success!")
+    opts, args = getopt.getopt(sys.argv[1:], "w:n:f:hi")
+    file = ""
+    wait = 10
+    count = 1
+    ignored = False
+
+    for opt, value in opts:
+        if opt == "w":
+            wait = int(value)
+        elif opt == "n":
+            count = int(value)
+        elif opt == "f":
+            file = value
+        elif opt == "i":
+            ignored = True
         else:
-            print("Auto test failed!")
+            usage(sys.argv[0])
+            exit(1)
+
+    if wait < 0 or count <= 0 or file == "":
+        usage()
+        exit(1)
+
+    while count > 0:
+        if wait > 0:
+            time.sleep(wait)
+
+        h = Hound()
+        if h.run(file):
+            print("Process " + file + " success!")
+        else:
+            print("Process " + file + " failed!")
+
+            if not ignored:
+                exit(1)
