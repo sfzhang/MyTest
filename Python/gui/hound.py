@@ -111,6 +111,10 @@ class Hound(object):
                 if child.attrib["event"] == "scrolled":
                     Hound._process_mouse_stmt(child.attrib["event"], child.attrib["button"], int(child.attrib["x"]),
                                               int(child.attrib["y"]), int(child.attrib["dx"]), int(child.attrib["dy"]))
+                elif child.attrib["event"] == "dragged":
+                    Hound._process_mouse_stmt(child.attrib["event"], child.attrib["button"], int(child.attrib["x"]),
+                                              int(child.attrib["y"]), int(child.attrib["dx"]), int(child.attrib["dy"]),
+                                              int(child.attrib["duration"]))
                 else:
                     Hound._process_mouse_stmt(child.attrib["event"], child.attrib["button"], int(child.attrib["x"]),
                                               int(child.attrib["y"]))
@@ -142,13 +146,20 @@ class Hound(object):
         time.sleep(seconds)
 
     @staticmethod
-    def _process_mouse_stmt(event, button, x, y, dx=None, dy=None):
+    def _process_mouse_stmt(event, button, x, y, dx=None, dy=None, duration=None):
         if event == "pressed":
             pyautogui.mouseDown(x, y, button)
         elif event == "released":
             pyautogui.mouseUp(x, y, button)
         elif event == "scrolled":
             pyautogui.scroll(dx + dy, x, y)
+        elif event == "clicked":
+            pyautogui.click(x=x, y=y, button=button)
+        elif event == "double_clicked":
+            pyautogui.doubleClick(x=x, y=y, button=button)
+        elif event == "dragged":
+            pyautogui.moveTo(x=x, y=y)
+            pyautogui.dragRel(xOffset=dx, yOffset=dy, duration=duration, button=button)
 
     @staticmethod
     def _process_keyboard_stmt(event, key):
@@ -161,6 +172,8 @@ class Hound(object):
             Hound.keyboard_ctrl.press(k)
         elif event == "released":
             Hound.keyboard_ctrl.release(k)
+        elif event == "type":
+            Hound.keyboard_ctrl.type(k)
 
     @staticmethod
     def _process_screen_shot_stmt(file, x, y, width, height):

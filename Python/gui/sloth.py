@@ -87,9 +87,14 @@ class Sloth(object):
             script: The script file
     """
 
+    click_interval = 400000
+    double_click_interval = 500000
+    key_interval = 500000
+
     def __init__(self, file):
         self.file = file
         self.exit = False
+        self.ignore_esc = False
 
         self.q = Queue()
         self.start = False
@@ -103,6 +108,11 @@ class Sloth(object):
         self.event_list = []
 
     def _valid_key(self, key):
+        """
+        Check if valid key
+        :param key:
+        :return: True if valid otherwise False
+        """
         for event in reversed(self.event_list):
             if event[1] == "keyboard" and event[3] == key:
                 if event[2] == "pressed":
@@ -110,6 +120,90 @@ class Sloth(object):
                 else:
                     return False
         return False
+
+    def _get_interval(self):
+        """
+        Get the time interval
+        :return: interval in ms
+        """
+        now = datetime.datetime.now()
+        interval = (now - self.timestamp).microseconds + 1000000 * (now - self.timestamp).seconds
+        self.timestamp = now
+        return interval
+
+    def _append_mouse_event(self, *msg):
+        """
+        Append mouse event
+        :param msg: (event, button, x, y, dx, dy)
+        """
+        interval = self._get_interval()
+
+        if msg[0] == "pressed":
+            self.event_list.append([interval, "mouse", msg[0], msg[1], msg[2], msg[3]])
+        elif msg[0] == "released":
+            if len(self.event_list) > 0:
+                if self.event_list[-1][1] == "mouse" and self.event_list[-1][2] == "pressed" and \
+                        self.event_list[-1][3] == msg[1]:
+                    if self.event_list[-1][4] == msg[2] and self.event_list[-1][5] == msg[3]:
+                        if interval <= Sloth.click_interval:
+                            if len(self.event_list) > 1 and self.event_list[-2][1] == "mouse" and \
+                                self.event_list[-2][2] == "clicked" and self.event_list[-2][3] == msg[1] and \
+                                    self.event_list[-2][4] == msg[2] and self.event_list[-2][5] == msg[3] and \
+                                    interval + self.event_list[-2][6] <= Sloth.double_click_interval:
+                                self.event_list.pop()
+                                self.event_list[-1][2] = "double_clicked"
+                            else:
+                                self.event_list[-1][2] = "clicked"
+                                self.event_list[-1].append(interval)
+                        else:
+                            self.event_list.append([interval, "mouse", msg[0], msg[1], msg[2], msg[3]])
+                    else:
+                        self.event_list[-1][2] = "dragged"
+                        self.event_list[-1].append(msg[2])
+                        self.event_list[-1].append(msg[3])
+                        self.event_list[-1].append(interval)
+                else:
+                    self.event_list.append([interval, "mouse", msg[0], msg[1], msg[2], msg[3]])
+            else:
+                print("Match error: " + msg[1] + " button released at (", msg[2], ", ", msg[3],
+                      ") without pressed event")
+        elif msg[0] == "scrolled":
+            if len(self.event_list) > 0 and self.event_list[-1][2] == "scrolled" and \
+                self.event_list[-1][3] == msg[1] and self.event_list[-1][4] == msg[2] and \
+                    self.event_list[-1][5] == msg[3] and \
+                    (self.event_list[-1][6] * msg[4] == 0 and self.event_list[-1][7] * msg[5] > 0 or \
+                     self.event_list[-1][6] * msg[4] > 0 and self.event_list[-1][7] * msg[5] == 0):
+                self.event_list[-1][6] += msg[4]
+                self.event_list[-1][7] += msg[5]
+            else:
+                self.event_list.append([interval, "mouse", msg[0], msg[1], msg[2], msg[3], msg[4], msg[5]])
+        else:
+            print("Invalid error: " + msg[1] + " button " + msg[0] + " at (" + msg[2] + ", " + msg[3] + ")")
+
+    def _append_key_event(self, event, key):
+        """
+        Append a key
+        :param event: pressed or released
+        :param key: The key
+        """
+        interval = self._get_interval()
+
+        if event == "pressed":
+            self.event_list.append([interval, "keyboard", "pressed", key])
+        elif event == "released":
+            if not self._valid_key(key):
+                if not self.ignore_esc:
+                    print("Invalid error: " + key + " released without pressed")
+                else:
+                    self.ignore_esc = False
+            else:
+                if self.event_list[-1][1] == "keyboard" and self.event_list[-1][2] == "pressed" and \
+                        self.event_list[-1][3] == key and interval <= Sloth.key_interval:
+                    self.event_list[-1][2] = "type"
+                else:
+                    self.event_list.append([interval, "keyboard", event, key])
+        else:
+            print("Invalid error: unknown event[" + event + "]")
 
     def _append_event(self, msg):
         now = datetime.datetime.now()
@@ -123,33 +217,33 @@ class Sloth(object):
         self.timestamp = now
 
     def _finish(self):
-        if len(self.event_list) == 0:
-            return
-
-        with open(self.file, 'w') as f:
-            f.write('<?xml version="1.0" encoding="UTF-8"?>\n')
-            f.write('<auto_test>\n')
-            f.write('    <sleep interval="0" seconds="8" />\n')
-            for event in self.event_list:
-                s = '    <' + event[1] + ' interval="' + event[0] + '"'
-                if event[1] == "mouse":
-                    s += ' event="' + event[2] + '" button="' + event[3] + '" x="' + event[4].split(',')[0] + \
-                         '" y="' + event[4].split(',')[1] + '"'
-                    if len(event) > 5:
-                        s += ' dx="' + event[5].split(',')[0] + '" dy="' + event[5].split(',')[1] + '"'
-                elif event[1] == "keyboard":
-                    s += ' event="' + event[2] + '" key="' + event[3] + '"'
-                elif event[1] == "screen_shot":
-                    s += ' x="' + event[2].split(',')[0] + '" y="' + event[2].split(',')[1] + '" w="' + \
-                         event[3].split(',')[0] + '" h="' + event[3].split(',')[1] + '" file="' + event[4] + '"'
-                elif event[1] == "check_log":
-                    s += ' type="' + event[2] + '" file="' + event[3] + '" log="' + event[4] + '"'
-                elif event[1] == "run_script":
-                    s += ' type="' + event[2] + '" file="' + event[3] + '"'
-                s += ' />\n'
-                f.write(s)
-
-            f.write("</auto_test>\n")
+        if len(self.event_list) > 0:
+            with open(self.file, 'w') as f:
+                f.write('<?xml version="1.0" encoding="UTF-8"?>\n')
+                f.write('<auto_test>\n')
+                f.write('    <sleep interval="0" seconds="8" />\n')
+                for event in self.event_list:
+                    s = '    <' + event[1] + ' interval="' + str(event[0]) + '"'
+                    if event[1] == "mouse":
+                        s += ' event="' + event[2] + '" button="' + event[3] + '" x="' + str(event[4]) + '" y="' + \
+                             str(event[5]) + '"'
+                        if len(event) == 8:
+                            s += ' dx="' + str(event[6]) + '" dy="' + str(event[7]) + '"'
+                        elif len(event) == 9:
+                            s += ' dx="' + str(event[6] - event[4]) + '" dy="' + str(event[7] - event[5]) + \
+                                 '" duration="' + str(event[8]) + '"'
+                    elif event[1] == "keyboard":
+                        s += ' event="' + event[2] + '" key="' + event[3] + '"'
+                    elif event[1] == "screen_shot":
+                        s += ' x="' + event[2].split(',')[0] + '" y="' + event[2].split(',')[1] + '" w="' + \
+                             event[3].split(',')[0] + '" h="' + event[3].split(',')[1] + '" file="' + event[4] + '"'
+                    elif event[1] == "check_log":
+                        s += ' type="' + event[2] + '" file="' + event[3] + '" log="' + event[4] + '"'
+                    elif event[1] == "run_script":
+                        s += ' type="' + event[2] + '" file="' + event[3] + '"'
+                    s += ' />\n'
+                    f.write(s)
+                f.write("</auto_test>\n")
 
     def _screen_shot(self):
         self.start = False
@@ -184,13 +278,22 @@ class Sloth(object):
                 continue
 
             if not self.start:
-                if split_msg[0] == "keyboard" and split_msg[1] == "pressed" and split_msg[2] == "f2":
-                    self.timestamp = datetime.datetime.now()
-                    self.start = True
+                if split_msg[0] == "keyboard" and split_msg[1] == "pressed":
+                    if split_msg[2] == "f2":
+                        self.timestamp = datetime.datetime.now()
+                        self.start = True
+                    elif self.child_process is not None and split_msg[2] == "esc":
+                        self.ignore_esc = True
                 continue
 
             if split_msg[0] == "mouse":
-                self._append_event(msg)
+                if split_msg[1] == "scrolled":
+                    self._append_mouse_event(split_msg[1], split_msg[2], int(split_msg[3].split(',')[0]),
+                                             int(split_msg[3].split(',')[1]),  int(split_msg[4].split(',')[0]),
+                                             int(split_msg[4].split(',')[1]))
+                else:
+                    self._append_mouse_event(split_msg[1], split_msg[2], int(split_msg[3].split(',')[0]),
+                                             int(split_msg[3].split(',')[1]),)
             elif split_msg[0] == "keyboard":
                 if split_msg[1] == "released" and split_msg[2] == "f2":
                     continue
@@ -210,10 +313,7 @@ class Sloth(object):
                     self._run_script()
                     continue
 
-                if split_msg[1] == "released" and not self._valid_key(split_msg[2]):
-                    continue
-                else:
-                    self._append_event(msg)
+                self._append_key_event(split_msg[1], split_msg[2])
 
 
 if __name__ == "__main__":
