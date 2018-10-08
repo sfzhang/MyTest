@@ -121,8 +121,7 @@ class Sloth(object):
         <keyboard interval="xx" event="type" key="xx" />
         <screen_shot interval="xx" x="xx" y="xx" w="xx" h="xx" file="xx" />
         <check_log interval="xx" type="include/exclude" log="xx" file="xx" />
-        <run_script interval="xx" type="sync/async" file="xx" />
-        <run_script interval="xx" file="xx" func="xx" />
+        <run_script interval="xx" type="sync/async" script="xx" />
     </gui_auto_test>
     """
 
@@ -137,7 +136,7 @@ class Sloth(object):
         """
         self.file = file
         self.exit = False
-        self.ignore_esc = False
+        self.ignore_key = False
 
         self.q = Queue()
         self.start = False
@@ -158,7 +157,7 @@ class Sloth(object):
         :return: The replaced path
         """
         if "GAT_ROOT" in os.environ:
-            s = re.sub("^" + os.environ["GAT_ROOT"], "$GAT_ROOT", s)
+            s = re.sub(os.environ["GAT_ROOT"], "$GAT_ROOT", s)
         return s
 
     @staticmethod
@@ -256,12 +255,12 @@ class Sloth(object):
             self.event_list.append([interval, "keyboard", "pressed", key])
         elif event == "released":
             if not self._valid_key(key):
-                if not self.ignore_esc:
+                if not self.ignore_key:
                     print("Invalid error: " + key + " released without pressed")
                 else:
-                    self.ignore_esc = False
+                    self.ignore_key = False
             else:
-                if self.event_list[-1][1] == "keyboard" and self.event_list[-1][2] == "pressed" and \
+                if len(key) == 1 and self.event_list[-1][1] == "keyboard" and self.event_list[-1][2] == "pressed" and \
                         self.event_list[-1][3] == key and interval <= Sloth.key_interval:
                     self.event_list[-1][2] = "type"
                 else:
@@ -297,7 +296,7 @@ class Sloth(object):
                     s = '    <' + event[1]
 
                     if event[1] != "wait":
-                        s += ' interval="' + str(event[0]) + '"'
+                        s += ' interval="' + str(float(event[0]) / 1000000) + '"'
 
                     if event[1] == "mouse":
                         s += ' event="' + event[2] + '" button="' + event[3] + '" x="' + str(event[4]) + '" y="' + \
@@ -317,9 +316,9 @@ class Sloth(object):
                         s += ' type="' + event[2] + '" file="' + Sloth._escape(Sloth._replace(event[3])) + '" log="' + \
                              Sloth._escape(event[4]) + '"'
                     elif event[1] == "run_script":
-                        s += ' type="' + event[2] + '" file="' + Sloth._escape(Sloth._replace(event[3])) + '"'
+                        s += ' type="' + event[2] + '" script="' + Sloth._escape(Sloth._replace(event[3])) + '"'
                     elif event[1] == "include":
-                        s += ' file="' + Sloth._escape(event[2]) + '"'
+                        s += ' file="' + Sloth._escape(Sloth._replace(event[2])) + '"'
                     elif event[1] == "wait":
                         s += ' second="' + event[2] + '"'
                     s += ' />\n'
@@ -382,7 +381,7 @@ class Sloth(object):
             split_msg = msg.split()
 
             if split_msg[0] == "screen_shot" or split_msg[0] == "check_log" or split_msg[0] == "run_script" or \
-                    split_msg[0] == "include" or split_msg[0] == "wait":
+                    split_msg[0] == "include" or split_msg[0] == "waiting":
                 self._join_child_process()
                 if len(split_msg) > 1:
                     self._append_event(msg)
@@ -395,8 +394,8 @@ class Sloth(object):
                     if split_msg[2] == "f2":
                         self.timestamp = datetime.datetime.now()
                         self.start = True
-                    elif self.child_process is not None and split_msg[2] == "esc":
-                        self.ignore_esc = True
+                    elif self.child_process is not None and (split_msg[2] == "esc" or split_msg[2] == "enter"):
+                        self.ignore_key = True
                 continue
 
             if split_msg[0] == "mouse":

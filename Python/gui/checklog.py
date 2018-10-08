@@ -34,6 +34,7 @@ class CheckLog(QDialog):
         :param q: The queue for multiprocessing
         """
         super(CheckLog, self).__init__(parent=parent)
+        self.setWindowTitle("Check log")
 
         self.q = q
 

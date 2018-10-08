@@ -34,6 +34,7 @@ class IncludeFile(QDialog):
         :param q: The queue for multiprocessing
         """
         super(IncludeFile, self).__init__(parent=parent)
+        self.setWindowTitle("Add include file")
 
         self.q = q
 

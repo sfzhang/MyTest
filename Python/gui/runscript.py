@@ -20,6 +20,7 @@ from multiprocessing import Queue
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 from PyQt5.QtCore import *
+import subprocess
 
 
 class RunScript(QDialog):
@@ -34,12 +35,15 @@ class RunScript(QDialog):
         :param q: The queue for multiprocessing
         """
         super(RunScript, self).__init__(parent=parent)
+        self.setWindowTitle("Add script")
 
         self.q = q
 
         path = os.path.dirname(os.path.realpath(__file__))
-        self.file_label = QLabel("Script: ")
-        self.file_line_edit = QLineEdit()
+        self.script_label = QLabel("Script: ")
+        self.script_line_edit = QLineEdit()
+        self.run_ckb = QCheckBox("Run")
+        self.run_ckb.setChecked(True)
         self.type_cbb = QComboBox()
         self.type_cbb.addItem("sync")
         self.type_cbb.addItem("async")
@@ -50,8 +54,9 @@ class RunScript(QDialog):
         self.ok_btn.setDefault(True)
 
         self.hbox_layout = QHBoxLayout()
-        self.hbox_layout.addWidget(self.file_label)
-        self.hbox_layout.addWidget(self.file_line_edit, 2)
+        self.hbox_layout.addWidget(self.script_label)
+        self.hbox_layout.addWidget(self.script_line_edit, 2)
+        self.hbox_layout.addWidget(self.run_ckb)
         self.hbox_layout.addWidget(self.type_cbb)
         self.hbox_layout.addWidget(self.open_btn)
         self.hbox_layout.addSpacing(1)
@@ -72,8 +77,8 @@ class RunScript(QDialog):
         """
         msg = "run_script "
         if self.q is not None:
-            if len(self.file_line_edit.text()) > 0:
-                msg += self.type_cbb.currentText() + " " + self.file_line_edit.text().replace(' ', '\x00')
+            if len(self.script_line_edit.text()) > 0:
+                msg += self.type_cbb.currentText() + " " + self.script_line_edit.text().replace(' ', '\x00')
             self.q.put(msg)
 
     @pyqtSlot()
@@ -81,6 +86,12 @@ class RunScript(QDialog):
         """
         Accept
         """
+        if self.run_ckb.isChecked():
+            if self.type_cbb.currentText() == "sync":
+                subprocess.call(self.script_line_edit.text().split())
+            else:
+                subprocess.Popen(self.script_line_edit.text().split())
+
         self._exit()
         super(RunScript, self).accept()
 
@@ -97,9 +108,10 @@ class RunScript(QDialog):
         """
         Open script file
         """
-        file = QFileDialog.getOpenFileName(self, "Run script", filter="python script(*.py)")
+        file = QFileDialog.getOpenFileName(self, "Run script",
+                                           filter="Python script(*.py);;Shell script(*.sh);;All files(*.*)")
         if len(file) > 0 and len(file[0]) > 0:
-            self.file_line_edit.setText(file[0])
+            self.script_line_edit.setText(file[0])
 
 
 def get_run_script(q):

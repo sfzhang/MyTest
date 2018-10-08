@@ -34,6 +34,7 @@ class Waiting(QDialog):
         :param q: The queue
         """
         super(Waiting, self).__init__(parent=parent)
+        self.setWindowTitle("Set waiting time")
 
         self.q = q
 

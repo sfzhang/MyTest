@@ -22,6 +22,7 @@ import pyautogui
 import pynput
 from pynput.keyboard import Key
 import xml.etree.ElementTree as ET
+import subprocess
 
 
 class Hound(object):
@@ -43,8 +44,7 @@ class Hound(object):
         <keyboard interval="xx" event="type" key="xx" />
         <screen_shot interval="xx" x="xx" y="xx" w="xx" h="xx" file="xx" />
         <check_log type="include/exclude" log="xx" file="xx" />
-        <run_script type="sync/async" file="xx" />
-        <run_script file="xx" func="xx" />
+        <run_script type="sync/async" script="xx" />
     </gui_auto_test>
     """
 
@@ -84,7 +84,7 @@ class Hound(object):
         tree = ET.parse(file)
         root = tree.getroot()
         for child in root:
-            time.sleep(float(child.attrib["interval"]) / 1000000)
+            time.sleep(float(child.attrib["interval"]))
             if child.tag == "include":
                 if not Hound._process_include_stmt(Hound._replace(child.attrib["file"])):
                     print("_process_include_stmt() failed")
@@ -98,7 +98,7 @@ class Hound(object):
                 elif child.attrib["event"] == "dragged":
                     Hound._process_mouse_stmt(child.attrib["event"], child.attrib["button"], int(child.attrib["x"]),
                                               int(child.attrib["y"]), int(child.attrib["dx"]), int(child.attrib["dy"]),
-                                              int(child.attrib["duration"]))
+                                              float(child.attrib["duration"]))
                 else:
                     Hound._process_mouse_stmt(child.attrib["event"], child.attrib["button"], int(child.attrib["x"]),
                                               int(child.attrib["y"]))
@@ -116,7 +116,7 @@ class Hound(object):
                     print("_process_check_log_stmt() failed")
                     return False
             elif child.tag == "run_script":
-                if not Hound._process_run_script_stmt(child.attrib["type"], Hound._replace(child.attrib["file"])):
+                if not self._process_run_script_stmt(child.attrib["type"], Hound._replace(child.attrib["script"])):
                     print("_process_run_script_stmt() failed")
                     return False
         return True
@@ -233,6 +233,15 @@ class Hound(object):
         :param script: The script to run
         :return: True if succeed, otherwise False
         """
+        args = script.split()
+        try:
+            if run_type == "sync":
+                subprocess.call(args)
+            else:
+                subprocess.Popen(args)
+        except:
+            print("Run script: [", script, "] failed!")
+            return False
         return True
 
 
@@ -244,7 +253,7 @@ def usage(app):
     print("Usage: " + app + " [-h] [-w time] [-n count] -f file")
     print("    -h:       Print help")
     print("    -i:       Ignore error, default False")
-    print("    -w time:  Wait for <time>(s) before each running, default 10s")
+    print("    -w time:  Wait for <time>(s) before each running, default 3s")
     print("    -n count: Run time, default 1")
     print("    -f file:  The file to run")
 
@@ -252,7 +261,7 @@ def usage(app):
 if __name__ == "__main__":
     opts, args = getopt.getopt(sys.argv[1:], "w:n:f:hi")
     file = ""
-    wait = 10
+    wait = 3
     count = 1
     ignored = False
 
@@ -270,7 +279,7 @@ if __name__ == "__main__":
             exit(1)
 
     if wait < 0 or count <= 0 or file == "" or len(args) > 0:
-        usage()
+        usage(sys.argv[0])
         exit(1)
 
     while count > 0:
