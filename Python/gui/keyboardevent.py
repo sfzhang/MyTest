@@ -1,5 +1,18 @@
 #!/usr/bin/python3
-
+#
+# Copyright (c) 2018, Shendehc Co., Ltd. All rights reserved.
+#
+# THIS IS UNPUBLISHED PROPRIETARY SOURCE CODE OF SHENDEHC CO., LTD.
+# AND IS PROTECTED AS AN UNPUBLISHED WORK UNDER APPLICABLE COPYRIGHT
+# LAWS.
+#
+# The contents of this file may not be disclosed to third parties,
+# copied or duplicated in any form, in whole or in part, without the
+# prior written permission of Shendehc Co., Ltd.
+#
+# Author: sfzhang(shengfazhang@shendehc.com)
+#
+# -*- coding: utf-8 -*-
 
 import signal
 from multiprocessing import Queue
@@ -20,6 +33,10 @@ class KeyboardEvent(object):
     """
 
     def __init__(self, q):
+        """
+        Initialize
+        :param q: The queue for mulitprocessing
+        """
         signal.signal(signal.SIGINT, signal.SIG_IGN)
         signal.signal(signal.SIGQUIT, signal.SIG_IGN)
         signal.signal(signal.SIGTSTP, signal.SIG_IGN)
@@ -30,32 +47,45 @@ class KeyboardEvent(object):
         self.listener.start()
 
     def _send(self):
+        """
+        Send the keyboard event
+        """
         msg = "keyboard " + self.event + " " + self.key
         self.q.put(msg)
 
     def stop(self):
+        """
+        Stop listen
+        """
         self.listener.stop()
 
     def join(self):
+        """
+        Join the thread
+        """
         self.listener.join()
 
     def on_press(self, key):
+        """
+        Press event
+        :param key: The key pressed
+        """
         try:
-            # print('alphanumeric key {0} pressed'.format(key.char))
             self.key = key.char
         except AttributeError:
-            # print('special key {0} pressed'.format(key))
             self.key = str(key).split('.')[1]
 
         self.event = "pressed"
         self._send()
 
     def on_release(self, key):
+        """
+        Release event
+        :param key: The key released
+        """
         try:
-            # print('alphanumeric key {0} released'.format(key.char))
             self.key = key.char
         except AttributeError:
-            # print('special key {0} released'.format(key))
             self.key = str(key).split('.')[1]
 
         self.event = "released"

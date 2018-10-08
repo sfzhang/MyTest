@@ -1,6 +1,20 @@
 #!/usr/bin/python3
+#
+# Copyright (c) 2018, Shendehc Co., Ltd. All rights reserved.
+#
+# THIS IS UNPUBLISHED PROPRIETARY SOURCE CODE OF SHENDEHC CO., LTD.
+# AND IS PROTECTED AS AN UNPUBLISHED WORK UNDER APPLICABLE COPYRIGHT
+# LAWS.
+#
+# The contents of this file may not be disclosed to third parties,
+# copied or duplicated in any form, in whole or in part, without the
+# prior written permission of Shendehc Co., Ltd.
+#
+# Author: sfzhang(shengfazhang@shendehc.com)
+#
+# -*- coding: utf-8 -*-
 
-
+import os
 import sys
 import time
 import getopt
@@ -49,18 +63,30 @@ class Hound(object):
 
     keyboard_ctrl = pynput.keyboard.Controller() # Use pynput.keyboard to avoid translate special key
 
+    @staticmethod
+    def _replace(s):
+        """
+        Replace the env
+        :param s: The string to replace
+        :return: The replaced string
+        """
+        if "GAT_ROOT" in os.environ:
+            s = s.replace("$GAT_ROOT", os.environ["GAT_ROOT"])
+        return s
+
     def run(self, file):
         """
         Run the XML file
         :param file: xml command file
         :return: True if succeed, otherwise False
         """
+        print("Begin to process: " + file)
         tree = ET.parse(file)
         root = tree.getroot()
         for child in root:
             time.sleep(float(child.attrib["interval"]) / 1000000)
             if child.tag == "include":
-                if not Hound._process_include_stmt(child.attrib["file"]):
+                if not Hound._process_include_stmt(Hound._replace(child.attrib["file"])):
                     print("_process_include_stmt() failed")
                     return False
             elif child.tag == "wait":
@@ -79,17 +105,18 @@ class Hound(object):
             elif child.tag == "keyboard":
                 Hound._process_keyboard_stmt(child.attrib["event"], child.attrib["key"])
             elif child.tag == "screen_shot":
-                if not Hound._process_screen_shot_stmt(child.attrib["file"], int(child.attrib["x"]),
+                if not Hound._process_screen_shot_stmt(Hound._replace(child.attrib["file"]), int(child.attrib["x"]),
                                                        int(child.attrib["y"]), int(child.attrib["w"]),
                                                        int(child.attrib["h"])):
                     print("_process_screen_shot_stmt() failed")
                     return False
             elif child.tag == "check_log":
-                if not Hound._process_check_log_stmt(child.attrib["type"], child.attrib["log"], child.attrib["file"]):
+                if not Hound._process_check_log_stmt(child.attrib["type"], child.attrib["log"],
+                                                     Hound._replace(child.attrib["file"])):
                     print("_process_check_log_stmt() failed")
                     return False
             elif child.tag == "run_script":
-                if not Hound._process_run_script_stmt(child.attrib["type"], child.attrib["file"]):
+                if not Hound._process_run_script_stmt(child.attrib["type"], Hound._replace(child.attrib["file"])):
                     print("_process_run_script_stmt() failed")
                     return False
         return True
@@ -230,23 +257,24 @@ if __name__ == "__main__":
     ignored = False
 
     for opt, value in opts:
-        if opt == "w":
+        if opt == "-w":
             wait = int(value)
-        elif opt == "n":
+        elif opt == "-n":
             count = int(value)
-        elif opt == "f":
+        elif opt == "-f":
             file = value
-        elif opt == "i":
+        elif opt == "-i":
             ignored = True
         else:
             usage(sys.argv[0])
             exit(1)
 
-    if wait < 0 or count <= 0 or file == "":
+    if wait < 0 or count <= 0 or file == "" or len(args) > 0:
         usage()
         exit(1)
 
     while count > 0:
+        count -= 1
         if wait > 0:
             time.sleep(wait)
 

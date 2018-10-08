@@ -1,5 +1,18 @@
 #!/usr/bin/python3
-
+#
+# Copyright (c) 2018, Shendehc Co., Ltd. All rights reserved.
+#
+# THIS IS UNPUBLISHED PROPRIETARY SOURCE CODE OF SHENDEHC CO., LTD.
+# AND IS PROTECTED AS AN UNPUBLISHED WORK UNDER APPLICABLE COPYRIGHT
+# LAWS.
+#
+# The contents of this file may not be disclosed to third parties,
+# copied or duplicated in any form, in whole or in part, without the
+# prior written permission of Shendehc Co., Ltd.
+#
+# Author: sfzhang(shengfazhang@shendehc.com)
+#
+# -*- coding: utf-8 -*-
 
 import os
 import sys
@@ -10,8 +23,16 @@ from PyQt5.QtCore import *
 
 
 class IncludeFile(QDialog):
+    """
+    Add include file
+    """
 
     def __init__(self, parent=None, q=None):
+        """
+        Initialized
+        :param parent: The parent widget
+        :param q: The queue for multiprocessing
+        """
         super(IncludeFile, self).__init__(parent=parent)
 
         self.q = q
@@ -43,6 +64,9 @@ class IncludeFile(QDialog):
 
     @pyqtSlot()
     def _exit(self):
+        """
+        Send include file event
+        """
         msg = "include "
         if self.q is not None:
             if len(self.file_line_edit.text()) > 0:
@@ -51,22 +75,35 @@ class IncludeFile(QDialog):
 
     @pyqtSlot()
     def accept(self):
+        """
+        Accept
+        """
         self._exit()
         super(IncludeFile, self).accept()
 
     @pyqtSlot()
     def reject(self):
+        """
+        Reject
+        """
         self._exit()
         super(IncludeFile, self).reject()
 
     @pyqtSlot()
     def open_file(self):
+        """
+        Open file
+        """
         file = QFileDialog.getOpenFileName(self, "Add include file", filter="xml file(*.xml)")
         if len(file) > 0 and len(file[0]) > 0:
             self.file_line_edit.setText(file[0])
 
 
 def get_include_file(q):
+    """
+    Get include file
+    :param q: The queue
+    """
     try:
         app = QApplication(sys.argv)
         widget = IncludeFile(q=q)

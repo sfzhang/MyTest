@@ -1,5 +1,18 @@
 #!/usr/bin/python3
-
+#
+# Copyright (c) 2018, Shendehc Co., Ltd. All rights reserved.
+#
+# THIS IS UNPUBLISHED PROPRIETARY SOURCE CODE OF SHENDEHC CO., LTD.
+# AND IS PROTECTED AS AN UNPUBLISHED WORK UNDER APPLICABLE COPYRIGHT
+# LAWS.
+#
+# The contents of this file may not be disclosed to third parties,
+# copied or duplicated in any form, in whole or in part, without the
+# prior written permission of Shendehc Co., Ltd.
+#
+# Author: sfzhang(shengfazhang@shendehc.com)
+#
+# -*- coding: utf-8 -*-
 
 import os
 import sys
@@ -10,8 +23,16 @@ from PyQt5.QtCore import *
 
 
 class RunScript(QDialog):
+    """
+    Run script
+    """
 
     def __init__(self, parent=None, q=None):
+        """
+        Initialize
+        :param parent: The parent widget
+        :param q: The queue for multiprocessing
+        """
         super(RunScript, self).__init__(parent=parent)
 
         self.q = q
@@ -46,6 +67,9 @@ class RunScript(QDialog):
 
     @pyqtSlot()
     def _exit(self):
+        """
+        Send run script event and exit
+        """
         msg = "run_script "
         if self.q is not None:
             if len(self.file_line_edit.text()) > 0:
@@ -54,22 +78,35 @@ class RunScript(QDialog):
 
     @pyqtSlot()
     def accept(self):
+        """
+        Accept
+        """
         self._exit()
         super(RunScript, self).accept()
 
     @pyqtSlot()
     def reject(self):
+        """
+        Reject
+        """
         self._exit()
         super(RunScript, self).reject()
 
     @pyqtSlot()
     def open_file(self):
+        """
+        Open script file
+        """
         file = QFileDialog.getOpenFileName(self, "Run script", filter="python script(*.py)")
         if len(file) > 0 and len(file[0]) > 0:
             self.file_line_edit.setText(file[0])
 
 
 def get_run_script(q):
+    """
+    Get run script
+    :param q: The queue
+    """
     try:
         app = QApplication(sys.argv)
         widget = RunScript(q=q)

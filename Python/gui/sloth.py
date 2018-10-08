@@ -1,7 +1,22 @@
 #!/usr/bin/python3
+#
+# Copyright (c) 2018, Shendehc Co., Ltd. All rights reserved.
+#
+# THIS IS UNPUBLISHED PROPRIETARY SOURCE CODE OF SHENDEHC CO., LTD.
+# AND IS PROTECTED AS AN UNPUBLISHED WORK UNDER APPLICABLE COPYRIGHT
+# LAWS.
+#
+# The contents of this file may not be disclosed to third parties,
+# copied or duplicated in any form, in whole or in part, without the
+# prior written permission of Shendehc Co., Ltd.
+#
+# Author: sfzhang(shengfazhang@shendehc.com)
+#
+# -*- coding: utf-8 -*-
 
-
+import os
 import sys
+import re
 import datetime
 from multiprocessing import Process, Queue
 import mouseevent
@@ -116,6 +131,10 @@ class Sloth(object):
     key_interval = 500000
 
     def __init__(self, file):
+        """
+        Initialized
+        :param file: The file to dump
+        """
         self.file = file
         self.exit = False
         self.ignore_esc = False
@@ -130,6 +149,27 @@ class Sloth(object):
         self.k = keyboardevent.KeyboardEvent(self.q)
 
         self.event_list = []
+
+    @staticmethod
+    def _replace(s):
+        """
+        Replace the path by env
+        :param s: The path string
+        :return: The replaced path
+        """
+        if "GAT_ROOT" in os.environ:
+            s = re.sub("^" + os.environ["GAT_ROOT"], "$GAT_ROOT", s)
+        return s
+
+    @staticmethod
+    def _escape(s):
+        """
+        Escape string for XML attribute
+        :param s: The string for attribute
+        :return: The escaped string
+        """
+        return s.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;").replace('"', "&quot;")\
+            .replace("'", "&apos;")
 
     def _valid_key(self, key):
         """
@@ -271,13 +311,15 @@ class Sloth(object):
                         s += ' event="' + event[2] + '" key="' + event[3] + '"'
                     elif event[1] == "screen_shot":
                         s += ' x="' + event[2].split(',')[0] + '" y="' + event[2].split(',')[1] + '" w="' + \
-                             event[3].split(',')[0] + '" h="' + event[3].split(',')[1] + '" file="' + event[4] + '"'
+                             event[3].split(',')[0] + '" h="' + event[3].split(',')[1] + '" file="' + \
+                             Sloth._escape(Sloth._replace(event[4])) + '"'
                     elif event[1] == "check_log":
-                        s += ' type="' + event[2] + '" file="' + event[3] + '" log="' + event[4] + '"'
+                        s += ' type="' + event[2] + '" file="' + Sloth._escape(Sloth._replace(event[3])) + '" log="' + \
+                             Sloth._escape(event[4]) + '"'
                     elif event[1] == "run_script":
-                        s += ' type="' + event[2] + '" file="' + event[3] + '"'
+                        s += ' type="' + event[2] + '" file="' + Sloth._escape(Sloth._replace(event[3])) + '"'
                     elif event[1] == "include":
-                        s += ' file="' + event[2] + '"'
+                        s += ' file="' + Sloth._escape(event[2]) + '"'
                     elif event[1] == "wait":
                         s += ' second="' + event[2] + '"'
                     s += ' />\n'

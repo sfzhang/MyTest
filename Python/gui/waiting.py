@@ -1,5 +1,18 @@
 #!/usr/bin/python3
-
+#
+# Copyright (c) 2018, Shendehc Co., Ltd. All rights reserved.
+#
+# THIS IS UNPUBLISHED PROPRIETARY SOURCE CODE OF SHENDEHC CO., LTD.
+# AND IS PROTECTED AS AN UNPUBLISHED WORK UNDER APPLICABLE COPYRIGHT
+# LAWS.
+#
+# The contents of this file may not be disclosed to third parties,
+# copied or duplicated in any form, in whole or in part, without the
+# prior written permission of Shendehc Co., Ltd.
+#
+# Author: sfzhang(shengfazhang@shendehc.com)
+#
+# -*- coding: utf-8 -*-
 
 import os
 import sys
@@ -10,8 +23,16 @@ from PyQt5.QtCore import *
 
 
 class Waiting(QDialog):
+    """
+    Waiting
+    """
 
     def __init__(self, parent=None, q=None):
+        """
+        Initialized
+        :param parent: The parent widget
+        :param q: The queue
+        """
         super(Waiting, self).__init__(parent=parent)
 
         self.q = q
@@ -42,6 +63,9 @@ class Waiting(QDialog):
 
     @pyqtSlot()
     def _exit(self):
+        """
+        Send waiting event
+        """
         msg = "waiting "
         if self.q is not None:
             if len(self.wait_line_edit.text()) > 0:
@@ -50,16 +74,26 @@ class Waiting(QDialog):
 
     @pyqtSlot()
     def accept(self):
+        """
+        Accept
+        """
         self._exit()
         super(Waiting, self).accept()
 
     @pyqtSlot()
     def reject(self):
+        """
+        Reject
+        """
         self._exit()
         super(Waiting, self).reject()
 
 
 def get_waiting(q):
+    """
+    Get waiting
+    :param q: The queue
+    """
     try:
         app = QApplication(sys.argv)
         widget = Waiting(q=q)

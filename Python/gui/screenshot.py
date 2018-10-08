@@ -1,5 +1,18 @@
 #!/usr/bin/python3
-
+#
+# Copyright (c) 2018, Shendehc Co., Ltd. All rights reserved.
+#
+# THIS IS UNPUBLISHED PROPRIETARY SOURCE CODE OF SHENDEHC CO., LTD.
+# AND IS PROTECTED AS AN UNPUBLISHED WORK UNDER APPLICABLE COPYRIGHT
+# LAWS.
+#
+# The contents of this file may not be disclosed to third parties,
+# copied or duplicated in any form, in whole or in part, without the
+# prior written permission of Shendehc Co., Ltd.
+#
+# Author: sfzhang(shengfazhang@shendehc.com)
+#
+# -*- coding: utf-8 -*-
 
 import os
 import sys
@@ -14,6 +27,9 @@ from enum import Enum
 
 
 class HitPos(Enum):
+    """
+    Hit position
+    """
     none = 0
     left = 1
     top = 2
@@ -27,10 +43,18 @@ class HitPos(Enum):
 
 
 class Rect(object):
+    """
+    The rectangle for screen shot
+    """
 
     hit_ext = 3
 
     def __init__(self, width, height):
+        """
+        Initialize
+        :param width: The maximum width
+        :param height: The maximum height
+        """
         self.width = width
         self.height = height
         self.rect = None
@@ -38,6 +62,11 @@ class Rect(object):
         self.m_prev_point = None
 
     def _correct_position(self, point):
+        """
+        Corrent position at given point
+        :param point: The raw point
+        :return: The corrected point
+        """
         if point.x() < 0:
             x = 0
         elif point.x() > self.width:
@@ -55,6 +84,10 @@ class Rect(object):
         return QPoint(x, y)
 
     def _draw_text(self, painter):
+        """
+        Draw text
+        :param painter: The painter
+        """
         rect = self.rect.normalized()
 
         text = "{}x{}".format(rect.width(), rect.height())
@@ -79,35 +112,67 @@ class Rect(object):
         painter.restore()
 
     def left(self):
+        """
+        :return: The left of rectangle
+        """
         return self.rect.left()
 
     def right(self):
+        """
+        :return: The right of rectangle
+        """
         return self.rect.right()
 
     def top(self):
+        """
+        :return: The top of rectangle
+        """
         return self.rect.top()
 
     def bottom(self):
+        """
+        :return: The bottom of rectangle
+        """
         return self.rect.bottom()
 
     def center(self):
+        """
+        :return: The center of rectangle
+        """
         return self.rect.center()
 
     def w(self):
+        """
+        :return: The width of rectangle
+        """
         return self.rect.width()
 
     def h(self):
+        """
+        :return: The height of rectangle
+        """
         return self.rect.height()
 
     def valid(self):
+        """
+        :return: True if valid rectangle, otherwise False
+        """
         return self.rect is not None
 
     def reset(self):
+        """
+        Reset
+        """
         self.rect = None
         self.hit_pos = HitPos.none
         self.m_prev_point = None
 
     def hit(self, point):
+        """
+        Hit the rectangle
+        :param point: The point
+        :return: The hit position
+        """
         self.hit_pos = HitPos.none
         if self.valid():
             point_list = ((HitPos.left, QPoint(self.rect.left(), self.rect.center().y())),
@@ -132,6 +197,10 @@ class Rect(object):
             return self.hit_pos
 
     def display(self, painter):
+        """
+        Display rectangle
+        :param painter: The painter
+        """
         if self.valid():
             painter.save()
             painter.setPen(QPen(QColor(0, 255, 0)))
@@ -157,20 +226,40 @@ class Rect(object):
             painter.restore()
 
     def start_drawing(self, point):
+        """
+        Start drawing
+        :param point: The start drawing point
+        """
         self.reset()
         self.m_prev_point = self._correct_position(point)
 
     def drawing(self, point):
+        """
+        Drawing
+        :param point: The current point
+        """
         self.rect = QRect(self.m_prev_point, self._correct_position(point)).normalized()
 
     def finish_drawing(self, point):
+        """
+        Finish drawing
+        :param point: The finish drawing point
+        """
         self.drawing(self._correct_position(point))
         self.rect = self.rect.normalized()
 
     def start_adjust(self, point):
+        """
+        Start adjust
+        :param point: The start adjust point
+        """
         self.m_prev_point = self._correct_position(point)
 
     def adjusting(self, point):
+        """
+        Adjusting
+        :param point: The current point
+        """
         point = self._correct_position(point)
         if self.hit_pos == HitPos.none:
             return
@@ -209,11 +298,18 @@ class Rect(object):
             self.m_prev_point = point - QPoint(dx, dy)
 
     def finish_adjusting(self, point):
+        """
+        Finish adjusting
+        :param point: The finish adjusting point
+        """
         self.adjusting(point)
         self.rect = self.rect.normalized()
 
 
 class ToolBar(QToolBar):
+    """
+    The toolbar
+    """
 
     save_clicked = pyqtSignal()
     ok_clicked = pyqtSignal()
@@ -221,6 +317,10 @@ class ToolBar(QToolBar):
     exit_clicked = pyqtSignal()
 
     def __init__(self, parent=None):
+        """
+        Initialize
+        :param parent: The parent widget
+        """
         super(ToolBar, self).__init__(parent=parent)
         self.setMovable(False)
         self.setFloatable(True)
@@ -235,14 +335,26 @@ class ToolBar(QToolBar):
 
 
 class ActionState(Enum):
+    """
+    The action state
+    """
     idle = 0
     drawing = 1
     adjusting = 2
 
 
 class ScreenShot(QWidget):
+    """
+    Screen shot
+    """
 
     def __init__(self, parent=None, q=None, screen_shot=None):
+        """
+        Initialized
+        :param parent: The parent widget
+        :param q: The queue
+        :param screen_shot: The screen shot image
+        """
         super(ScreenShot, self).__init__(parent=parent)
         self.setWindowFlags(Qt.FramelessWindowHint)
         self.setMouseTracking(True)
@@ -279,14 +391,25 @@ class ScreenShot(QWidget):
 
     @staticmethod
     def _get_default_name():
+        """
+        :return: The default name
+        """
         return datetime.datetime.now().strftime("screenshot-%Y%m%d-%H%M%S")
 
     def _save_image(self, file, fmt="png"):
+        """
+        Save the image
+        :param file: The file name
+        :param fmt: The format
+        """
         crop_image = self.image.crop((self.rect.left(), self.rect.top(), self.rect.right() + 1, self.rect.bottom() + 1))
         crop_image.save(file + "." + fmt, fmt)
         self.file = file + "." + fmt
 
     def _exit(self):
+        """
+        Send the screen shot message and exit
+        """
         msg = "screen_shot "
         if self.q is not None:
             if self.rect is not None:
@@ -296,6 +419,11 @@ class ScreenShot(QWidget):
         self.close()
 
     def _correct_position(self, point):
+        """
+        Corrent position
+        :param point: The point to correct
+        :return: The corrected point
+        """
         if point.x() < 0:
             self.x = 0
         elif point.x() > self.width():
@@ -311,6 +439,10 @@ class ScreenShot(QWidget):
             self.y = point.y()
 
     def _set_cursor(self, hit_pos):
+        """
+        Set cursor
+        :param hit_pos: The hit position
+        """
         if hit_pos == HitPos.left or hit_pos == HitPos.right:
             self.setCursor(Qt.SizeHorCursor)
         elif hit_pos == HitPos.top or hit_pos == HitPos.bottom:
@@ -325,6 +457,10 @@ class ScreenShot(QWidget):
             self.setCursor(Qt.ArrowCursor)
 
     def _get_magnifier_pos(self):
+        """
+        Get magnifier position
+        :return: Magnifier position
+        """
         off_x = 20
         off_y = 20
         width = off_x + self.magnifier_width
@@ -343,10 +479,18 @@ class ScreenShot(QWidget):
         return x, y
 
     def _get_rgb(self):
+        """
+        Get current RGB value
+        :return: The RGB
+        """
         rgb = self.screen_shot.pixel(self.x, self.y)
         return qRed(rgb), qGreen(rgb), qBlue(rgb)
 
     def _display_magnifier(self, painter):
+        """
+        Display magnifier
+        :param painter: The painter
+        """
         if self.screen_shot is not None and self.x >= 0 and self.y >= 0:
             x, y = self._get_magnifier_pos()
 
@@ -394,11 +538,17 @@ class ScreenShot(QWidget):
             painter.restore()
 
     def _hide_tool(self):
+        """
+        Hide tool
+        """
         self.tool.hide()
         self.display_magnifier = True
         self.update()
 
     def _show_tool(self):
+        """
+        Show tool
+        """
         x = self.rect.right() - self.tool.width() if self.rect.right() - self.tool.width() > 0 else 0
         y = self.rect.bottom() + 5 if self.rect.bottom() + 5 + self.tool.height() <= self.height() else \
             self.rect.bottom() - 5 - self.tool.height()
@@ -410,22 +560,34 @@ class ScreenShot(QWidget):
         self.update()
 
     def showEvent(self, e):
+        """
+        Re-implement showEvent
+        """
         self._hide_tool()
         super(ScreenShot, self).showEvent(e)
 
     def enterEvent(self, e):
+        """
+        Re-implement enterEvent
+        """
         if not self.rect.valid():
             self.display_magnifier = True
             self.update()
         super(ScreenShot, self).enterEvent(e)
 
     def leaveEvent(self, e):
+        """
+        Re-implement leaveEvent
+        """
         if self.display_magnifier:
             self.display_magnifier = False
             self.update()
         super(ScreenShot, self).leaveEvent(e)
 
     def mousePressEvent(self, e):
+        """
+        Re-implement mousePressEvent
+        """
         self.x, self.y = e.pos().x(), e.pos().y()
 
         if not self.rect.valid():
@@ -442,6 +604,9 @@ class ScreenShot(QWidget):
         super(ScreenShot, self).mousePressEvent(e)
 
     def mouseMoveEvent(self, e):
+        """
+        Re-implement mouseMoveEvent
+        """
         self._correct_position(e.pos())
         if self.state == ActionState.drawing:
             self.rect.drawing(e.pos())
@@ -455,6 +620,9 @@ class ScreenShot(QWidget):
         super(ScreenShot, self).mouseMoveEvent(e)
 
     def mouseReleaseEvent(self, e):
+        """
+        Re-implement mouseReleaseEvent
+        """
         self._correct_position(e.pos())
         if self.state == ActionState.drawing:
             self.rect.finish_drawing(e.pos())
@@ -471,6 +639,9 @@ class ScreenShot(QWidget):
         super(ScreenShot, self).mouseReleaseEvent(e)
 
     def paintEvent(self, e):
+        """
+        Re-implement paintEvent
+        """
         painter = QPainter(self)
 
         if self.screen_shot is not None:
@@ -485,6 +656,9 @@ class ScreenShot(QWidget):
         super(ScreenShot, self).paintEvent(e)
 
     def keyPressEvent(self, e):
+        """
+        Re-implement keyPressEvent
+        """
         if e.key() == Qt.Key_Escape:
             self.rect = None
             self._exit()
@@ -493,6 +667,9 @@ class ScreenShot(QWidget):
 
     @pyqtSlot()
     def save(self):
+        """
+        Save the screen shot
+        """
         default_file = "./" + ScreenShot._get_default_name()
         png_filter = "PNG image (*.png)"
         bmp_filter = "BMP image (*.bmp)"
@@ -506,6 +683,9 @@ class ScreenShot(QWidget):
 
     @pyqtSlot()
     def redo(self):
+        """
+        Redo
+        """
         self.rect.reset()
         self.tool.hide()
         self.display_magnifier = True
@@ -513,12 +693,18 @@ class ScreenShot(QWidget):
 
     @pyqtSlot()
     def accept(self):
+        """
+        Accept
+        """
         file = os.path.dirname(os.path.realpath(__file__)) + "/" + ScreenShot._get_default_name()
         self._save_image(file)
         self._exit()
 
 
 def get_screen_shot(q):
+    """
+    Get screen shot
+    """
     app = QApplication(sys.argv)
     screen_shot = pyautogui.screenshot()
     widget = ScreenShot(q=q, screen_shot=screen_shot)

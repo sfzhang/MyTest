@@ -1,5 +1,18 @@
 #!/usr/bin/python3
-
+#
+# Copyright (c) 2018, Shendehc Co., Ltd. All rights reserved.
+#
+# THIS IS UNPUBLISHED PROPRIETARY SOURCE CODE OF SHENDEHC CO., LTD.
+# AND IS PROTECTED AS AN UNPUBLISHED WORK UNDER APPLICABLE COPYRIGHT
+# LAWS.
+#
+# The contents of this file may not be disclosed to third parties,
+# copied or duplicated in any form, in whole or in part, without the
+# prior written permission of Shendehc Co., Ltd.
+#
+# Author: sfzhang(shengfazhang@shendehc.com)
+#
+# -*- coding: utf-8 -*-
 
 import os
 import sys
@@ -10,8 +23,16 @@ from PyQt5.QtCore import *
 
 
 class CheckLog(QDialog):
+    """
+    Check log
+    """
 
     def __init__(self, parent=None, q=None):
+        """
+        Initialized
+        :param parent: The parent widget
+        :param q: The queue for multiprocessing
+        """
         super(CheckLog, self).__init__(parent=parent)
 
         self.q = q
@@ -60,6 +81,9 @@ class CheckLog(QDialog):
 
     @pyqtSlot()
     def _exit(self):
+        """
+        Send check log event and exit
+        """
         msg = "check_log "
         if self.q is not None:
             if len(self.file_line_edit.text()) > 0 and len(self.log_text_edit.toPlainText()) > 0:
@@ -69,16 +93,25 @@ class CheckLog(QDialog):
 
     @pyqtSlot()
     def accept(self):
+        """
+        Accept
+        """
         self._exit()
         super(CheckLog, self).accept()
 
     @pyqtSlot()
     def reject(self):
+        """
+        Reject
+        """
         self._exit()
         super(CheckLog, self).reject()
 
     @pyqtSlot()
     def open_file(self):
+        """
+        Open file by gedit
+        """
         file = QFileDialog.getOpenFileName(self, "Check log", filter="log file (*.log);; All file(*.*)")
         if len(file) > 0 and len(file[0]) > 0:
             self.file_line_edit.setText(file[0])
@@ -86,6 +119,10 @@ class CheckLog(QDialog):
 
 
 def get_check_log(q):
+    """
+    Get check log
+    :param q: The queue
+    """
     try:
         app = QApplication(sys.argv)
         widget = CheckLog(q=q)
