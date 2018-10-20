@@ -8,6 +8,7 @@ Copyright (C) 2018 by Zhang Shengfa(shengfazhang@126.com)
 
 import websocket
 import threading
+import json
 from log import *
 from PyQt5.QtCore import *
 
@@ -22,7 +23,7 @@ class WebSocketBase(QObject):
     message_received = pyqtSignal(str)
     error_occurred = pyqtSignal(str)
 
-    def __init__(self, host, path, access_key, secret_key)
+    def __init__(self, host, path, access_key, secret_key, parent = None):
         """
         Initializing.
         :param host: The host URL.
@@ -30,10 +31,21 @@ class WebSocketBase(QObject):
         :param access_key: The access key.
         :param secret_key: The secret key.
         """
+        super(QObject, self).__init__(parent)
         self.ws = None
         self.url = "wss://" + host + path
         self.access_key = access_key
         self.secret_key = secret_key
+
+    def send(self, msg):
+        """
+        Send json message to WebSocket server
+        """
+        try:
+            json_msg = json.dumps(msg).encode()
+            self.ws.send(json_msg)
+        except BaseException as e:
+            error_log("Send message[%s] failed: error[%s]", msg, e)
 
     def on_open(self):
         """
