@@ -696,7 +696,7 @@ class ScreenShot(QWidget):
         """
         Accept
         """
-        file = os.path.dirname(os.path.realpath(__file__)) + "/" + ScreenShot._get_default_name()
+        file = os.getcwd() + "/" + ScreenShot._get_default_name()
         self._save_image(file)
         self._exit()
 

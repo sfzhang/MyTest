@@ -435,6 +435,7 @@ class Sloth(object):
 
 
 if __name__ == "__main__":
+    print(os.getcwd())
     if len(sys.argv) != 2:
         print("Usage: " + sys.argv[0] + " file")
     else:
