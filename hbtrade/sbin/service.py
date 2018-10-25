@@ -6,7 +6,8 @@ Service for huobi trading.
 Copyright (C) 2018 by Zhang Shengfa(shengfazhang@126.com)
 """
 
-import ws
+import wsbase
+import sys
 import gzip
 import json
 from log import *
@@ -23,7 +24,7 @@ class WebSocketService(QObject):
     message_received = pyqtSignal("PyQt_PyObject")
     error_occurred = pyqtSignal(str)
 
-    def __init__(self, parent=None):
+    def __init__(self, name, parent=None):
         """
         Initializing.
         :param parent: The QObject parent.
@@ -39,6 +40,7 @@ class WebSocketService(QObject):
         self.reconnect = True
         self.try_time = 5
         self.current_try_time = self.try_time
+        self.name = name
 
         self.ws = None
 
@@ -54,14 +56,14 @@ class WebSocketService(QObject):
         Create WebSocket client.
         :return: WebSocket client.
         """
-        ws = ws.WebSocketBase(self.host, self.path, self.access_key, self.secret_key)
+        ws = wsbase.WebSocketBase(self.host, self.path, self.access_key, self.secret_key)
 
         ws.opened.connect(self.on_open, Qt.QueuedConnection)
         ws.closed.connect(self.on_close, Qt.QueuedConnection)
         ws.message_received.connect(self.on_message, Qt.QueuedConnection)
-        ws.error_occurred(self.on_error, Qt.QueuedConnection)
+        ws.error_occurred.connect(self.on_error, Qt.QueuedConnection)
 
-        ws.start()
+        ws.start(self.name)
         return ws
 
     def _pong(self, ts):
@@ -70,10 +72,10 @@ class WebSocketService(QObject):
         :param ts: The time stampe.
         """
         msg = {
-            "op": "pong",
-            "ts": ts
+            "pong": ts
         }
         self.ws.send(msg)
+        debug_log("Send pong message[%s] success!", ts)
 
     def start(self, host, path, access_key, secret_key, reconnect=True, try_time=5):
         """
@@ -95,6 +97,15 @@ class WebSocketService(QObject):
 
         self.ws = self._create_ws()
 
+    def stop(self):
+        """
+        Stop WebSocket service.
+        """
+        if self.ws:
+            self.ws.stop()
+            self.ws = None
+            self.reconnect = False
+
     @pyqtSlot()
     def on_open(self):
         """
@@ -111,6 +122,9 @@ class WebSocketService(QObject):
         """
         self.active = False
 
+        self.ws.stop()
+        self.ws = None
+
         if self.reconnect and self.current_try_time > 0:
             self.current_try_time -= 1
             warn_log("Disconnect from WebSocket with host[%s], try to connect with time[%d]",
@@ -120,7 +134,7 @@ class WebSocketService(QObject):
             error_log("Failed to connect to WebSocket with host[%s]", self.host)
             self.closed.emit()
 
-    @pyqtSlot(str)
+    @pyqtSlot(bytes)
     def on_message(self, msg):
         """
         Handle received message.
@@ -131,9 +145,8 @@ class WebSocketService(QObject):
         debug_log("Receive message:\n%s", dict_msg)
 
         try:
-            op = dict_msg["op"]
-            if op == "ping":
-                self._pong(msg["ts"])
+            if "ping" in dict_msg:
+                self._pong(dict_msg["ping"])
             else:
                 self.message_received.emit(dict_msg)
         except BaseException as e:
@@ -159,7 +172,7 @@ class WSMarketService(WebSocketService):
         Initializing.
         :param parent: QObject parent.
         """
-        super(WebSocketService, self).__init__(parent)
+        WebSocketService.__init__(self, "ws_market", parent)
 
     def overview(self, op):
         """
@@ -217,4 +230,12 @@ class WSMarketService(WebSocketService):
             }
             self.ws.send(msg)
             debug_log("%s trade detail with symbol[%s]", op, symbol)
+
+
+if __name__ == "__main__":
+    init_log("DEBUG", "./main.log")
+    app = QCoreApplication(sys.argv)
+    service = WSMarketService()
+    service.start("api.huobi.br.com", "/ws", "eda0541b-6701190d-05fb558b-ae4df", "6d3a366d-57b181cb-2fd48679-df0fe")
+    sys.exit(app.exec())
 

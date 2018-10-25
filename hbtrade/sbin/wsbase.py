@@ -20,7 +20,7 @@ class WebSocketBase(QObject):
 
     opened = pyqtSignal()
     closed = pyqtSignal()
-    message_received = pyqtSignal(str)
+    message_received = pyqtSignal(bytes)
     error_occurred = pyqtSignal(str)
 
     def __init__(self, host, path, access_key, secret_key, parent = None):
@@ -36,6 +36,19 @@ class WebSocketBase(QObject):
         self.url = "wss://" + host + path
         self.access_key = access_key
         self.secret_key = secret_key
+
+        self.event = threading.Event()
+        self.thread = None
+
+    def stop(self):
+        """
+        Stop webservice
+        """
+        if self.thread is not None and self.thread.is_alive():
+            warn_log("Wait for WebSocket thread exit!")
+            self.event.set()
+            self.thread.join()
+            self.thread = None
 
     def send(self, msg):
         """
@@ -66,7 +79,11 @@ class WebSocketBase(QObject):
         Message received.
         :param msg: The received message.
         """
-        self.message_received(msg)
+        self.message_received.emit(msg)
+
+        if self.event.is_set():
+            warn_log("Received thread exit notification, close WebSocket and exit now!")
+            self.ws.close()
 
     def on_error(self, error):
         """
@@ -82,7 +99,7 @@ class WebSocketBase(QObject):
         :param log_level: The log level
         :param log_file: The log file
         """
-        init_log(log_level, log_file)
+        init_log(log_level, log_file, threading.current_thread().name)
         self.ws = websocket.WebSocketApp(
             self.url,
             on_open=self.on_open,
@@ -91,6 +108,7 @@ class WebSocketBase(QObject):
             on_error=self.on_error
         )
         self.ws.run_forever()
+        error_log("Thread exit!")
 
     def start(self, name, log_path="./", log_level="DEBUG"):
         """
@@ -100,6 +118,6 @@ class WebSocketBase(QObject):
         :param log_level: The log level string in [DEBUG, INFO, WARN, ERROR, FATAL]
         """
         log_file = log_path + name + ".log"
-        thread = threading.Thread(target=self.run, name=name, args=(log_file, log_level))
-        thread.start()
+        self.thread = threading.Thread(target=self.run, name=name, args=(log_level, log_file))
+        self.thread.start()
 

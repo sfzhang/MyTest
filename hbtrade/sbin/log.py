@@ -73,23 +73,23 @@ def init_log(level, filename, name="main"):
 
     try:
         logger = logging.getLogger(_log_helper.name)
-        logger.setLevel(_log_level[level][0])
+        if not logger.handlers:
+            logger.setLevel(_log_level[level][0])
 
-        fmt_str = "%(asctime)s|%(levelname)s|%(process)d|%(threadName)s|" \
-                  "%(module)s|%(message)s"
-        formatter = logging.Formatter(fmt_str)
+            fmt_str = "%(asctime)s|%(levelname)s|%(process)d|%(threadName)s(%(thread)d)|%(module)s|%(message)s"
+            formatter = logging.Formatter(fmt_str)
 
-        file_handle = logging.FileHandler(filename)
-        file_handle.setFormatter(formatter)
+            file_handle = logging.FileHandler(filename)
+            file_handle.setFormatter(formatter)
 
-        logger.addHandler(file_handle)
+            logger.addHandler(file_handle)
     except:
         print("Initialize log failed: catch expection type[%s], value[%s]" %
               (sys.exc_info()[0], sys.exc_info()[1]))
         return False
 
-    logger.info("%s start" % name)
     _log_helper.initialized = True
+    info_log("[%s](%d) started", name, threading.get_ident())
     return True
 
 
