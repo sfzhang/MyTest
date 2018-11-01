@@ -31,7 +31,7 @@ class WebSocketBase(QObject):
         :param access_key: The access key.
         :param secret_key: The secret key.
         """
-        super(QObject, self).__init__(parent)
+        QObject.__init__(self, parent)
         self.ws = None
         self.url = "wss://" + host + path
         self.access_key = access_key
@@ -53,12 +53,15 @@ class WebSocketBase(QObject):
     def send(self, msg):
         """
         Send json message to WebSocket server
+        :return True if succeed, otherwise False
         """
         try:
             json_msg = json.dumps(msg).encode()
             self.ws.send(json_msg)
+            return True
         except BaseException as e:
             error_log("Send message[%s] failed: error[%s]", msg, e)
+            return False
 
     def on_open(self):
         """
