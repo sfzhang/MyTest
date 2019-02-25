@@ -1,16 +1,17 @@
-import QtQuick 2.12
+import QtQuick 2.9
 import QtQuick.Window 2.2
-import QtQml 2.2
-
-import Quick 1.0
+import QtQuick.VirtualKeyboard 2.2
+import RingNode 1.0
 
 Window {
+    id: window
     visible: true
-    width: 400
-    height: 400
+    width: 640
+    height: 480
+    title: qsTr("Hello World")
 
-    Quick {
-        id: quick
+    RingNode {
+        id: node
         anchors.top: parent.top
         anchors.left: parent.left
 

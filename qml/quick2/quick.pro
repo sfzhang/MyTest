@@ -6,7 +6,7 @@
 
 TEMPLATE = app
 
-# include($(MAKE_HIFU_ROOT)/mak/hifu.pri)
+include($(MAKE_HIFU_ROOT)/mak/hifu.pri)
 
 CONFIG += debug \
           warn_on \
@@ -21,11 +21,14 @@ SOURCES += quick.cpp \
 
 HEADERS += quick.h
 
-DESTDIR = ./bin
+DESTDIR = $(MAKE_HIFU_ROOT)/bin
 
 INCLUDEPATH +=
 
-LIBS += 
+LIBS += \
+    -ldicm \
+    -llog \
+    -llog4cplus
 
 RESOURCES += qml.qrc \
     qml.qrc

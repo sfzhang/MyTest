@@ -106,7 +106,8 @@ def http_post(url, params, ext_headers=None, timeout=10):
         response = requests.post(url, post_data, headers=headers, timeout=timeout)
         if response.status_code == 200:
             info_log("requests.post() success: url[%s]", url)
-            return response.json()
+            print(response.text)
+            return response.text
         else:
             error_log("requests.post() failed: url[%s], error[%s]", url, response.text)
 

@@ -8,6 +8,7 @@
 #include <QQuickPaintedItem>
 #include <QVector>
 #include <QPointF>
+#include <QImage>
 
 class Quick: public QQuickPaintedItem {
 
@@ -43,11 +44,15 @@ protected:
 
     void drawRing(QPainter *painter, const Ring &ring);
 
+    void drawImage(QPainter *painter);
+
 private:
 
     QPointF m_current_point;
     Ring m_current_ring;
     QVector<Ring> m_ring_list;
+
+    QImage m_dicom_image;
 
 };
 
