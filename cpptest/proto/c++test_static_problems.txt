@@ -1,0 +1,736 @@
+[ERROR] Collecting header files for hifu/hifu/widgets/toolwidget/exttool.cpp finished with code 1 (ipro)
+    1. /home/fus/Git/hifu/widgets/toolwidget/exttool.cpp:10:24: fatal error: ui_exttool.h: No such file or directory
+ #include "ui_exttool.h"
+                        ^
+compilation terminated.
+Error preprocessing file "/home/fus/Git/hifu/widgets/toolwidget/exttool.cpp": 
+Process exited with code: 1
+Could not preprocess source file
+[ERROR] Collecting header files for hifu/hifu/widgets/toolwidget/gemrictrltool.cpp finished with code 1 (ipro)
+    1. /home/fus/Git/hifu/widgets/toolwidget/gemrictrltool.cpp:10:30: fatal error: ui_gemrictrltool.h: No such file or directory
+ #include "ui_gemrictrltool.h"
+                              ^
+compilation terminated.
+Error preprocessing file "/home/fus/Git/hifu/widgets/toolwidget/gemrictrltool.cpp": 
+Process exited with code: 1
+Could not preprocess source file
+[ERROR] Code Analysis for hifu/hifu/widgets/reviewwidget/sonicationreview.cpp finished with code 1 (ipro)
+    1. /home/fus/Git/hifu/widgets/reviewwidget/sonicationreview.cpp:2:33: fatal error: ui_sonicationreview.h: No such file or directory
+ #include "ui_sonicationreview.h"
+                                 ^
+compilation terminated.
+Error preprocessing file "/home/fus/Git/hifu/widgets/reviewwidget/sonicationreview.cpp": 
+Process exited with code: 1
+Could not preprocess source file
+[ERROR] Code Analysis for hifu/hifu/widgets/toolwidget/spotparamtool.cpp finished with code 1 (ipro)
+    1. /home/fus/Git/hifu/widgets/toolwidget/spotparamtool.cpp:13:30: fatal error: ui_spotparamtool.h: No such file or directory
+ #include "ui_spotparamtool.h"
+                              ^
+compilation terminated.
+Error preprocessing file "/home/fus/Git/hifu/widgets/toolwidget/spotparamtool.cpp": 
+Process exited with code: 1
+Could not preprocess source file
+[ERROR] Code Analysis for hifu/hifu/widgets/reviewwidget/treatreview.cpp finished with code 1 (ipro)
+    1. /home/fus/Git/hifu/widgets/reviewwidget/treatreview.cpp:25:28: fatal error: ui_treatreview.h: No such file or directory
+ #include "ui_treatreview.h"
+                            ^
+compilation terminated.
+Error preprocessing file "/home/fus/Git/hifu/widgets/reviewwidget/treatreview.cpp": 
+Process exited with code: 1
+Could not preprocess source file
+[ERROR] Collecting header files for hifu/hifu/widgets/researchwidget/positiontools.cpp finished with code 1 (ipro)
+    1. /home/fus/Git/hifu/widgets/researchwidget/positiontools.cpp:2:30: fatal error: ui_positiontools.h: No such file or directory
+ #include "ui_positiontools.h"
+                              ^
+compilation terminated.
+Error preprocessing file "/home/fus/Git/hifu/widgets/researchwidget/positiontools.cpp": 
+Process exited with code: 1
+Could not preprocess source file
+[ERROR] Collecting header files for hifu/hifu/widgets/basewidget/searchwidget.cpp finished with code 1 (ipro)
+    1. /home/fus/Git/hifu/widgets/basewidget/searchwidget.cpp:2:29: fatal error: ui_searchwidget.h: No such file or directory
+ #include "ui_searchwidget.h"
+                             ^
+compilation terminated.
+Error preprocessing file "/home/fus/Git/hifu/widgets/basewidget/searchwidget.cpp": 
+Process exited with code: 1
+Could not preprocess source file
+[ERROR] Code Analysis for hifu/hifu/widgets/toolwidget/generalparamtool.cpp finished with code 1 (ipro)
+    1. /home/fus/Git/hifu/widgets/toolwidget/generalparamtool.cpp:2:33: fatal error: ui_generalparamtool.h: No such file or directory
+ #include "ui_generalparamtool.h"
+                                 ^
+compilation terminated.
+Error preprocessing file "/home/fus/Git/hifu/widgets/toolwidget/generalparamtool.cpp": 
+Process exited with code: 1
+Could not preprocess source file
+[ERROR] Collecting header files for hifu/hifu/widgets/researchwidget/preparetools.cpp finished with code 1 (ipro)
+    1. /home/fus/Git/hifu/widgets/researchwidget/preparetools.cpp:2:29: fatal error: ui_preparetools.h: No such file or directory
+ #include "ui_preparetools.h"
+                             ^
+compilation terminated.
+Error preprocessing file "/home/fus/Git/hifu/widgets/researchwidget/preparetools.cpp": 
+Process exited with code: 1
+Could not preprocess source file
+[ERROR] Collecting header files for hifu/hifu/widgets/toolwidget/univplantool.cpp finished with code 1 (ipro)
+    1. /home/fus/Git/hifu/widgets/toolwidget/univplantool.cpp:6:29: fatal error: ui_univplantool.h: No such file or directory
+ #include "ui_univplantool.h"
+                             ^
+compilation terminated.
+Error preprocessing file "/home/fus/Git/hifu/widgets/toolwidget/univplantool.cpp": 
+Process exited with code: 1
+Could not preprocess source file
+[ERROR] Collecting header files for hifu/hifu/widgets/basewidget/softwareinfodialog.cpp finished with code 1 (ipro)
+    1. /home/fus/Git/hifu/widgets/basewidget/softwareinfodialog.cpp:20:35: fatal error: ui_softwareinfodialog.h: No such file or directory
+ #include "ui_softwareinfodialog.h"
+                                   ^
+compilation terminated.
+Error preprocessing file "/home/fus/Git/hifu/widgets/basewidget/softwareinfodialog.cpp": 
+Process exited with code: 1
+Could not preprocess source file
+[ERROR] Code Analysis for hifu/hifu/widgets/researchwidget/treatresearch.cpp finished with code 1 (ipro)
+    1. /home/fus/Git/hifu/widgets/researchwidget/treatresearch.cpp:2:30: fatal error: ui_treatresearch.h: No such file or directory
+ #include "ui_treatresearch.h"
+                              ^
+compilation terminated.
+Error preprocessing file "/home/fus/Git/hifu/widgets/researchwidget/treatresearch.cpp": 
+Process exited with code: 1
+Could not preprocess source file
+[ERROR] Code Analysis for hifu/hifu/widgets/toolwidget/treattool.cpp finished with code 1 (ipro)
+    1. /home/fus/Git/hifu/widgets/toolwidget/treattool.cpp:2:26: fatal error: ui_treattool.h: No such file or directory
+ #include "ui_treattool.h"
+                          ^
+compilation terminated.
+Error preprocessing file "/home/fus/Git/hifu/widgets/toolwidget/treattool.cpp": 
+Process exited with code: 1
+Could not preprocess source file
+[ERROR] Code Analysis for hifu/hifu/widgets/basewidget/softwareinfodialog.cpp finished with code 1 (ipro)
+    1. /home/fus/Git/hifu/widgets/basewidget/softwareinfodialog.cpp:20:35: fatal error: ui_softwareinfodialog.h: No such file or directory
+ #include "ui_softwareinfodialog.h"
+                                   ^
+compilation terminated.
+Error preprocessing file "/home/fus/Git/hifu/widgets/basewidget/softwareinfodialog.cpp": 
+Process exited with code: 1
+Could not preprocess source file
+[ERROR] Collecting header files for hifu/hifu/widgets/toolwidget/treatmode.cpp finished with code 1 (ipro)
+    1. /home/fus/Git/hifu/widgets/toolwidget/treatmode.cpp:8:26: fatal error: ui_treatmode.h: No such file or directory
+ #include "ui_treatmode.h"
+                          ^
+compilation terminated.
+Error preprocessing file "/home/fus/Git/hifu/widgets/toolwidget/treatmode.cpp": 
+Process exited with code: 1
+Could not preprocess source file
+[ERROR] Collecting header files for hifu/hifu/widgets/researchwidget/treatmonitortool.cpp finished with code 1 (ipro)
+    1. /home/fus/Git/hifu/widgets/researchwidget/treatmonitortool.cpp:2:29: fatal error: ui_treatmonitor.h: No such file or directory
+ #include "ui_treatmonitor.h"
+                             ^
+compilation terminated.
+Error preprocessing file "/home/fus/Git/hifu/widgets/researchwidget/treatmonitortool.cpp": 
+Process exited with code: 1
+Could not preprocess source file
+[ERROR] Code Analysis for hifu/hifu/widgets/toolwidget/thermmapparamtool.cpp finished with code 1 (ipro)
+    1. /home/fus/Git/hifu/widgets/toolwidget/thermmapparamtool.cpp:2:34: fatal error: ui_thermmapparamtool.h: No such file or directory
+ #include "ui_thermmapparamtool.h"
+                                  ^
+compilation terminated.
+Error preprocessing file "/home/fus/Git/hifu/widgets/toolwidget/thermmapparamtool.cpp": 
+Process exited with code: 1
+Could not preprocess source file
+[ERROR] Collecting header files for hifu/hifu/widgets/infowidget/statusbar.cpp finished with code 1 (ipro)
+    1. /home/fus/Git/hifu/widgets/infowidget/statusbar.cpp:2:26: fatal error: ui_statusbar.h: No such file or directory
+ #include "ui_statusbar.h"
+                          ^
+compilation terminated.
+Error preprocessing file "/home/fus/Git/hifu/widgets/infowidget/statusbar.cpp": 
+Process exited with code: 1
+Could not preprocess source file
+[ERROR] Code Analysis for hifu/hifu/widgets/toolwidget/positiontool.cpp finished with code 1 (ipro)
+    1. /home/fus/Git/hifu/widgets/toolwidget/positiontool.cpp:2:29: fatal error: ui_positiontool.h: No such file or directory
+ #include "ui_positiontool.h"
+                             ^
+compilation terminated.
+Error preprocessing file "/home/fus/Git/hifu/widgets/toolwidget/positiontool.cpp": 
+Process exited with code: 1
+Could not preprocess source file
+[ERROR] Code Analysis for hifu/hifu/widgets/mainwidget/splash.cpp finished with code 1 (ipro)
+    1. /home/fus/Git/hifu/widgets/mainwidget/splash.cpp:10:23: fatal error: ui_splash.h: No such file or directory
+ #include "ui_splash.h"
+                       ^
+compilation terminated.
+Error preprocessing file "/home/fus/Git/hifu/widgets/mainwidget/splash.cpp": 
+Process exited with code: 1
+Could not preprocess source file
+[ERROR] Collecting header files for hifu/hifu/widgets/toolwidget/treattool.cpp finished with code 1 (ipro)
+    1. /home/fus/Git/hifu/widgets/toolwidget/treattool.cpp:2:26: fatal error: ui_treattool.h: No such file or directory
+ #include "ui_treattool.h"
+                          ^
+compilation terminated.
+Error preprocessing file "/home/fus/Git/hifu/widgets/toolwidget/treattool.cpp": 
+Process exited with code: 1
+Could not preprocess source file
+[ERROR] Code Analysis for hifu/hifu/widgets/infowidget/dicominfo.cpp finished with code 1 (ipro)
+    1. /home/fus/Git/hifu/widgets/infowidget/dicominfo.cpp:2:26: fatal error: ui_dicominfo.h: No such file or directory
+ #include "ui_dicominfo.h"
+                          ^
+compilation terminated.
+Error preprocessing file "/home/fus/Git/hifu/widgets/infowidget/dicominfo.cpp": 
+Process exited with code: 1
+Could not preprocess source file
+[ERROR] Code Analysis for hifu/hifu/widgets/toolwidget/globaltool.cpp finished with code 1 (ipro)
+    1. /home/fus/Git/hifu/widgets/toolwidget/globaltool.cpp:2:27: fatal error: ui_globaltool.h: No such file or directory
+ #include "ui_globaltool.h"
+                           ^
+compilation terminated.
+Error preprocessing file "/home/fus/Git/hifu/widgets/toolwidget/globaltool.cpp": 
+Process exited with code: 1
+Could not preprocess source file
+[ERROR] Collecting header files for hifu/hifu/widgets/toolwidget/globaltool.cpp finished with code 1 (ipro)
+    1. /home/fus/Git/hifu/widgets/toolwidget/globaltool.cpp:2:27: fatal error: ui_globaltool.h: No such file or directory
+ #include "ui_globaltool.h"
+                           ^
+compilation terminated.
+Error preprocessing file "/home/fus/Git/hifu/widgets/toolwidget/globaltool.cpp": 
+Process exited with code: 1
+Could not preprocess source file
+[ERROR] Code Analysis for hifu/hifu/widgets/infowidget/guidehistory.cpp finished with code 1 (ipro)
+    1. /home/fus/Git/hifu/widgets/infowidget/guidehistory.cpp:2:29: fatal error: ui_guidehistory.h: No such file or directory
+ #include "ui_guidehistory.h"
+                             ^
+compilation terminated.
+Error preprocessing file "/home/fus/Git/hifu/widgets/infowidget/guidehistory.cpp": 
+Process exited with code: 1
+Could not preprocess source file
+[ERROR] Code Analysis for hifu/hifu/widgets/researchwidget/mrscanhint.cpp finished with code 1 (ipro)
+    1. /home/fus/Git/hifu/widgets/researchwidget/mrscanhint.cpp:2:27: fatal error: ui_mrscanhint.h: No such file or directory
+ #include "ui_mrscanhint.h"
+                           ^
+compilation terminated.
+Error preprocessing file "/home/fus/Git/hifu/widgets/researchwidget/mrscanhint.cpp": 
+Process exited with code: 1
+Could not preprocess source file
+[ERROR] Code Analysis for hifu/hifu/apps/review/reviewpage.cpp finished with code 1 (ipro)
+    1. /home/fus/Git/hifu/apps/review/reviewpage.cpp:3:27: fatal error: ui_reviewpage.h: No such file or directory
+ #include "ui_reviewpage.h"
+                           ^
+compilation terminated.
+Error preprocessing file "/home/fus/Git/hifu/apps/review/reviewpage.cpp": 
+Process exited with code: 1
+Could not preprocess source file
+[ERROR] Collecting header files for hifu/hifu/widgets/mainwidget/treatpage.cpp finished with code 1 (ipro)
+    1. /home/fus/Git/hifu/widgets/mainwidget/treatpage.cpp:10:26: fatal error: ui_treatpage.h: No such file or directory
+ #include "ui_treatpage.h"
+                          ^
+compilation terminated.
+Error preprocessing file "/home/fus/Git/hifu/widgets/mainwidget/treatpage.cpp": 
+Process exited with code: 1
+Could not preprocess source file
+[ERROR] Code Analysis for hifu/hifu/widgets/toolwidget/posttxtool.cpp finished with code 1 (ipro)
+    1. /home/fus/Git/hifu/widgets/toolwidget/posttxtool.cpp:5:27: fatal error: ui_posttxtool.h: No such file or directory
+ #include "ui_posttxtool.h"
+                           ^
+compilation terminated.
+Error preprocessing file "/home/fus/Git/hifu/widgets/toolwidget/posttxtool.cpp": 
+Process exited with code: 1
+Could not preprocess source file
+[ERROR] Collecting header files for hifu/hifu/widgets/toolwidget/scanparamtool.cpp finished with code 1 (ipro)
+    1. /home/fus/Git/hifu/widgets/toolwidget/scanparamtool.cpp:2:30: fatal error: ui_scanparamtool.h: No such file or directory
+ #include "ui_scanparamtool.h"
+                              ^
+compilation terminated.
+Error preprocessing file "/home/fus/Git/hifu/widgets/toolwidget/scanparamtool.cpp": 
+Process exited with code: 1
+Could not preprocess source file
+[ERROR] Collecting header files for hifu/hifu/widgets/researchwidget/researchtool.cpp finished with code 1 (ipro)
+    1. /home/fus/Git/hifu/widgets/researchwidget/researchtool.cpp:2:29: fatal error: ui_researchtool.h: No such file or directory
+ #include "ui_researchtool.h"
+                             ^
+compilation terminated.
+Error preprocessing file "/home/fus/Git/hifu/widgets/researchwidget/researchtool.cpp": 
+Process exited with code: 1
+Could not preprocess source file
+[ERROR] Collecting header files for hifu/hifu/widgets/toolwidget/posttxtool.cpp finished with code 1 (ipro)
+    1. /home/fus/Git/hifu/widgets/toolwidget/posttxtool.cpp:5:27: fatal error: ui_posttxtool.h: No such file or directory
+ #include "ui_posttxtool.h"
+                           ^
+compilation terminated.
+Error preprocessing file "/home/fus/Git/hifu/widgets/toolwidget/posttxtool.cpp": 
+Process exited with code: 1
+Could not preprocess source file
+[ERROR] Collecting header files for hifu/hifu/widgets/infowidget/dicominfo.cpp finished with code 1 (ipro)
+    1. /home/fus/Git/hifu/widgets/infowidget/dicominfo.cpp:2:26: fatal error: ui_dicominfo.h: No such file or directory
+ #include "ui_dicominfo.h"
+                          ^
+compilation terminated.
+Error preprocessing file "/home/fus/Git/hifu/widgets/infowidget/dicominfo.cpp": 
+Process exited with code: 1
+Could not preprocess source file
+[ERROR] Code Analysis for hifu/hifu/widgets/researchwidget/movementdialog.cpp finished with code 1 (ipro)
+    1. /home/fus/Git/hifu/widgets/researchwidget/movementdialog.cpp:2:31: fatal error: ui_movementdialog.h: No such file or directory
+ #include "ui_movementdialog.h"
+                               ^
+compilation terminated.
+Error preprocessing file "/home/fus/Git/hifu/widgets/researchwidget/movementdialog.cpp": 
+Process exited with code: 1
+Could not preprocess source file
+[ERROR] Collecting header files for hifu/hifu/widgets/toolwidget/verifytool.cpp finished with code 1 (ipro)
+    1. /home/fus/Git/hifu/widgets/toolwidget/verifytool.cpp:7:27: fatal error: ui_verifytool.h: No such file or directory
+ #include "ui_verifytool.h"
+                           ^
+compilation terminated.
+Error preprocessing file "/home/fus/Git/hifu/widgets/toolwidget/verifytool.cpp": 
+Process exited with code: 1
+Could not preprocess source file
+[ERROR] Code Analysis for hifu/hifu/widgets/toolwidget/verifytool.cpp finished with code 1 (ipro)
+    1. /home/fus/Git/hifu/widgets/toolwidget/verifytool.cpp:7:27: fatal error: ui_verifytool.h: No such file or directory
+ #include "ui_verifytool.h"
+                           ^
+compilation terminated.
+Error preprocessing file "/home/fus/Git/hifu/widgets/toolwidget/verifytool.cpp": 
+Process exited with code: 1
+Could not preprocess source file
+[ERROR] Collecting header files for hifu/hifu/widgets/toolwidget/positiontool.cpp finished with code 1 (ipro)
+    1. /home/fus/Git/hifu/widgets/toolwidget/positiontool.cpp:2:29: fatal error: ui_positiontool.h: No such file or directory
+ #include "ui_positiontool.h"
+                             ^
+compilation terminated.
+Error preprocessing file "/home/fus/Git/hifu/widgets/toolwidget/positiontool.cpp": 
+Process exited with code: 1
+Could not preprocess source file
+[ERROR] Collecting header files for hifu/hifu/widgets/infowidget/patientinfo.cpp finished with code 1 (ipro)
+    1. /home/fus/Git/hifu/widgets/infowidget/patientinfo.cpp:2:28: fatal error: ui_patientinfo.h: No such file or directory
+ #include "ui_patientinfo.h"
+                            ^
+compilation terminated.
+Error preprocessing file "/home/fus/Git/hifu/widgets/infowidget/patientinfo.cpp": 
+Process exited with code: 1
+Could not preprocess source file
+[ERROR] Code Analysis for hifu/hifu/widgets/toolwidget/boneplantool.cpp finished with code 1 (ipro)
+    1. /home/fus/Git/hifu/widgets/toolwidget/boneplantool.cpp:2:29: fatal error: ui_boneplantool.h: No such file or directory
+ #include "ui_boneplantool.h"
+                             ^
+compilation terminated.
+Error preprocessing file "/home/fus/Git/hifu/widgets/toolwidget/boneplantool.cpp": 
+Process exited with code: 1
+Could not preprocess source file
+[ERROR] Collecting header files for hifu/hifu/widgets/researchwidget/movementdialog.cpp finished with code 1 (ipro)
+    1. /home/fus/Git/hifu/widgets/researchwidget/movementdialog.cpp:2:31: fatal error: ui_movementdialog.h: No such file or directory
+ #include "ui_movementdialog.h"
+                               ^
+compilation terminated.
+Error preprocessing file "/home/fus/Git/hifu/widgets/researchwidget/movementdialog.cpp": 
+Process exited with code: 1
+Could not preprocess source file
+[ERROR] Collecting header files for hifu/hifu/widgets/basewidget/filterdialog.cpp finished with code 1 (ipro)
+    1. /home/fus/Git/hifu/widgets/basewidget/filterdialog.cpp:2:29: fatal error: ui_filterdialog.h: No such file or directory
+ #include "ui_filterdialog.h"
+                             ^
+compilation terminated.
+Error preprocessing file "/home/fus/Git/hifu/widgets/basewidget/filterdialog.cpp": 
+Process exited with code: 1
+Could not preprocess source file
+[ERROR] Collecting header files for hifu/hifu/widgets/infowidget/guidehistory.cpp finished with code 1 (ipro)
+    1. /home/fus/Git/hifu/widgets/infowidget/guidehistory.cpp:2:29: fatal error: ui_guidehistory.h: No such file or directory
+ #include "ui_guidehistory.h"
+                             ^
+compilation terminated.
+Error preprocessing file "/home/fus/Git/hifu/widgets/infowidget/guidehistory.cpp": 
+Process exited with code: 1
+Could not preprocess source file
+[ERROR] Collecting header files for hifu/hifu/widgets/infowidget/vstatusbar.cpp finished with code 1 (ipro)
+    1. /home/fus/Git/hifu/widgets/infowidget/vstatusbar.cpp:2:27: fatal error: ui_vstatusbar.h: No such file or directory
+ #include "ui_vstatusbar.h"
+                           ^
+compilation terminated.
+Error preprocessing file "/home/fus/Git/hifu/widgets/infowidget/vstatusbar.cpp": 
+Process exited with code: 1
+Could not preprocess source file
+[ERROR] Code Analysis for hifu/hifu/widgets/infowidget/seriestable.cpp finished with code 1 (ipro)
+    1. /home/fus/Git/hifu/widgets/infowidget/seriestable.cpp:2:28: fatal error: ui_seriestable.h: No such file or directory
+ #include "ui_seriestable.h"
+                            ^
+compilation terminated.
+Error preprocessing file "/home/fus/Git/hifu/widgets/infowidget/seriestable.cpp": 
+Process exited with code: 1
+Could not preprocess source file
+[ERROR] Code Analysis for hifu/hifu/widgets/infowidget/vstatusbar.cpp finished with code 1 (ipro)
+    1. /home/fus/Git/hifu/widgets/infowidget/vstatusbar.cpp:2:27: fatal error: ui_vstatusbar.h: No such file or directory
+ #include "ui_vstatusbar.h"
+                           ^
+compilation terminated.
+Error preprocessing file "/home/fus/Git/hifu/widgets/infowidget/vstatusbar.cpp": 
+Process exited with code: 1
+Could not preprocess source file
+[ERROR] Code Analysis for hifu/hifu/widgets/toolwidget/reviewmode.cpp finished with code 1 (ipro)
+    1. /home/fus/Git/hifu/widgets/toolwidget/reviewmode.cpp:2:27: fatal error: ui_reviewmode.h: No such file or directory
+ #include "ui_reviewmode.h"
+                           ^
+compilation terminated.
+Error preprocessing file "/home/fus/Git/hifu/widgets/toolwidget/reviewmode.cpp": 
+Process exited with code: 1
+Could not preprocess source file
+[ERROR] Code Analysis for hifu/hifu/widgets/mainwidget/treatpage.cpp finished with code 1 (ipro)
+    1. /home/fus/Git/hifu/widgets/mainwidget/treatpage.cpp:10:26: fatal error: ui_treatpage.h: No such file or directory
+ #include "ui_treatpage.h"
+                          ^
+compilation terminated.
+Error preprocessing file "/home/fus/Git/hifu/widgets/mainwidget/treatpage.cpp": 
+Process exited with code: 1
+Could not preprocess source file
+[ERROR] Code Analysis for hifu/hifu/widgets/toolwidget/scanparamtool.cpp finished with code 1 (ipro)
+    1. /home/fus/Git/hifu/widgets/toolwidget/scanparamtool.cpp:2:30: fatal error: ui_scanparamtool.h: No such file or directory
+ #include "ui_scanparamtool.h"
+                              ^
+compilation terminated.
+Error preprocessing file "/home/fus/Git/hifu/widgets/toolwidget/scanparamtool.cpp": 
+Process exited with code: 1
+Could not preprocess source file
+[ERROR] Collecting header files for hifu/hifu/tools/xgysim/mrwindow.cpp finished with code 1 (ipro)
+    1. /home/fus/Git/hifu/tools/xgysim/mrwindow.cpp:9:25: fatal error: ui_mrwindow.h: No such file or directory
+ #include "ui_mrwindow.h"
+                         ^
+compilation terminated.
+Error preprocessing file "/home/fus/Git/hifu/tools/xgysim/mrwindow.cpp": 
+Process exited with code: 1
+Could not preprocess source file
+[ERROR] Collecting header files for hifu/hifu/widgets/toolwidget/spotparamtool.cpp finished with code 1 (ipro)
+    1. /home/fus/Git/hifu/widgets/toolwidget/spotparamtool.cpp:13:30: fatal error: ui_spotparamtool.h: No such file or directory
+ #include "ui_spotparamtool.h"
+                              ^
+compilation terminated.
+Error preprocessing file "/home/fus/Git/hifu/widgets/toolwidget/spotparamtool.cpp": 
+Process exited with code: 1
+Could not preprocess source file
+[ERROR] Collecting header files for hifu/hifu/tools/hifud/setting.cpp finished with code 1 (ipro)
+    1. /home/fus/Git/hifu/tools/hifud/setting.cpp:2:24: fatal error: ui_setting.h: No such file or directory
+ #include "ui_setting.h"
+                        ^
+compilation terminated.
+Error preprocessing file "/home/fus/Git/hifu/tools/hifud/setting.cpp": 
+Process exited with code: 1
+Could not preprocess source file
+[ERROR] Collecting header files for hifu/hifu/widgets/researchwidget/mrscanhint.cpp finished with code 1 (ipro)
+    1. /home/fus/Git/hifu/widgets/researchwidget/mrscanhint.cpp:2:27: fatal error: ui_mrscanhint.h: No such file or directory
+ #include "ui_mrscanhint.h"
+                           ^
+compilation terminated.
+Error preprocessing file "/home/fus/Git/hifu/widgets/researchwidget/mrscanhint.cpp": 
+Process exited with code: 1
+Could not preprocess source file
+[ERROR] Collecting header files for hifu/hifu/widgets/infowidget/seriestable.cpp finished with code 1 (ipro)
+    1. /home/fus/Git/hifu/widgets/infowidget/seriestable.cpp:2:28: fatal error: ui_seriestable.h: No such file or directory
+ #include "ui_seriestable.h"
+                            ^
+compilation terminated.
+Error preprocessing file "/home/fus/Git/hifu/widgets/infowidget/seriestable.cpp": 
+Process exited with code: 1
+Could not preprocess source file
+[ERROR] Collecting header files for hifu/hifu/widgets/toolwidget/reviewmode.cpp finished with code 1 (ipro)
+    1. /home/fus/Git/hifu/widgets/toolwidget/reviewmode.cpp:2:27: fatal error: ui_reviewmode.h: No such file or directory
+ #include "ui_reviewmode.h"
+                           ^
+compilation terminated.
+Error preprocessing file "/home/fus/Git/hifu/widgets/toolwidget/reviewmode.cpp": 
+Process exited with code: 1
+Could not preprocess source file
+[ERROR] Collecting header files for hifu/hifu/tools/pb_client/mainwindow.cpp finished with code 1 (ipro)
+    1. /home/fus/Git/hifu/tools/pb_client/mainwindow.cpp:2:27: fatal error: ui_mainwindow.h: No such file or directory
+ #include "ui_mainwindow.h"
+                           ^
+compilation terminated.
+Error preprocessing file "/home/fus/Git/hifu/tools/pb_client/mainwindow.cpp": 
+Process exited with code: 1
+Could not preprocess source file
+[ERROR] Collecting header files for hifu/hifu/apps/review/reviewpage.cpp finished with code 1 (ipro)
+    1. /home/fus/Git/hifu/apps/review/reviewpage.cpp:3:27: fatal error: ui_reviewpage.h: No such file or directory
+ #include "ui_reviewpage.h"
+                           ^
+compilation terminated.
+Error preprocessing file "/home/fus/Git/hifu/apps/review/reviewpage.cpp": 
+Process exited with code: 1
+Could not preprocess source file
+[ERROR] Collecting header files for hifu/hifu/widgets/toolwidget/reviewtool.cpp finished with code 1 (ipro)
+    1. /home/fus/Git/hifu/widgets/toolwidget/reviewtool.cpp:2:27: fatal error: ui_reviewtool.h: No such file or directory
+ #include "ui_reviewtool.h"
+                           ^
+compilation terminated.
+Error preprocessing file "/home/fus/Git/hifu/widgets/toolwidget/reviewtool.cpp": 
+Process exited with code: 1
+Could not preprocess source file
+[ERROR] Collecting header files for hifu/hifu/widgets/basewidget/messagebox.cpp finished with code 1 (ipro)
+    1. /home/fus/Git/hifu/widgets/basewidget/messagebox.cpp:2:27: fatal error: ui_messagebox.h: No such file or directory
+ #include "ui_messagebox.h"
+                           ^
+compilation terminated.
+Error preprocessing file "/home/fus/Git/hifu/widgets/basewidget/messagebox.cpp": 
+Process exited with code: 1
+Could not preprocess source file
+[ERROR] Code Analysis for hifu/hifu/widgets/toolwidget/reviewtool.cpp finished with code 1 (ipro)
+    1. /home/fus/Git/hifu/widgets/toolwidget/reviewtool.cpp:2:27: fatal error: ui_reviewtool.h: No such file or directory
+ #include "ui_reviewtool.h"
+                           ^
+compilation terminated.
+Error preprocessing file "/home/fus/Git/hifu/widgets/toolwidget/reviewtool.cpp": 
+Process exited with code: 1
+Could not preprocess source file
+[ERROR] Code Analysis for hifu/hifu/widgets/basewidget/messagebox.cpp finished with code 1 (ipro)
+    1. /home/fus/Git/hifu/widgets/basewidget/messagebox.cpp:2:27: fatal error: ui_messagebox.h: No such file or directory
+ #include "ui_messagebox.h"
+                           ^
+compilation terminated.
+Error preprocessing file "/home/fus/Git/hifu/widgets/basewidget/messagebox.cpp": 
+Process exited with code: 1
+Could not preprocess source file
+[ERROR] Code Analysis for hifu/hifu/widgets/researchwidget/positiontools.cpp finished with code 1 (ipro)
+    1. /home/fus/Git/hifu/widgets/researchwidget/positiontools.cpp:2:30: fatal error: ui_positiontools.h: No such file or directory
+ #include "ui_positiontools.h"
+                              ^
+compilation terminated.
+Error preprocessing file "/home/fus/Git/hifu/widgets/researchwidget/positiontools.cpp": 
+Process exited with code: 1
+Could not preprocess source file
+[ERROR] Collecting header files for hifu/hifu/widgets/toolwidget/boneplantool.cpp finished with code 1 (ipro)
+    1. /home/fus/Git/hifu/widgets/toolwidget/boneplantool.cpp:2:29: fatal error: ui_boneplantool.h: No such file or directory
+ #include "ui_boneplantool.h"
+                             ^
+compilation terminated.
+Error preprocessing file "/home/fus/Git/hifu/widgets/toolwidget/boneplantool.cpp": 
+Process exited with code: 1
+Could not preprocess source file
+[ERROR] Code Analysis for hifu/hifu/widgets/researchwidget/preparetools.cpp finished with code 1 (ipro)
+    1. /home/fus/Git/hifu/widgets/researchwidget/preparetools.cpp:2:29: fatal error: ui_preparetools.h: No such file or directory
+ #include "ui_preparetools.h"
+                             ^
+compilation terminated.
+Error preprocessing file "/home/fus/Git/hifu/widgets/researchwidget/preparetools.cpp": 
+Process exited with code: 1
+Could not preprocess source file
+[ERROR] Code Analysis for hifu/hifu/widgets/toolwidget/univplantool.cpp finished with code 1 (ipro)
+    1. /home/fus/Git/hifu/widgets/toolwidget/univplantool.cpp:6:29: fatal error: ui_univplantool.h: No such file or directory
+ #include "ui_univplantool.h"
+                             ^
+compilation terminated.
+Error preprocessing file "/home/fus/Git/hifu/widgets/toolwidget/univplantool.cpp": 
+Process exited with code: 1
+Could not preprocess source file
+[ERROR] Collecting header files for hifu/hifu/tools/armsim/hardwarewindow.cpp finished with code 1 (ipro)
+    1. /home/fus/Git/hifu/tools/armsim/hardwarewindow.cpp:2:31: fatal error: ui_hardwarewindow.h: No such file or directory
+ #include "ui_hardwarewindow.h"
+                               ^
+compilation terminated.
+Error preprocessing file "/home/fus/Git/hifu/tools/armsim/hardwarewindow.cpp": 
+Process exited with code: 1
+Could not preprocess source file
+[ERROR] Collecting header files for hifu/hifu/widgets/researchwidget/treatresearch.cpp finished with code 1 (ipro)
+    1. /home/fus/Git/hifu/widgets/researchwidget/treatresearch.cpp:2:30: fatal error: ui_treatresearch.h: No such file or directory
+ #include "ui_treatresearch.h"
+                              ^
+compilation terminated.
+Error preprocessing file "/home/fus/Git/hifu/widgets/researchwidget/treatresearch.cpp": 
+Process exited with code: 1
+Could not preprocess source file
+[ERROR] Collecting header files for hifu/hifu/widgets/toolwidget/generalparamtool.cpp finished with code 1 (ipro)
+    1. /home/fus/Git/hifu/widgets/toolwidget/generalparamtool.cpp:2:33: fatal error: ui_generalparamtool.h: No such file or directory
+ #include "ui_generalparamtool.h"
+                                 ^
+compilation terminated.
+Error preprocessing file "/home/fus/Git/hifu/widgets/toolwidget/generalparamtool.cpp": 
+Process exited with code: 1
+Could not preprocess source file
+[ERROR] Code Analysis for hifu/hifu/tools/hifud/mainwindow.cpp finished with code 1 (ipro)
+    1. /home/fus/Git/hifu/tools/hifud/mainwindow.cpp:2:27: fatal error: ui_mainwindow.h: No such file or directory
+ #include "ui_mainwindow.h"
+                           ^
+compilation terminated.
+Error preprocessing file "/home/fus/Git/hifu/tools/hifud/mainwindow.cpp": 
+Process exited with code: 1
+Could not preprocess source file
+[ERROR] Code Analysis for hifu/hifu/widgets/basewidget/filterdialog.cpp finished with code 1 (ipro)
+    1. /home/fus/Git/hifu/widgets/basewidget/filterdialog.cpp:2:29: fatal error: ui_filterdialog.h: No such file or directory
+ #include "ui_filterdialog.h"
+                             ^
+compilation terminated.
+Error preprocessing file "/home/fus/Git/hifu/widgets/basewidget/filterdialog.cpp": 
+Process exited with code: 1
+Could not preprocess source file
+[ERROR] Code Analysis for hifu/hifu/widgets/researchwidget/hwmonitor.cpp finished with code 1 (ipro)
+    1. /home/fus/Git/hifu/widgets/researchwidget/hwmonitor.cpp:9:26: fatal error: ui_hwmonitor.h: No such file or directory
+ #include "ui_hwmonitor.h"
+                          ^
+compilation terminated.
+Error preprocessing file "/home/fus/Git/hifu/widgets/researchwidget/hwmonitor.cpp": 
+Process exited with code: 1
+Could not preprocess source file
+[ERROR] Collecting header files for hifu/hifu/widgets/infowidget/hstatusbar.cpp finished with code 1 (ipro)
+    1. /home/fus/Git/hifu/widgets/infowidget/hstatusbar.cpp:2:27: fatal error: ui_hstatusbar.h: No such file or directory
+ #include "ui_hstatusbar.h"
+                           ^
+compilation terminated.
+Error preprocessing file "/home/fus/Git/hifu/widgets/infowidget/hstatusbar.cpp": 
+Process exited with code: 1
+Could not preprocess source file
+[ERROR] Code Analysis for hifu/hifu/widgets/infowidget/hstatusbar.cpp finished with code 1 (ipro)
+    1. /home/fus/Git/hifu/widgets/infowidget/hstatusbar.cpp:2:27: fatal error: ui_hstatusbar.h: No such file or directory
+ #include "ui_hstatusbar.h"
+                           ^
+compilation terminated.
+Error preprocessing file "/home/fus/Git/hifu/widgets/infowidget/hstatusbar.cpp": 
+Process exited with code: 1
+Could not preprocess source file
+[ERROR] Code Analysis for hifu/hifu/tools/hifud/setting.cpp finished with code 1 (ipro)
+    1. /home/fus/Git/hifu/tools/hifud/setting.cpp:2:24: fatal error: ui_setting.h: No such file or directory
+ #include "ui_setting.h"
+                        ^
+compilation terminated.
+Error preprocessing file "/home/fus/Git/hifu/tools/hifud/setting.cpp": 
+Process exited with code: 1
+Could not preprocess source file
+[ERROR] Code Analysis for hifu/hifu/widgets/infowidget/statusbar.cpp finished with code 1 (ipro)
+    1. /home/fus/Git/hifu/widgets/infowidget/statusbar.cpp:2:26: fatal error: ui_statusbar.h: No such file or directory
+ #include "ui_statusbar.h"
+                          ^
+compilation terminated.
+Error preprocessing file "/home/fus/Git/hifu/widgets/infowidget/statusbar.cpp": 
+Process exited with code: 1
+Could not preprocess source file
+[ERROR] Collecting header files for hifu/hifu/widgets/reviewwidget/treatreview.cpp finished with code 1 (ipro)
+    1. /home/fus/Git/hifu/widgets/reviewwidget/treatreview.cpp:25:28: fatal error: ui_treatreview.h: No such file or directory
+ #include "ui_treatreview.h"
+                            ^
+compilation terminated.
+Error preprocessing file "/home/fus/Git/hifu/widgets/reviewwidget/treatreview.cpp": 
+Process exited with code: 1
+Could not preprocess source file
+[ERROR] Code Analysis for hifu/hifu/widgets/basewidget/searchwidget.cpp finished with code 1 (ipro)
+    1. /home/fus/Git/hifu/widgets/basewidget/searchwidget.cpp:2:29: fatal error: ui_searchwidget.h: No such file or directory
+ #include "ui_searchwidget.h"
+                             ^
+compilation terminated.
+Error preprocessing file "/home/fus/Git/hifu/widgets/basewidget/searchwidget.cpp": 
+Process exited with code: 1
+Could not preprocess source file
+[ERROR] Collecting header files for hifu/hifu/widgets/infowidget/guideinfo.cpp finished with code 1 (ipro)
+    1. /home/fus/Git/hifu/widgets/infowidget/guideinfo.cpp:2:26: fatal error: ui_guideinfo.h: No such file or directory
+ #include "ui_guideinfo.h"
+                          ^
+compilation terminated.
+Error preprocessing file "/home/fus/Git/hifu/widgets/infowidget/guideinfo.cpp": 
+Process exited with code: 1
+Could not preprocess source file
+[ERROR] Code Analysis for hifu/hifu/widgets/toolwidget/exttool.cpp finished with code 1 (ipro)
+    1. /home/fus/Git/hifu/widgets/toolwidget/exttool.cpp:10:24: fatal error: ui_exttool.h: No such file or directory
+ #include "ui_exttool.h"
+                        ^
+compilation terminated.
+Error preprocessing file "/home/fus/Git/hifu/widgets/toolwidget/exttool.cpp": 
+Process exited with code: 1
+Could not preprocess source file
+[ERROR] Collecting header files for hifu/hifu/tools/hifud/mainwindow.cpp finished with code 1 (ipro)
+    1. /home/fus/Git/hifu/tools/hifud/mainwindow.cpp:2:27: fatal error: ui_mainwindow.h: No such file or directory
+ #include "ui_mainwindow.h"
+                           ^
+compilation terminated.
+Error preprocessing file "/home/fus/Git/hifu/tools/hifud/mainwindow.cpp": 
+Process exited with code: 1
+Could not preprocess source file
+[ERROR] Code Analysis for hifu/hifu/tools/xgysim/mrwindow.cpp finished with code 1 (ipro)
+    1. /home/fus/Git/hifu/tools/xgysim/mrwindow.cpp:9:25: fatal error: ui_mrwindow.h: No such file or directory
+ #include "ui_mrwindow.h"
+                         ^
+compilation terminated.
+Error preprocessing file "/home/fus/Git/hifu/tools/xgysim/mrwindow.cpp": 
+Process exited with code: 1
+Could not preprocess source file
+[ERROR] Code Analysis for hifu/hifu/tools/armsim/hardwarewindow.cpp finished with code 1 (ipro)
+    1. /home/fus/Git/hifu/tools/armsim/hardwarewindow.cpp:2:31: fatal error: ui_hardwarewindow.h: No such file or directory
+ #include "ui_hardwarewindow.h"
+                               ^
+compilation terminated.
+Error preprocessing file "/home/fus/Git/hifu/tools/armsim/hardwarewindow.cpp": 
+Process exited with code: 1
+Could not preprocess source file
+[ERROR] Code Analysis for hifu/hifu/widgets/researchwidget/treatmonitortool.cpp finished with code 1 (ipro)
+    1. /home/fus/Git/hifu/widgets/researchwidget/treatmonitortool.cpp:2:29: fatal error: ui_treatmonitor.h: No such file or directory
+ #include "ui_treatmonitor.h"
+                             ^
+compilation terminated.
+Error preprocessing file "/home/fus/Git/hifu/widgets/researchwidget/treatmonitortool.cpp": 
+Process exited with code: 1
+Could not preprocess source file
+[ERROR] Collecting header files for hifu/hifu/widgets/mainwidget/splash.cpp finished with code 1 (ipro)
+    1. /home/fus/Git/hifu/widgets/mainwidget/splash.cpp:10:23: fatal error: ui_splash.h: No such file or directory
+ #include "ui_splash.h"
+                       ^
+compilation terminated.
+Error preprocessing file "/home/fus/Git/hifu/widgets/mainwidget/splash.cpp": 
+Process exited with code: 1
+Could not preprocess source file
+[ERROR] Code Analysis for hifu/hifu/widgets/toolwidget/treatmode.cpp finished with code 1 (ipro)
+    1. /home/fus/Git/hifu/widgets/toolwidget/treatmode.cpp:8:26: fatal error: ui_treatmode.h: No such file or directory
+ #include "ui_treatmode.h"
+                          ^
+compilation terminated.
+Error preprocessing file "/home/fus/Git/hifu/widgets/toolwidget/treatmode.cpp": 
+Process exited with code: 1
+Could not preprocess source file
+[ERROR] Code Analysis for hifu/hifu/widgets/infowidget/guideinfo.cpp finished with code 1 (ipro)
+    1. /home/fus/Git/hifu/widgets/infowidget/guideinfo.cpp:2:26: fatal error: ui_guideinfo.h: No such file or directory
+ #include "ui_guideinfo.h"
+                          ^
+compilation terminated.
+Error preprocessing file "/home/fus/Git/hifu/widgets/infowidget/guideinfo.cpp": 
+Process exited with code: 1
+Could not preprocess source file
+[ERROR] Code Analysis for hifu/hifu/tools/pb_client/mainwindow.cpp finished with code 1 (ipro)
+    1. /home/fus/Git/hifu/tools/pb_client/mainwindow.cpp:2:27: fatal error: ui_mainwindow.h: No such file or directory
+ #include "ui_mainwindow.h"
+                           ^
+compilation terminated.
+Error preprocessing file "/home/fus/Git/hifu/tools/pb_client/mainwindow.cpp": 
+Process exited with code: 1
+Could not preprocess source file
+[ERROR] Code Analysis for hifu/hifu/widgets/researchwidget/researchtool.cpp finished with code 1 (ipro)
+    1. /home/fus/Git/hifu/widgets/researchwidget/researchtool.cpp:2:29: fatal error: ui_researchtool.h: No such file or directory
+ #include "ui_researchtool.h"
+                             ^
+compilation terminated.
+Error preprocessing file "/home/fus/Git/hifu/widgets/researchwidget/researchtool.cpp": 
+Process exited with code: 1
+Could not preprocess source file
+[ERROR] Collecting header files for hifu/hifu/widgets/toolwidget/thermmapparamtool.cpp finished with code 1 (ipro)
+    1. /home/fus/Git/hifu/widgets/toolwidget/thermmapparamtool.cpp:2:34: fatal error: ui_thermmapparamtool.h: No such file or directory
+ #include "ui_thermmapparamtool.h"
+                                  ^
+compilation terminated.
+Error preprocessing file "/home/fus/Git/hifu/widgets/toolwidget/thermmapparamtool.cpp": 
+Process exited with code: 1
+Could not preprocess source file
+[ERROR] Collecting header files for hifu/hifu/widgets/reviewwidget/sonicationreview.cpp finished with code 1 (ipro)
+    1. /home/fus/Git/hifu/widgets/reviewwidget/sonicationreview.cpp:2:33: fatal error: ui_sonicationreview.h: No such file or directory
+ #include "ui_sonicationreview.h"
+                                 ^
+compilation terminated.
+Error preprocessing file "/home/fus/Git/hifu/widgets/reviewwidget/sonicationreview.cpp": 
+Process exited with code: 1
+Could not preprocess source file
+[ERROR] Code Analysis for hifu/hifu/widgets/infowidget/patientinfo.cpp finished with code 1 (ipro)
+    1. /home/fus/Git/hifu/widgets/infowidget/patientinfo.cpp:2:28: fatal error: ui_patientinfo.h: No such file or directory
+ #include "ui_patientinfo.h"
+                            ^
+compilation terminated.
+Error preprocessing file "/home/fus/Git/hifu/widgets/infowidget/patientinfo.cpp": 
+Process exited with code: 1
+Could not preprocess source file
+[ERROR] Code Analysis for hifu/hifu/widgets/toolwidget/gemrictrltool.cpp finished with code 1 (ipro)
+    1. /home/fus/Git/hifu/widgets/toolwidget/gemrictrltool.cpp:10:30: fatal error: ui_gemrictrltool.h: No such file or directory
+ #include "ui_gemrictrltool.h"
+                              ^
+compilation terminated.
+Error preprocessing file "/home/fus/Git/hifu/widgets/toolwidget/gemrictrltool.cpp": 
+Process exited with code: 1
+Could not preprocess source file
+[ERROR] Collecting header files for hifu/hifu/widgets/researchwidget/hwmonitor.cpp finished with code 1 (ipro)
+    1. /home/fus/Git/hifu/widgets/researchwidget/hwmonitor.cpp:9:26: fatal error: ui_hwmonitor.h: No such file or directory
+ #include "ui_hwmonitor.h"
+                          ^
+compilation terminated.
+Error preprocessing file "/home/fus/Git/hifu/widgets/researchwidget/hwmonitor.cpp": 
+Process exited with code: 1
+Could not preprocess source file

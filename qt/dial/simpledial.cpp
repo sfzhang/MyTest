@@ -13,7 +13,6 @@
 #include <QFont>
 #include <QPixmap>
 #include <cmath>
-#include <pub/point3d.h>
 
 using namespace std;
 
