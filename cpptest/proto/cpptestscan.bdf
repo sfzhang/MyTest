@@ -1,0 +1,27 @@
+------- cpptestscan v.10.4.2.20190408B2041 (cpptesttrace) -------
+working_dir=/home/fus/Git/MyTest/cpptest/proto
+project_name=proto
+arg=g++
+arg=-g
+arg=-std=c++11
+arg=-fPIC
+arg=-c
+arg=imgxfer.pb.cc
+------- cpptestscan v.10.4.2.20190408B2041 (cpptesttrace) -------
+working_dir=/home/fus/Git/MyTest/cpptest/proto
+project_name=proto
+arg=g++
+arg=-g
+arg=-std=c++11
+arg=-fPIC
+arg=-c
+arg=imgxferproto.cpp
+------- cpptestscan v.10.4.2.20190408B2041 (cpptesttrace) -------
+working_dir=/home/fus/Git/MyTest/cpptest/proto
+project_name=proto
+arg=g++
+arg=-shared
+arg=-o
+arg=libproto.so
+arg=imgxfer.pb.o
+arg=imgxferproto.o

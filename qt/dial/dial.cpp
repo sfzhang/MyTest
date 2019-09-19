@@ -6,7 +6,7 @@
 #include <QFont>
 #include <QPixmap>
 #include <cmath>
-#include <pub/point3d.h>
+//#include <pub/point3d.h>
 
 using namespace std;
 
@@ -26,6 +26,8 @@ Dial::Dial(int min, int max, int dft, QWidget *parent):
     m_dft_value(dft),
     m_adjust(false)
 {
+    //setWindowFlags(Qt::WindowStaysOnTopHint);
+    setWindowModality(Qt::ApplicationModal);
     setMinimum(min);
     setMaximum(max);
 

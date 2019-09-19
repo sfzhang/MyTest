@@ -13,7 +13,6 @@
 #include <QIcon>
 #include <QRegion>
 #include <QPainter>
-#include <pub/point3d.h>
 #include <pub/hifutype.h>
 
 /**
