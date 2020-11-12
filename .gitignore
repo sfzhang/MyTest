@@ -9,6 +9,7 @@ lib/
 html/
 !utils/log/
 build-*/
+.vscode/
 
 # ignore temp files when run
 *.log
@@ -63,3 +64,6 @@ phase.dat
 *.patch
 *.orig
 *.rej
+
+# ignor temp files
+*.o
