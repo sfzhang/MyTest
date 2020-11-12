@@ -6,3 +6,6 @@
 3.2/cone4: Examples/Tutorial/Cxx/Step4/
 3.2/cone5: Examples/Tutorial/Cxx/Step5/
 3.2/cone6: Examples/Tutorial/Cxx/Step6/
+
+4.1/cadpart: Examples/Rendering/Python/CADPart.py
+
