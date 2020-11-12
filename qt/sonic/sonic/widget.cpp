@@ -12,6 +12,7 @@ using namespace cv;
 
 bool convertMat2QImage(const Mat &mat, QImage &image)
 {
+    Mat m;
     QImage conv_image;
     switch (mat.type()) {
     case CV_8UC4:
@@ -20,8 +21,9 @@ bool convertMat2QImage(const Mat &mat, QImage &image)
                             QImage::Format_ARGB32);
         break;
     case CV_8UC3:
-        conv_image = QImage(mat.data, mat.cols, mat.rows,
-                            static_cast<int>(mat.step),
+        cvtColor(mat, m, COLOR_BGR2RGB);
+        conv_image = QImage(m.data, m.cols, m.rows,
+                            m.step[0],
                             QImage::Format_RGB888);
         break;
     case CV_8UC1: {
@@ -43,8 +45,7 @@ bool convertMat2QImage(const Mat &mat, QImage &image)
     }
 
     /* Make sure deep copy */
-    image = conv_image;
-    (uchar*)image.bits();
+    image = conv_image.copy();
     return true;
 }
 
@@ -79,13 +80,21 @@ bool convertQImage2Mat(const QImage &image, Mat &mat)
 Widget::Widget(QWidget *parent)
     : QWidget(parent)
 {
-    m_image = QImage(256, 256, QImage::Format_ARGB32);
+    m_image = QImage(140, 140, QImage::Format_ARGB32);
+
+    m_sonic_icon = new QImage(":/res/sonicIcon.png");
+    m_cool_icon = new QImage(":/res/coolIcon.png");
+
+    m_current_angle = 0;
 
     connect(&m_timer, &QTimer::timeout, this, &Widget::render);
+    //connect(&m_timer, &QTimer::timeout, this, &Widget::updateProcess);
+    //calcStep(120);
     m_timer.start(1000 / 24);
     m_i = 0;
     m_r = false;
 
+    generate(30);
     /*
     auto dialog = new Dialog(this);
     dialog->setWindowTitle("Test");
@@ -103,6 +112,7 @@ Widget::Widget(QWidget *parent)
 
     connect(m_msg_box, &MessageBox::finished, this, &Widget::on_close);
 
+    /*
     qDebug() << m_msg_box->exec();
     qDebug() << m_msg_box->standarClickedButton();
 
@@ -113,7 +123,6 @@ Widget::Widget(QWidget *parent)
 
     //m_msg_box->show();
 
-    /*
     auto i = QMessageBox::question(nullptr, "a", "b", QMessageBox::Yes | QMessageBox::YesToAll | QMessageBox::Ok);
     qDebug() << i;
     */
@@ -130,9 +139,96 @@ void Widget::on_close(int r)
     qDebug() << "buttons: " << m_msg_box->standarClickedButton();
 }
 
+void Widget::calcStep(int t)
+{
+    double n_fps = 5760.0 / (abs(t) * 24);
+    int itv = 0;
+    if (n_fps >= 1) {
+        itv = 1000 / 24;
+    }
+    else {
+        itv = abs(t) * 1000 / 5760;
+    }
+
+    m_timer.start(itv);
+    m_step_angle = n_fps * abs(t) / t;
+}
+
+void Widget::updateProcess()
+{
+    m_current_angle += m_step_angle;
+
+    if (m_current_angle < 0) {
+        m_current_angle = 0;
+    }
+    else if (m_current_angle > 5760) {
+        m_current_angle = 5760;
+
+        calcStep(-30);
+    }
+
+    update();
+}
+
+void Widget::generate(double angle)
+{
+    cv::Mat m(256, 256, CV_8UC3);
+
+    cv::ellipse(m, Point(128, 128), Size(100, 100), 270, (360 - angle), 360, Scalar(0x00, 0x4c, 0xff), 7);
+    cv::ellipse(m, Point(128, 128), Size(100, 100), 270, 0, (360 - angle), Scalar(0xeb, 0x80, 0x26), 7);
+
+    cv::Mat blur_m;
+    GaussianBlur(m, blur_m, Size(31, 31), 0, 0);
+    convertMat2QImage(blur_m, m_image);
+    update();
+}
+
+void Widget::drawProcess(QPainter *painter)
+{
+    double length = m_sonic_icon->width();
+    double half_length = length / 2;
+
+    double angle = (m_current_angle / 5760.0) * 2 * M_PI;
+    double h = half_length * (1 - cos(angle));
+
+    painter->save();
+    painter->translate(width() / 2.0, height() / 2.0);
+    if (m_current_angle <= 5760 / 2) {
+        painter->drawImage(QRectF(0, -half_length, half_length, length), *m_cool_icon,
+                           QRectF(half_length, 0, half_length, length));
+        painter->drawImage(QRectF(-half_length, -half_length, half_length, h), *m_sonic_icon,
+                           QRectF(0, 0, half_length, h));
+
+        if (m_current_angle != 5760 / 2) {
+            painter->drawImage(QRectF(-half_length, (-half_length + h), half_length, (length - h)), *m_cool_icon,
+                               QRectF(0, h, half_length, (length - h)));
+        }
+    }
+    else {
+        painter->drawImage(QRectF(-half_length, -half_length, half_length, length), *m_sonic_icon,
+                           QRectF(0, 0, half_length, length));
+
+        painter->drawImage(QRectF(0, (-half_length + h), half_length, (length - h)), *m_sonic_icon,
+                           QRectF(half_length, h, half_length, (length - h)));
+
+        painter->drawImage(QRectF(0, -half_length, half_length, h), *m_cool_icon,
+                           QRectF(half_length, 0, half_length, h));
+    }
+
+    painter->restore();
+}
+
+
 void Widget::render()
 {
-    QImage image(256, 256, QImage::Format_ARGB32);
+    static int angle = 0;
+    angle += 10;
+    angle %= 360;
+
+    generate(angle);
+    return;
+
+    QImage image(140, 140, QImage::Format_RGB888);
     QPainter painter(&image);
     painter.setRenderHint(QPainter::HighQualityAntialiasing);
     //QPainter painter(&m_image);
@@ -159,12 +255,14 @@ void Widget::render()
     }
 
     QPen pen_r(QColor(0xff, 0x4c, 0x00));
+    pen_r.setCapStyle(Qt::RoundCap);
     pen_r.setWidth(7);
     painter.setPen(pen_r);
     painter.drawArc(-64, -64, 128, 128, 0, m_i);
 
     QPen pen_b(QColor(0x26, 0x80, 0xeb));
     pen_b.setWidth(7);
+    pen_b.setCapStyle(Qt::RoundCap);
     painter.setPen(pen_b);
     painter.drawArc(-64, -64, 128, 128, 0, -(5760 - m_i));
 
@@ -191,16 +289,28 @@ void Widget::render()
 void Widget::paintEvent(QPaintEvent *)
 {
     QPainter painter(this);
-
     painter.setRenderHint(QPainter::HighQualityAntialiasing, true);
 
+    /*
+    cv::Mat m(256, 256, CV_8UC4);
+
+    cv::ellipse(m, Point(128, 128), Size(100, 100), 0, 0, 360, Scalar(0xff, 0x00, 0x00, 0xff), 2);
+    cvtColor(m, m, CV_BGR2RGBA);
+    convertMat2QImage(m, m_image);
+
+    int w = m_image.width();
+    int h = m_image.height();
+
+//    drawProcess(&painter);
+
+    //painter.translate(width() / 2.0, height() / 2.0);
+    */
     painter.drawImage(QRectF(width() / 2 - m_image.width() / 2, height() / 2 - m_image.height() / 2,
                              m_image.width(), m_image.height()), m_image);
 
     QPen pen(QColor(0xff, 0x4c, 0x00));
     pen.setWidth(2);
     painter.setPen(pen);
-    painter.translate(width() / 2.0, height() / 2.0);
     //painter.drawArc(-64, -64, 128, 128, 0, m_i);
 
 #if 0

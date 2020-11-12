@@ -10,5 +10,7 @@
         <file>res/checkbox_unchecked.png</file>
         <file>res/checkbox_unchecked_hover.png</file>
         <file>res/checkbox_checked.png</file>
+        <file>res/sonicIcon.png</file>
+        <file>res/coolIcon.png</file>
     </qresource>
 </RCC>

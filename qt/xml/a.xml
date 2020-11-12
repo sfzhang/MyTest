@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<hifu>
+    <ems_check>true</ems_check>
+    <pseudo_color_margin>5</pseudo_color_margin>
+    <stats b="true">
+        <!-- stats region size(mm) -->
+        <stats_size>30</stats_size>
+        <thermal_dose_thres>240</thermal_dose_thres>
+        <temperature_thres>54</temperature_thres>
+        <rot_threshold_temp>100</rot_threshold_temp>
+        <ledr_threshold_temp a="1" b="true">46.9</ledr_threshold_temp>
+        <npr_threshold_temp>46.9</npr_threshold_temp>
+        <skin_threshold_temp>46.9</skin_threshold_temp>
+        <ledr_monitor_margin>5</ledr_monitor_margin>
+        <npr_monitor_margin>5</npr_monitor_margin>
+        <skin_monitor_margin>5</skin_monitor_margin>
+    </stats>
+
+    <chart>
+        <cursor_radius>2</cursor_radius>
+    </chart>
+
+    <treat_monitor>
+        <image_check>false</image_check>
+
+        <motion_detect>
+            <mode>ssda</mode>
+            <interval>10</interval>
+            <mark_radius>10</mark_radius>
+            <flexible_range>10</flexible_range>
+            <motion_tolerance>3</motion_tolerance>
+            <motion_ratio>0.7</motion_ratio>
+            <filter_ratio>0.7</filter_ratio>
+            <motion_timeout>10000</motion_timeout><!-- ms -->
+            <linemod_threshold>80</linemod_threshold>
+        </motion_detect>
+    </treat_monitor>
+
+    <version>
+        <company>Shende(Ningbo) Medical Technology Co.Ltd.</company>
+        <duration>2014-2020</duration>
+        <hifu>hifu-v1.1.0 (hifu-v1)</hifu>
+        <imgxfer>imgxfer-v1.1.0 (imgxfer-v1)</imgxfer>
+        <arsenal>arsenal-v1.1.0 (arsenal-v1)</arsenal>
+        <fpga_sdhw>fpga_sdhw-v1.0.0 (fpga_sdhw-v1)</fpga_sdhw>
+    </version>
+
+</hifu>

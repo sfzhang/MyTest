@@ -21,6 +21,14 @@ protected:
 
     void render();
 
+    void calcStep(int t);
+
+    void updateProcess();
+
+    void drawProcess(QPainter *painter);
+
+    void generate(double angle);
+
 protected slots:
 
     void on_close(int r);
@@ -34,6 +42,12 @@ private:
     bool m_r;
 
     MessageBox *m_msg_box;
+
+    QImage *m_sonic_icon;
+    QImage *m_cool_icon;
+
+    int m_current_angle;
+    int m_step_angle;
 
 };
 
