@@ -9,3 +9,16 @@
 
 4.1/cadpart: Examples/Rendering/Python/CADPart.py
 
+4.2/custominteraction: Examples/GUI/Python/CustomInteraction.py
+
+4.3/filtercadpart: Examples/Rendering/Python/FilterCADPart.py
+
+4.5/spotlight: 
+4.5/ambientspheres: Examples/Rendering/Cxx/AmbientSpheres.cxx
+4.5/diffusespheres: Examples/Rendering/Cxx/DiffuseSpheres.cxx
+4.5/specularspheres: Examples/Rendering/Cxx/SpecularSpheres.cxx
+
+4.6/scalarbaractor:
+4.6/assembly: Examples/Rendering/Python/assembly.py
+4.6/depthsort: Examples/VisualizationAlgorithms/Python/DepthSort.py
+
