@@ -22,3 +22,6 @@
 4.6/assembly: Examples/Rendering/Python/assembly.py
 4.6/depthsort: Examples/VisualizationAlgorithms/Python/DepthSort.py
 
+4.7/tplane: Examples/Rendering/Python/TPlane.py
+
+4.8/annotatepick: Examples/Annotation/Python/annotatePick.py
