@@ -3,6 +3,7 @@
 #include <vtkLookupTable.h>
 #include <vtkPointData.h>
 #include <vtkPolyData.h>
+#include <vtkCellData.h>
 #include <vtkPolyDataMapper.h>
 #include <vtkRenderer.h>
 #include <vtkRenderWindow.h>
@@ -26,24 +27,24 @@ int main()
     sphere->SetRadius(1);
     sphere->Update();
 
-    // Create scalar data to associate with the vertices of the sphere
-    int points_count = sphere->GetOutput()->GetPoints()->GetNumberOfPoints();
+    // Create scalar data to associate with the cells of the sphere
+    int count = sphere->GetOutput()->GetNumberOfCells();
     auto scalars = vtkSmartPointer<vtkFloatArray>(vtkFloatArray::New());
-    scalars->SetNumberOfValues(points_count);
-    cout << points_count << endl;
-    for (int i = 0; i < points_count; i++) {
-        scalars->SetValue(i, i * 1.0 / points_count);
+    scalars->SetNumberOfValues(count);
+    cout << count << endl;
+    for (int i = 0; i < count; i++) {
+        scalars->SetValue(i, i * 1.0 / count);
     }
 
     auto poly = vtkSmartPointer<vtkPolyData>(vtkPolyData::New());
     poly->DeepCopy(sphere->GetOutput());
-    poly->GetPointData()->SetScalars(scalars);
+    poly->GetCellData()->SetScalars(scalars);
 
     // mapper
     auto mapper = vtkSmartPointer<vtkPolyDataMapper>(vtkPolyDataMapper::New());
     mapper->SetInputData(poly);
     mapper->ScalarVisibilityOn();
-    mapper->SetScalarModeToUsePointData();
+    mapper->SetScalarModeToUseCellData();
     mapper->SetColorModeToMapScalars();
 
     // actor
@@ -51,14 +52,19 @@ int main()
     actor->SetMapper(mapper);
 
     auto scalar_bar = vtkSmartPointer<vtkScalarBarActor>(vtkScalarBarActor::New());
+    scalar_bar->SetOrientationToHorizontal();
     scalar_bar->SetLookupTable(mapper->GetLookupTable());
-    scalar_bar->SetTitle("Title");
-    scalar_bar->SetNumberOfLabels(4);
+    scalar_bar->SetTitle("Temperature");
+    scalar_bar->SetNumberOfLabels(10);
+    scalar_bar->GetPositionCoordinate()->SetCoordinateSystemToNormalizedViewport();
+    scalar_bar->GetPositionCoordinate()->SetValue(0.1, 0.01);
+    scalar_bar->SetWidth(0.8);
+    scalar_bar->SetHeight(0.2);
 
     // Create a lookup table to share between the mapp[er and the scalar bar
     auto lut = vtkSmartPointer<vtkLookupTable>(vtkLookupTable::New());
     //lut->SetRange(0, 1); only used when IndexedLookup is false
-    lut->SetHueRange(1 / 3.0, 2 / 3.0);
+    lut->SetHueRange(0, 1);
     lut->SetSaturationRange(1, 1);
     lut->SetValueRange(1, 1);
     lut->Build();
