@@ -25,3 +25,8 @@
 4.7/tplane: Examples/Rendering/Python/TPlane.py
 
 4.8/annotatepick: Examples/Annotation/Python/annotatePick.py
+
+4.11/testtext: Examples/Annotation/Python/TestText.py
+4.11/multilinetext: Examples/Annotation/Python/multiLineText.py
+4.11/textorigin: Examples/Annotation/Python/textOrigin.py
+
