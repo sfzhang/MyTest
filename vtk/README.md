@@ -30,3 +30,10 @@
 4.11/multilinetext: Examples/Annotation/Python/multiLineText.py
 4.11/textorigin: Examples/Annotation/Python/textOrigin.py
 
+4.12/scalarbar
+4.12/xyplot: Examples/Annotation/Python/xyPlot.py
+4.12/cubeaxes: Examples/Annotation/Python/cubeAxes.py
+4.12/labeledmesh: Examples/Annotation/Python/labeledMesh.py
+
+4.13/marching: Examples/DataManipulation/Python/marching.py
+4.13/implicitplanewidget: Examples/GUI/Python/ImplicitPlaneWidget.py

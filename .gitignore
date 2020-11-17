@@ -24,7 +24,6 @@ qrc_*.cpp
 ui_*
 
 # ignore temp files when use qmake
-Makefile
 Makefile.*
 *.user
 
