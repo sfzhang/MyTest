@@ -37,3 +37,7 @@
 
 4.13/marching: Examples/DataManipulation/Python/marching.py
 4.13/implicitplanewidget: Examples/GUI/Python/ImplicitPlaneWidget.py
+
+4.14/antialiasing
+
+4.15/tranlucent
