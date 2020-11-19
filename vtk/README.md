@@ -41,3 +41,14 @@
 4.14/antialiasing
 
 4.15/tranlucent
+
+5.1/point2celldata: Examples/DataManipulation/Python/PointToCellData.py
+5.1/rainbow: Examples/Rendering/Python/rainbow.py
+5.1/visquad: Examples/VisualizationAlgorithms/Python/VisQuad.py
+5.1/spikef: Examples/VisualizationAlgorithms/Python/spikeF.py
+5.1/officetube: Examples/VisualizationAlgorithms/Python/officeTube.py
+5.1/officetubes: Examples/VisualizationAlgorithms/Python/officeTubes.py
+5.1/probe: Filters/Core/Testing/Python/probe.py
+5.1/imagewarp: Examples/VisualizationAlgorithms/Python/imageWarp.py
+5.1/probecomb: Examples/VisualizationAlgorithms/Python/probeComb.py
+
