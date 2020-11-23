@@ -14,15 +14,14 @@
 #include <vtkImageDataGeometryFilter.h>
 #include <vtkDataSetSurfaceFilter.h>
 #include <vtkLookupTable.h>
-#include <vtkUnstructuredGridReader.h>
-#include <vtkPointDataToCellData.h>
+#include <vtkDataSetReader.h>
 #include <vtkWarpVector.h>
-#include <vtkThreshold.h>
 #include <vtkConnectivityFilter.h>
 #include <vtkDataSetMapper.h>
 #include <vtkGeometryFilter.h>
-#include <vtkPPolyDataNormals.h>
-#include <vtkContourFilter.h>
+#include <vtkCastToConcrete.h>
+#include <vtkExtractUnstructuredGrid.h>
+#include <vtkPolyDataNormals.h>
 #include <vtkAutoInit.h>
 #include <iostream>
 
@@ -33,31 +32,25 @@ using namespace std;
 
 int main()
 {
-    auto reader = vtkSmartPointer<vtkUnstructuredGridReader>(vtkUnstructuredGridReader::New());
+    auto reader = vtkSmartPointer<vtkDataSetReader>(vtkDataSetReader::New());
     reader->SetFileName("../../data/blow.vtk");
     reader->SetScalarsName("thickness9");
     reader->SetVectorsName("displacement9");
 
-    auto p2c = vtkSmartPointer<vtkPointDataToCellData>(vtkPointDataToCellData::New());
-    p2c->SetInputConnection(reader->GetOutputPort());
-    p2c->PassPointDataOn();
+    auto cast = vtkSmartPointer<vtkCastToConcrete>(vtkCastToConcrete::New());
+    cast->SetInputConnection(reader->GetOutputPort());
 
     auto warp = vtkSmartPointer<vtkWarpVector>(vtkWarpVector::New());
-    warp->SetInputConnection(p2c->GetOutputPort());
-
-    auto thresh = vtkSmartPointer<vtkThreshold>(vtkThreshold::New());
-    thresh->SetInputConnection(warp->GetOutputPort());
-    thresh->ThresholdBetween(0.25, 0.75);
-    thresh->SetInputArrayToProcess(1, 0, 0, 0, "thickness9");
+    warp->SetInputConnection(cast->GetOutputPort());
 
     auto connect = vtkSmartPointer<vtkConnectivityFilter>(vtkConnectivityFilter::New());
-    connect->SetInputConnection(thresh->GetOutputPort());
+    connect->SetInputConnection(warp->GetOutputPort());
     connect->SetExtractionModeToSpecifiedRegions();
     connect->AddSpecifiedRegion(0);
     connect->AddSpecifiedRegion(1);
 
     auto mold_mapper = vtkSmartPointer<vtkDataSetMapper>(vtkDataSetMapper::New());
-    mold_mapper->SetInputConnection(reader->GetOutputPort());
+    mold_mapper->SetInputConnection(connect->GetOutputPort());
     mold_mapper->ScalarVisibilityOff();
 
     auto mold_actor = vtkSmartPointer<vtkActor>(vtkActor::New());
@@ -66,10 +59,18 @@ int main()
     mold_actor->GetProperty()->SetRepresentationToWireframe();
 
     auto connect2 = vtkSmartPointer<vtkConnectivityFilter>(vtkConnectivityFilter::New());
-    connect2->SetInputConnection(thresh->GetOutputPort());
+    connect2->SetInputConnection(warp->GetOutputPort());
+    connect2->SetExtractionModeToSpecifiedRegions();
+    connect2->AddSpecifiedRegion(2);
+
+    auto extract = vtkSmartPointer<vtkExtractUnstructuredGrid>(vtkExtractUnstructuredGrid::New());
+    extract->SetInputConnection(connect2->GetOutputPort());
+    extract->CellClippingOn();
+    extract->SetCellMinimum(0);
+    extract->SetCellMaximum(23);
 
     auto parison = vtkSmartPointer<vtkGeometryFilter>(vtkGeometryFilter::New());
-    parison->SetInputConnection(connect->GetOutputPort());
+    parison->SetInputConnection(extract->GetOutputPort());
 
     auto normals2 = vtkSmartPointer<vtkPolyDataNormals>(vtkPolyDataNormals::New());
     normals2->SetInputConnection(parison->GetOutputPort());
@@ -85,16 +86,6 @@ int main()
     auto parsion_actor = vtkSmartPointer<vtkActor>(vtkActor::New());
     parsion_actor->SetMapper(parison_mapper);
 
-    auto cf = vtkSmartPointer<vtkContourFilter>(vtkContourFilter::New());
-    cf->SetInputConnection(connect2->GetOutputPort());
-    cf->SetValue(0, 0.5);
-
-    auto contour_mapper = vtkSmartPointer<vtkPolyDataMapper>(vtkPolyDataMapper::New());
-    contour_mapper->SetInputConnection(cf->GetOutputPort());
-
-    auto contours = vtkSmartPointer<vtkActor>(vtkActor::New());
-    contours->SetMapper(contour_mapper);
-
     auto i = vtkSmartPointer<vtkRenderWindowInteractor>(vtkRenderWindowInteractor::New());
     auto w = vtkSmartPointer<vtkRenderWindow>(vtkRenderWindow::New());
     i->SetRenderWindow(w);
@@ -103,7 +94,6 @@ int main()
     w->AddRenderer(r);
     r->AddActor(mold_actor);
     r->AddActor(parsion_actor);
-    r->AddActor(contours);
 
     r->SetBackground(0.1, 0.3, 0);
     w->SetSize(400, 400);

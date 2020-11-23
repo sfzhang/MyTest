@@ -51,4 +51,23 @@
 5.1/probe: Filters/Core/Testing/Python/probe.py
 5.1/imagewarp: Examples/VisualizationAlgorithms/Python/imageWarp.py
 5.1/probecomb: Examples/VisualizationAlgorithms/Python/probeComb.py
+5.1/colorisosurface: Examples/VisualizationAlgorithms/Python/ColorIsosurface.py
+5.1/extractgeometry: Examples/VisualizationAlgorithms/Python/ExtractGeometry.py
+
+5.2/createstrip: Examples/DataManipulation/Python/CreateStrip.py
+5.2/cube: Examples/DataManipulation/Cxx/Cube.py
+5.2/decifran: Examples/VisualizationAlgorithms/Python/deciFran.py
+5.2/smoothfran: Examples/VisualizationAlgorithms/Python/smoothFran.py
+5.2/clipcow: Examples/VisualizationAlgorithms/Python/clipcow.py
+
+5.3/sgrid: Examples/DataManipulation/Cxx/SGrid.py
+5.3/warpcomb: Examples/VisualizationAlgorithms/Python/warpcomb.py
+5.3/subsample:
+
+5.4/rgrid: Examples/DataManipulation/Cxx/RGrid.py
+
+5.5/buildugrid: Examples/DataManipulation/Python/BuildUGrid.py
+5.5/extractugrid: Examples/VisualizationAlgorithms/Python/ExtractUGrid.py
+
+
 
