@@ -23,6 +23,7 @@
 #include <vtkProbeFilter.h>
 #include <vtkContourFilter.h>
 #include <vtkStructuredGridOutlineFilter.h>
+#include <vtkDataSetMapper.h>
 #include <vtkAutoInit.h>
 #include <iostream>
 
@@ -43,6 +44,12 @@ int main()
 
     auto pl3d_output = pl3d->GetOutput()->GetBlock(0);
     auto ds = vtkDataSet::SafeDownCast(pl3d_output);
+
+    auto pl3d_mapper = vtkSmartPointer<vtkDataSetMapper>(vtkDataSetMapper::New());
+    pl3d_mapper->SetInputData(ds);
+
+    auto pl3d_actor = vtkSmartPointer<vtkActor>(vtkActor::New());
+    pl3d_actor->SetMapper(pl3d_mapper);
 
     auto plane = vtkSmartPointer<vtkPlaneSource>(vtkPlaneSource::New());
     plane->SetResolution(50, 50);
@@ -123,6 +130,7 @@ int main()
     renderer->SetBackground(0.1, 0.2, 0.4);
     renderer->TwoSidedLightingOff();
 
+    //renderer->AddActor(pl3d_actor);
     renderer->AddActor(actor1);
     renderer->AddActor(actor2);
     renderer->AddActor(actor3);

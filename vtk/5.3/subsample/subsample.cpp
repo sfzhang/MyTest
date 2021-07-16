@@ -18,6 +18,7 @@
 #include <vtkPolyDataNormals.h>
 #include <vtkExtractGrid.h>
 #include <vtkCamera.h>
+#include <vtkDataSetMapper.h>
 #include <vtkAutoInit.h>
 #include <iostream>
 
@@ -41,9 +42,16 @@ int main()
 
     auto extract = vtkSmartPointer<vtkExtractGrid>(vtkExtractGrid::New());
     extract->SetInputData(pl3d_output);
-    extract->SetVOI(-1000, 1000, -1000, 1000, -1000, 1000);
-    extract->SetSampleRate(3, 3, 3);
+    extract->SetVOI(30, 30, -1000, 1000, -1000, 1000);
+    extract->SetSampleRate(1, 2, 3);
     extract->IncludeBoundaryOn();
+
+    auto extract_mapper = vtkSmartPointer<vtkDataSetMapper>(vtkDataSetMapper::New());
+    extract_mapper->SetInputConnection(extract->GetOutputPort());
+
+    auto extract_actor = vtkSmartPointer<vtkActor>(vtkActor::New());
+    extract_actor->SetMapper(extract_mapper);
+    extract_actor->GetProperty()->SetRepresentationToWireframe();
 
     auto plane = vtkSmartPointer<vtkStructuredGridGeometryFilter>(vtkStructuredGridGeometryFilter::New());
     plane->SetInputConnection(extract->GetOutputPort());
@@ -90,6 +98,7 @@ int main()
     renderer->SetBackground(0.1, 0.2, 0.4);
     renderer->TwoSidedLightingOff();
 
+    renderer->AddActor(extract_actor);
     renderer->AddActor(plane_actor);
     renderer->AddActor(outline_actor);
 

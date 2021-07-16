@@ -11,6 +11,24 @@ void print(char a) = delete;
 
 void print(double a) = delete;
 
+struct C {
+
+    ~C()
+    {
+        cout << "~C" << endl;
+    }
+};
+
+C *c = nullptr;
+
+struct S {
+    ~S()
+    {
+        cout << "~S" << endl;
+        delete c;
+    }
+} static g_s;
+
 int main()
 {
     print(1);
